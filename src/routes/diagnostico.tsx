@@ -463,8 +463,67 @@ function DiagnosticPage() {
             </Button>
           </div>
 
-          <aside className="space-y-5">
-            <div className="rounded-lg border border-border bg-surface p-6">
+          <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-card">
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="text-base font-semibold text-road">Roteiro preenchido</h2>
+                <span className="text-technical text-sm font-bold text-engineering">
+                  {completion}%
+                </span>
+              </div>
+              <div
+                role="progressbar"
+                aria-valuenow={completion}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Progresso do diagnóstico"
+                className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-surface-strong"
+              >
+                <div
+                  className="h-full rounded-full bg-engineering transition-[width] duration-500 ease-out"
+                  style={{ width: `${completion}%` }}
+                />
+              </div>
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                {draftRestored
+                  ? "Recuperamos o que você já havia digitado neste navegador."
+                  : "O que você digita fica salvo neste navegador enquanto preenche."}
+              </p>
+            </div>
+
+            {suggestion && (
+              <Reveal className="rounded-xl border border-engineering/30 bg-surface p-6">
+                <p className="eyebrow flex items-center gap-2 text-engineering">
+                  <Compass className="size-4" aria-hidden />
+                  Direção preliminar
+                </p>
+                <h2 className="text-technical mt-3 text-xl font-bold uppercase tracking-wide text-road">
+                  Família {suggestion.label}
+                </h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Confiança {suggestion.confidence} · indicação automática, confirmada por Christiano
+                  no atendimento.
+                </p>
+                <ul className="mt-4 space-y-2">
+                  {suggestion.reasons.map((reason) => (
+                    <li key={reason} className="flex gap-2 text-sm leading-relaxed text-foreground">
+                      <CheckCircle2
+                        className="mt-0.5 size-4 shrink-0 text-result"
+                        aria-hidden
+                      />
+                      {reason}
+                    </li>
+                  ))}
+                </ul>
+                <Button asChild variant="quiet" size="sm" className="mt-4">
+                  <Link to="/caminhoes/$family" params={{ family: suggestion.slug }}>
+                    Ver a família {suggestion.label}
+                  </Link>
+                </Button>
+              </Reveal>
+            )}
+
+            <div className="rounded-xl border border-border bg-surface p-6">
               <h2 className="text-base font-semibold text-road">Por que essas perguntas</h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 Carga, rota e implemento definem PBT, configuração de eixos e o tipo de cabine. Sem
@@ -478,6 +537,7 @@ function DiagnosticPage() {
             </div>
             <CommercialDisclaimer>{siteSettings.commercialDisclaimer}</CommercialDisclaimer>
           </aside>
+
         </form>
       </section>
     </>
