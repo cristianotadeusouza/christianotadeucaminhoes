@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CaminhoesIndexRouteImport } from './routes/caminhoes.index'
+import { Route as CaminhoesFamilyRouteImport } from './routes/caminhoes.$family'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const CaminhoesIndexRoute = CaminhoesIndexRouteImport.update({
   path: '/caminhoes/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CaminhoesFamilyRoute = CaminhoesFamilyRouteImport.update({
+  id: '/caminhoes/$family',
+  path: '/caminhoes/$family',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/caminhoes/': typeof CaminhoesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/caminhoes': typeof CaminhoesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/caminhoes/': typeof CaminhoesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/caminhoes/'
+  fullPaths: '/' | '/caminhoes/$family' | '/caminhoes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/caminhoes'
-  id: '__root__' | '/' | '/caminhoes/'
+  to: '/' | '/caminhoes/$family' | '/caminhoes'
+  id: '__root__' | '/' | '/caminhoes/$family' | '/caminhoes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CaminhoesFamilyRoute: typeof CaminhoesFamilyRoute
   CaminhoesIndexRoute: typeof CaminhoesIndexRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaminhoesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/caminhoes/$family': {
+      id: '/caminhoes/$family'
+      path: '/caminhoes/$family'
+      fullPath: '/caminhoes/$family'
+      preLoaderRoute: typeof CaminhoesFamilyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CaminhoesFamilyRoute: CaminhoesFamilyRoute,
   CaminhoesIndexRoute: CaminhoesIndexRoute,
 }
 export const routeTree = rootRouteImport
