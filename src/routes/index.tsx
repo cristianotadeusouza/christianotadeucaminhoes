@@ -3,6 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ContentPost, OperationCategory, Testimonial, TruckFamily } from "@/types";
 
 import { SectionHeader } from "@/components/common/SectionHeader";
+import { Reveal } from "@/components/common/Reveal";
+
 import { CTASection } from "@/components/common/CTASection";
 import { CommercialDisclaimer } from "@/components/common/CommercialDisclaimer";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
