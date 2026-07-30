@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
+import type { ContentPost, OperationCategory, Testimonial, TruckFamily } from "@/types";
+
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { CTASection } from "@/components/common/CTASection";
 import { CommercialDisclaimer } from "@/components/common/CommercialDisclaimer";
@@ -103,7 +105,7 @@ function Index() {
           description="Cada operação tem restrições próprias. Veja os critérios que pesam na escolha para os perfis mais comuns."
         />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {operations.map((operation) => (
+          {operations.map((operation: OperationCategory) => (
             <OperationCard key={operation.slug} operation={operation} />
           ))}
         </div>
@@ -122,7 +124,7 @@ function Index() {
             description="Três famílias com aplicações distintas. A escolha entre elas começa pelo peso real transportado e pelo perfil de rota."
           />
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {families.map((family) => (
+            {families.map((family: TruckFamily) => (
               <TruckFamilyCard key={family.slug} family={family} />
             ))}
           </div>
@@ -158,7 +160,7 @@ function Index() {
           <div className="mt-10">
             {testimonials.length > 0 ? (
               <div className="grid gap-6 md:grid-cols-2">
-                {testimonials.map((item) => (
+                {testimonials.map((item: Testimonial) => (
                   <TestimonialCard key={item.id} item={item} />
                 ))}
               </div>
@@ -184,7 +186,7 @@ function Index() {
           description="Textos curtos sobre escolha de configuração, operação e financiamento."
         />
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
+          {posts.map((post: ContentPost) => (
             <ContentCard key={post.slug} post={post} />
           ))}
         </div>
