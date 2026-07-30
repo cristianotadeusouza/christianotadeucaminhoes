@@ -98,15 +98,37 @@ function Index() {
         </div>
       </section>
 
+      <nav
+        aria-label="Atalhos"
+        className="border-b border-border bg-surface-strong/60 backdrop-blur"
+      >
+        <ul className="container-content flex snap-x gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {shortcuts.map((shortcut) => (
+            <li key={shortcut.to} className="snap-start">
+              <Link
+                to={shortcut.to}
+                className="text-technical inline-flex whitespace-nowrap rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold uppercase tracking-wide text-road transition-colors hover:border-engineering/50 hover:text-engineering"
+              >
+                {shortcut.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
       <section className="container-content py-16 sm:py-20">
-        <SectionHeader
-          eyebrow="Comece pela operação"
-          title="O caminhão certo depende do que ele precisa fazer todo dia"
-          description="Cada operação tem restrições próprias. Veja os critérios que pesam na escolha para os perfis mais comuns."
-        />
+        <Reveal>
+          <SectionHeader
+            eyebrow="Comece pela operação"
+            title="O caminhão certo depende do que ele precisa fazer todo dia"
+            description="Cada operação tem restrições próprias. Veja os critérios que pesam na escolha para os perfis mais comuns."
+          />
+        </Reveal>
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {operations.map((operation: OperationCategory) => (
-            <OperationCard key={operation.slug} operation={operation} />
+          {operations.map((operation: OperationCategory, index: number) => (
+            <Reveal key={operation.slug} delay={index * 80} className="flex">
+              <OperationCard operation={operation} />
+            </Reveal>
           ))}
         </div>
         <div className="mt-8">
@@ -116,52 +138,67 @@ function Index() {
         </div>
       </section>
 
-      <section className="bg-surface py-16 sm:py-20">
+      <section className="grid-lines bg-surface py-16 sm:py-20">
         <div className="container-content">
-          <SectionHeader
-            eyebrow="Famílias"
-            title="Delivery, Constellation e Meteor"
-            description="Três famílias com aplicações distintas. A escolha entre elas começa pelo peso real transportado e pelo perfil de rota."
-          />
+          <Reveal>
+            <SectionHeader
+              eyebrow="Famílias"
+              title="Delivery, Constellation e Meteor"
+              description="Três famílias com aplicações distintas. A escolha entre elas começa pelo peso real transportado e pelo perfil de rota."
+            />
+          </Reveal>
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {families.map((family: TruckFamily) => (
-              <TruckFamilyCard key={family.slug} family={family} />
+            {families.map((family: TruckFamily, index: number) => (
+              <Reveal key={family.slug} delay={index * 80} className="flex">
+                <TruckFamilyCard family={family} />
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       <section className="container-content py-16 sm:py-20">
-        <SectionHeader
-          eyebrow="Como funciona"
-          title="Um método simples, do primeiro contato à entrega"
-        />
+        <Reveal>
+          <SectionHeader
+            eyebrow="Como funciona"
+            title="Um método simples, do primeiro contato à entrega"
+          />
+        </Reveal>
         <ol className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step) => (
-            <li key={step.title} className="border-t-2 border-action pt-4">
+          {steps.map((step, index) => (
+            <Reveal
+              as="li"
+              key={step.title}
+              delay={index * 90}
+              className="border-t-2 border-action pt-4"
+            >
               <h3 className="text-technical text-sm font-bold uppercase tracking-wide text-road">
                 {step.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {step.description}
               </p>
-            </li>
+            </Reveal>
           ))}
         </ol>
       </section>
 
       <section className="bg-surface py-16 sm:py-20">
         <div className="container-content">
-          <SectionHeader
-            eyebrow="Entregas e clientes"
-            title="Casos reais, publicados só com autorização"
-            description="Nenhum caso ou depoimento é publicado sem a autorização por escrito do cliente."
-          />
+          <Reveal>
+            <SectionHeader
+              eyebrow="Entregas e clientes"
+              title="Casos reais, publicados só com autorização"
+              description="Nenhum caso ou depoimento é publicado sem a autorização por escrito do cliente."
+            />
+          </Reveal>
           <div className="mt-10">
             {testimonials.length > 0 ? (
               <div className="grid gap-6 md:grid-cols-2">
-                {testimonials.map((item: Testimonial) => (
-                  <TestimonialCard key={item.id} item={item} />
+                {testimonials.map((item: Testimonial, index: number) => (
+                  <Reveal key={item.id} delay={index * 80} className="flex">
+                    <TestimonialCard item={item} />
+                  </Reveal>
                 ))}
               </div>
             ) : (
@@ -180,14 +217,18 @@ function Index() {
       </section>
 
       <section className="container-content py-16 sm:py-20">
-        <SectionHeader
-          eyebrow="Conteúdos"
-          title="Material para decidir com critério"
-          description="Textos curtos sobre escolha de configuração, operação e financiamento."
-        />
+        <Reveal>
+          <SectionHeader
+            eyebrow="Conteúdos"
+            title="Material para decidir com critério"
+            description="Textos curtos sobre escolha de configuração, operação e financiamento."
+          />
+        </Reveal>
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post: ContentPost) => (
-            <ContentCard key={post.slug} post={post} />
+          {posts.map((post: ContentPost, index: number) => (
+            <Reveal key={post.slug} delay={index * 80} className="flex">
+              <ContentCard post={post} />
+            </Reveal>
           ))}
         </div>
         <div className="mt-8">
@@ -199,6 +240,7 @@ function Index() {
           {siteSettings.commercialDisclaimer}
         </CommercialDisclaimer>
       </section>
+
 
       <CTASection />
     </>
