@@ -78,12 +78,70 @@ function labelOf<T extends string>(options: { value: T; label: string }[], value
   return options.find((option) => option.value === value)?.label ?? value;
 }
 
+const DRAFT_KEY = "ct-diagnostico-rascunho";
+
+/** Campos considerados no indicador de completude do roteiro. */
+const progressFields: (keyof typeof initialState)[] = [
+  "name",
+  "whatsapp",
+  "city",
+  "cargoType",
+  "approximateLoad",
+  "averageDistance",
+  "bodyworkType",
+  "fleetSize",
+  "mainPainPoint",
+];
+
 function DiagnosticPage() {
   const [form, setForm] = useState(initialState);
   const [submitting, setSubmitting] = useState(false);
+  const [draftRestored, setDraftRestored] = useState(false);
+
+  /** Rascunho local: o roteiro é longo e ninguém deve perder o que digitou. */
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(DRAFT_KEY);
+      if (!stored) return;
+      const parsed = JSON.parse(stored) as Partial<typeof initialState>;
+      setForm((previous) => ({ ...previous, ...parsed, consent: false }));
+      setDraftRestored(true);
+    } catch {
+      window.localStorage.removeItem(DRAFT_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      try {
+        window.localStorage.setItem(DRAFT_KEY, JSON.stringify({ ...form, consent: false }));
+      } catch {
+        /* armazenamento indisponível — o formulário segue funcionando */
+      }
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [form]);
 
   const update = <K extends keyof typeof initialState>(key: K, value: (typeof initialState)[K]) =>
     setForm((previous) => ({ ...previous, [key]: value }));
+
+  const completion = useMemo(() => {
+    const filled = progressFields.filter((field) => String(form[field] ?? "").trim().length > 0);
+    return Math.round((filled.length / progressFields.length) * 100);
+  }, [form]);
+
+  const suggestion = useMemo(
+    () =>
+      suggestFamily({
+        routeProfile: form.routeProfile,
+        approximateLoad: form.approximateLoad,
+        averageDistance: form.averageDistance,
+        cargoType: form.cargoType,
+      }),
+    [form.routeProfile, form.approximateLoad, form.averageDistance, form.cargoType],
+  );
+
+
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
