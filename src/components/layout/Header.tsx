@@ -7,14 +7,33 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { whatsappMessages } from "@/services/whatsapp";
 import { navGroups, primaryNav } from "@/components/layout/navigation";
+import { useScrollProgress } from "@/hooks/use-scroll-progress";
+import { cn } from "@/lib/utils";
 
 /** Cabeçalho principal — mobile-first, com menu lateral no celular. */
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { progress, scrolled } = useScrollProgress();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
-      <div className="container-content grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3">
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-b bg-background/95 backdrop-blur transition-[box-shadow,border-color,background-color] duration-300 supports-[backdrop-filter]:bg-background/85",
+        scrolled ? "border-border/80 shadow-card" : "border-border",
+      )}
+    >
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-action/80 transition-transform duration-150 ease-linear"
+        style={{ transform: `scaleX(${progress})` }}
+      />
+      <div
+        className={cn(
+          "container-content grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 transition-[padding] duration-300",
+          scrolled ? "py-2" : "py-3",
+        )}
+      >
+
         <BrandLogo size="sm" />
 
         <div className="flex items-center gap-2">

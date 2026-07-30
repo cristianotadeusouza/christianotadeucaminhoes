@@ -5,7 +5,7 @@ import { ImagePlaceholder } from "@/components/media/ImagePlaceholder";
 
 export function TruckFamilyCard({ family }: { family: TruckFamily }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-card transition-shadow duration-200 hover:shadow-raised">
+    <article className="card-lift group flex w-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card">
       <ImagePlaceholder slot={family.gallery[0]} className="rounded-none" />
       <div className="flex flex-1 flex-col p-5">
         <h3 className="text-technical text-xl font-bold uppercase tracking-wide text-road">

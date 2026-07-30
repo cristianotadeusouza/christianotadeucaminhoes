@@ -1,6 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { CheckCircle2, Compass } from "lucide-react";
+import { Reveal } from "@/components/common/Reveal";
+import { suggestFamily } from "@/services/recommendation";
+
 
 import type { PurchaseGoal, PurchaseHorizon, RouteProfile } from "@/types";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
@@ -78,12 +82,70 @@ function labelOf<T extends string>(options: { value: T; label: string }[], value
   return options.find((option) => option.value === value)?.label ?? value;
 }
 
+const DRAFT_KEY = "ct-diagnostico-rascunho";
+
+/** Campos considerados no indicador de completude do roteiro. */
+const progressFields: (keyof typeof initialState)[] = [
+  "name",
+  "whatsapp",
+  "city",
+  "cargoType",
+  "approximateLoad",
+  "averageDistance",
+  "bodyworkType",
+  "fleetSize",
+  "mainPainPoint",
+];
+
 function DiagnosticPage() {
   const [form, setForm] = useState(initialState);
   const [submitting, setSubmitting] = useState(false);
+  const [draftRestored, setDraftRestored] = useState(false);
+
+  /** Rascunho local: o roteiro é longo e ninguém deve perder o que digitou. */
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(DRAFT_KEY);
+      if (!stored) return;
+      const parsed = JSON.parse(stored) as Partial<typeof initialState>;
+      setForm((previous) => ({ ...previous, ...parsed, consent: false }));
+      setDraftRestored(true);
+    } catch {
+      window.localStorage.removeItem(DRAFT_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      try {
+        window.localStorage.setItem(DRAFT_KEY, JSON.stringify({ ...form, consent: false }));
+      } catch {
+        /* armazenamento indisponível — o formulário segue funcionando */
+      }
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [form]);
 
   const update = <K extends keyof typeof initialState>(key: K, value: (typeof initialState)[K]) =>
     setForm((previous) => ({ ...previous, [key]: value }));
+
+  const completion = useMemo(() => {
+    const filled = progressFields.filter((field) => String(form[field] ?? "").trim().length > 0);
+    return Math.round((filled.length / progressFields.length) * 100);
+  }, [form]);
+
+  const suggestion = useMemo(
+    () =>
+      suggestFamily({
+        routeProfile: form.routeProfile,
+        approximateLoad: form.approximateLoad,
+        averageDistance: form.averageDistance,
+        cargoType: form.cargoType,
+      }),
+    [form.routeProfile, form.approximateLoad, form.averageDistance, form.cargoType],
+  );
+
+
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -145,6 +207,10 @@ function DiagnosticPage() {
       `Prazo: ${labelOf(horizons, form.horizon)}`,
       `Interesse em financiamento: ${form.financingInterest ? "sim" : "não"}`,
       form.notes ? `Observações: ${form.notes}` : null,
+      suggestion
+        ? `Direção preliminar sugerida no site: família ${suggestion.label} (confiança ${suggestion.confidence})`
+        : null,
+
     ]
       .filter((line) => line !== null)
       .join("\n");
@@ -159,7 +225,14 @@ function DiagnosticPage() {
       toast.success("Resumo copiado. Envie para Christiano pelo canal de contato.");
     }
 
+    try {
+      window.localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* sem armazenamento local */
+    }
+
     setSubmitting(false);
+
   }
 
   return (
@@ -401,8 +474,67 @@ function DiagnosticPage() {
             </Button>
           </div>
 
-          <aside className="space-y-5">
-            <div className="rounded-lg border border-border bg-surface p-6">
+          <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-card">
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="text-base font-semibold text-road">Roteiro preenchido</h2>
+                <span className="text-technical text-sm font-bold text-engineering">
+                  {completion}%
+                </span>
+              </div>
+              <div
+                role="progressbar"
+                aria-valuenow={completion}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Progresso do diagnóstico"
+                className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-surface-strong"
+              >
+                <div
+                  className="h-full rounded-full bg-engineering transition-[width] duration-500 ease-out"
+                  style={{ width: `${completion}%` }}
+                />
+              </div>
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                {draftRestored
+                  ? "Recuperamos o que você já havia digitado neste navegador."
+                  : "O que você digita fica salvo neste navegador enquanto preenche."}
+              </p>
+            </div>
+
+            {suggestion && (
+              <Reveal className="rounded-xl border border-engineering/30 bg-surface p-6">
+                <p className="eyebrow flex items-center gap-2 text-engineering">
+                  <Compass className="size-4" aria-hidden />
+                  Direção preliminar
+                </p>
+                <h2 className="text-technical mt-3 text-xl font-bold uppercase tracking-wide text-road">
+                  Família {suggestion.label}
+                </h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Confiança {suggestion.confidence} · indicação automática, confirmada por Christiano
+                  no atendimento.
+                </p>
+                <ul className="mt-4 space-y-2">
+                  {suggestion.reasons.map((reason) => (
+                    <li key={reason} className="flex gap-2 text-sm leading-relaxed text-foreground">
+                      <CheckCircle2
+                        className="mt-0.5 size-4 shrink-0 text-result"
+                        aria-hidden
+                      />
+                      {reason}
+                    </li>
+                  ))}
+                </ul>
+                <Button asChild variant="quiet" size="sm" className="mt-4">
+                  <Link to="/caminhoes/$family" params={{ family: suggestion.slug }}>
+                    Ver a família {suggestion.label}
+                  </Link>
+                </Button>
+              </Reveal>
+            )}
+
+            <div className="rounded-xl border border-border bg-surface p-6">
               <h2 className="text-base font-semibold text-road">Por que essas perguntas</h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 Carga, rota e implemento definem PBT, configuração de eixos e o tipo de cabine. Sem
@@ -416,6 +548,7 @@ function DiagnosticPage() {
             </div>
             <CommercialDisclaimer>{siteSettings.commercialDisclaimer}</CommercialDisclaimer>
           </aside>
+
         </form>
       </section>
     </>

@@ -171,10 +171,21 @@
   font-weight: 600;
 }
 
-/* Faixa institucional escura */
+/* Faixa institucional escura — profundidade sutil, sem gradiente chamativo */
 @utility surface-road {
   background-color: var(--color-road);
   color: var(--color-road-foreground);
+  background-image:
+    radial-gradient(
+      120% 90% at 85% 0%,
+      color-mix(in oklab, var(--color-engineering) 55%, transparent) 0%,
+      transparent 62%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--color-graphite) 40%, transparent) 0%,
+      transparent 55%
+    );
 }
 
 /* Textura sutil de estrada (linhas técnicas, sem gradientes chamativos) */
@@ -186,6 +197,62 @@
   );
 }
 
+/* Malha técnica discreta para superfícies claras */
+@utility grid-lines {
+  background-image:
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--color-silver) 30%, transparent) 0 1px,
+      transparent 1px 64px
+    ),
+    linear-gradient(
+      0deg,
+      color-mix(in oklab, var(--color-silver) 22%, transparent) 0 1px,
+      transparent 1px 64px
+    );
+}
+
+/* Filete superior de destaque (marca) */
+@utility rule-action {
+  &::before {
+    content: "";
+    display: block;
+    width: 2.5rem;
+    height: 3px;
+    border-radius: 999px;
+    background-color: var(--color-action);
+  }
+}
+
+/* Elevação interativa padrão dos cartões */
+@utility card-lift {
+  transition:
+    transform 0.35s var(--ease-brand),
+    box-shadow 0.35s var(--ease-brand),
+    border-color 0.35s var(--ease-brand);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-raised);
+    border-color: color-mix(in oklab, var(--color-engineering) 35%, var(--color-border));
+  }
+}
+
+/* Revelação ao rolar — controlada por data-attribute (ver <Reveal />) */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s var(--ease-brand),
+    transform 0.7s var(--ease-brand);
+  transition-delay: var(--reveal-delay, 0ms);
+
+  &[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @utility container-content {
   width: 100%;
   margin-inline: auto;
@@ -194,6 +261,14 @@
 
   @media (min-width: 1024px) {
     padding-inline: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
