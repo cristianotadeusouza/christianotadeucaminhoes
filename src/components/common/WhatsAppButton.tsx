@@ -1,6 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { Button, type ButtonProps } from "@/components/ui/button";
-import { buildWhatsAppUrl, hasWhatsAppNumber } from "@/services/whatsapp";
+import { buildWhatsAppUrl, hasWhatsAppNumber, whatsappMessages } from "@/services/whatsapp";
 import { trackEvent, type AnalyticsPayload } from "@/services/analytics";
 import { cn } from "@/lib/utils";
 
