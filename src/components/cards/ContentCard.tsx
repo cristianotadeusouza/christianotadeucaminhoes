@@ -5,7 +5,7 @@ import { contentCategoryLabels } from "@/data/content-posts";
 
 export function ContentCard({ post }: { post: ContentPost }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-card transition-shadow hover:shadow-raised">
+    <article className="card-lift group flex w-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card">
       <ImagePlaceholder slot={post.cover} className="rounded-none" />
       <div className="flex flex-1 flex-col p-5">
         <p className="eyebrow text-engineering">{contentCategoryLabels[post.category]}</p>

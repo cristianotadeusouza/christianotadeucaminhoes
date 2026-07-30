@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 
 export function CaseStudyCard({ item }: { item: CaseStudy }) {
   return (
-    <article className="flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-card">
+    <article className="card-lift flex w-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card">
       {item.media[0] && <ImagePlaceholder slot={item.media[0]} className="rounded-none" />}
       <div className="flex flex-1 flex-col p-5">
         <Badge variant="outline" className="w-fit border-engineering/40 text-engineering">

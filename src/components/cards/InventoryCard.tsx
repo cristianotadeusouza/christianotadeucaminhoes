@@ -27,7 +27,7 @@ export function InventoryCard({ item }: { item: InventoryItem }) {
   const identifier = [item.model, item.configuration].filter(Boolean).join(" · ");
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-card">
+    <article className="card-lift flex w-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card">
       <ImagePlaceholder slot={item.image} className="rounded-none" />
 
       <div className="flex flex-1 flex-col p-5">

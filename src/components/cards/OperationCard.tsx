@@ -7,7 +7,7 @@ export function OperationCard({ operation }: { operation: OperationCategory }) {
     <Link
       to="/operacoes"
       hash={operation.slug}
-      className="group flex flex-col rounded-lg border border-border bg-card p-5 shadow-card transition-all duration-200 hover:border-engineering/40 hover:shadow-raised"
+      className="card-lift group flex w-full flex-col rounded-xl border border-border bg-card p-5 shadow-card"
     >
       <h3 className="text-base font-semibold text-road">{operation.name}</h3>
       <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
