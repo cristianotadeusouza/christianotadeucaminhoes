@@ -207,6 +207,10 @@ function DiagnosticPage() {
       `Prazo: ${labelOf(horizons, form.horizon)}`,
       `Interesse em financiamento: ${form.financingInterest ? "sim" : "não"}`,
       form.notes ? `Observações: ${form.notes}` : null,
+      suggestion
+        ? `Direção preliminar sugerida no site: família ${suggestion.label} (confiança ${suggestion.confidence})`
+        : null,
+
     ]
       .filter((line) => line !== null)
       .join("\n");
