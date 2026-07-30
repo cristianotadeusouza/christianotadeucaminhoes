@@ -103,7 +103,11 @@ function InventoryPage() {
 
   /** Filtros vivem na URL: o resultado é compartilhável e sobrevive ao refresh. */
   const setSearch = (patch: Partial<InventorySearch>) =>
-    navigate({ search: (previous) => ({ ...previous, ...patch }), replace: true });
+    navigate({
+      search: (previous: InventorySearch) => ({ ...previous, ...patch }),
+      replace: true,
+    });
+
 
   const filtered = useMemo(() => {
     const term = q.trim().toLowerCase();
