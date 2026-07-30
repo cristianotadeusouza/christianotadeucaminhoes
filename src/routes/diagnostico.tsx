@@ -1,6 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { CheckCircle2, Compass } from "lucide-react";
+import { Reveal } from "@/components/common/Reveal";
+import { suggestFamily } from "@/services/recommendation";
+
 
 import type { PurchaseGoal, PurchaseHorizon, RouteProfile } from "@/types";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
