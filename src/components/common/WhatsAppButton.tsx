@@ -52,7 +52,7 @@ export function WhatsAppButton({
  * FloatingWhatsApp — botão flutuante discreto, respeitando safe-area do
  * celular e sem cobrir CTAs de conteúdo.
  */
-export function FloatingWhatsApp({ message }: { message: string }) {
+export function FloatingWhatsApp({ message = whatsappMessages.general }: { message?: string }) {
   if (!hasWhatsAppNumber) return null;
 
   return (
