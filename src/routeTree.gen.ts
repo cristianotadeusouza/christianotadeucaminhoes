@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OperacoesRouteImport } from './routes/operacoes'
 import { Route as CaminhoesIndexRouteImport } from './routes/caminhoes.index'
 import { Route as CaminhoesFamilyRouteImport } from './routes/caminhoes.$family'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperacoesRoute = OperacoesRouteImport.update({
+  id: '/operacoes',
+  path: '/operacoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CaminhoesIndexRoute = CaminhoesIndexRouteImport.update({
@@ -31,30 +37,34 @@ const CaminhoesFamilyRoute = CaminhoesFamilyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/operacoes': typeof OperacoesRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/caminhoes/': typeof CaminhoesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/operacoes': typeof OperacoesRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/caminhoes': typeof CaminhoesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/operacoes': typeof OperacoesRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/caminhoes/': typeof CaminhoesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/caminhoes/$family' | '/caminhoes/'
+  fullPaths: '/' | '/operacoes' | '/caminhoes/$family' | '/caminhoes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/caminhoes/$family' | '/caminhoes'
-  id: '__root__' | '/' | '/caminhoes/$family' | '/caminhoes/'
+  to: '/' | '/operacoes' | '/caminhoes/$family' | '/caminhoes'
+  id: '__root__' | '/' | '/operacoes' | '/caminhoes/$family' | '/caminhoes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OperacoesRoute: typeof OperacoesRoute
   CaminhoesFamilyRoute: typeof CaminhoesFamilyRoute
   CaminhoesIndexRoute: typeof CaminhoesIndexRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operacoes': {
+      id: '/operacoes'
+      path: '/operacoes'
+      fullPath: '/operacoes'
+      preLoaderRoute: typeof OperacoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/caminhoes/': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OperacoesRoute: OperacoesRoute,
   CaminhoesFamilyRoute: CaminhoesFamilyRoute,
   CaminhoesIndexRoute: CaminhoesIndexRoute,
 }
