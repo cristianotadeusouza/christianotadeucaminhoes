@@ -10,33 +10,206 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
+import { Route as EntregasRouteImport } from './routes/entregas'
+import { Route as FinanciamentoRouteImport } from './routes/financiamento'
+import { Route as OperacoesRouteImport } from './routes/operacoes'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as CaminhoesIndexRouteImport } from './routes/caminhoes.index'
+import { Route as CaminhoesFamilyRouteImport } from './routes/caminhoes.$family'
+import { Route as ConteudosIndexRouteImport } from './routes/conteudos.index'
+import { Route as ConteudosSlugRouteImport } from './routes/conteudos.$slug'
+import { Route as OportunidadesIndexRouteImport } from './routes/oportunidades.index'
+import { Route as OportunidadesIdRouteImport } from './routes/oportunidades.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticoRoute = DiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntregasRoute = EntregasRouteImport.update({
+  id: '/entregas',
+  path: '/entregas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanciamentoRoute = FinanciamentoRouteImport.update({
+  id: '/financiamento',
+  path: '/financiamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperacoesRoute = OperacoesRouteImport.update({
+  id: '/operacoes',
+  path: '/operacoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaminhoesIndexRoute = CaminhoesIndexRouteImport.update({
+  id: '/caminhoes/',
+  path: '/caminhoes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaminhoesFamilyRoute = CaminhoesFamilyRouteImport.update({
+  id: '/caminhoes/$family',
+  path: '/caminhoes/$family',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConteudosIndexRoute = ConteudosIndexRouteImport.update({
+  id: '/conteudos/',
+  path: '/conteudos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConteudosSlugRoute = ConteudosSlugRouteImport.update({
+  id: '/conteudos/$slug',
+  path: '/conteudos/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OportunidadesIndexRoute = OportunidadesIndexRouteImport.update({
+  id: '/oportunidades/',
+  path: '/oportunidades/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OportunidadesIdRoute = OportunidadesIdRouteImport.update({
+  id: '/oportunidades/$id',
+  path: '/oportunidades/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contato': typeof ContatoRoute
+  '/diagnostico': typeof DiagnosticoRoute
+  '/entregas': typeof EntregasRoute
+  '/financiamento': typeof FinanciamentoRoute
+  '/operacoes': typeof OperacoesRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/sobre': typeof SobreRoute
+  '/caminhoes/$family': typeof CaminhoesFamilyRoute
+  '/conteudos/$slug': typeof ConteudosSlugRoute
+  '/oportunidades/$id': typeof OportunidadesIdRoute
+  '/caminhoes/': typeof CaminhoesIndexRoute
+  '/conteudos/': typeof ConteudosIndexRoute
+  '/oportunidades/': typeof OportunidadesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contato': typeof ContatoRoute
+  '/diagnostico': typeof DiagnosticoRoute
+  '/entregas': typeof EntregasRoute
+  '/financiamento': typeof FinanciamentoRoute
+  '/operacoes': typeof OperacoesRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/sobre': typeof SobreRoute
+  '/caminhoes/$family': typeof CaminhoesFamilyRoute
+  '/conteudos/$slug': typeof ConteudosSlugRoute
+  '/oportunidades/$id': typeof OportunidadesIdRoute
+  '/caminhoes': typeof CaminhoesIndexRoute
+  '/conteudos': typeof ConteudosIndexRoute
+  '/oportunidades': typeof OportunidadesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contato': typeof ContatoRoute
+  '/diagnostico': typeof DiagnosticoRoute
+  '/entregas': typeof EntregasRoute
+  '/financiamento': typeof FinanciamentoRoute
+  '/operacoes': typeof OperacoesRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/sobre': typeof SobreRoute
+  '/caminhoes/$family': typeof CaminhoesFamilyRoute
+  '/conteudos/$slug': typeof ConteudosSlugRoute
+  '/oportunidades/$id': typeof OportunidadesIdRoute
+  '/caminhoes/': typeof CaminhoesIndexRoute
+  '/conteudos/': typeof ConteudosIndexRoute
+  '/oportunidades/': typeof OportunidadesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/contato'
+    | '/diagnostico'
+    | '/entregas'
+    | '/financiamento'
+    | '/operacoes'
+    | '/privacidade'
+    | '/sobre'
+    | '/caminhoes/$family'
+    | '/conteudos/$slug'
+    | '/oportunidades/$id'
+    | '/caminhoes/'
+    | '/conteudos/'
+    | '/oportunidades/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/contato'
+    | '/diagnostico'
+    | '/entregas'
+    | '/financiamento'
+    | '/operacoes'
+    | '/privacidade'
+    | '/sobre'
+    | '/caminhoes/$family'
+    | '/conteudos/$slug'
+    | '/oportunidades/$id'
+    | '/caminhoes'
+    | '/conteudos'
+    | '/oportunidades'
+  id:
+    | '__root__'
+    | '/'
+    | '/contato'
+    | '/diagnostico'
+    | '/entregas'
+    | '/financiamento'
+    | '/operacoes'
+    | '/privacidade'
+    | '/sobre'
+    | '/caminhoes/$family'
+    | '/conteudos/$slug'
+    | '/oportunidades/$id'
+    | '/caminhoes/'
+    | '/conteudos/'
+    | '/oportunidades/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContatoRoute: typeof ContatoRoute
+  DiagnosticoRoute: typeof DiagnosticoRoute
+  EntregasRoute: typeof EntregasRoute
+  FinanciamentoRoute: typeof FinanciamentoRoute
+  OperacoesRoute: typeof OperacoesRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
+  SobreRoute: typeof SobreRoute
+  CaminhoesFamilyRoute: typeof CaminhoesFamilyRoute
+  ConteudosSlugRoute: typeof ConteudosSlugRoute
+  OportunidadesIdRoute: typeof OportunidadesIdRoute
+  CaminhoesIndexRoute: typeof CaminhoesIndexRoute
+  ConteudosIndexRoute: typeof ConteudosIndexRoute
+  OportunidadesIndexRoute: typeof OportunidadesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +221,116 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostico': {
+      id: '/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/diagnostico'
+      preLoaderRoute: typeof DiagnosticoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entregas': {
+      id: '/entregas'
+      path: '/entregas'
+      fullPath: '/entregas'
+      preLoaderRoute: typeof EntregasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/financiamento': {
+      id: '/financiamento'
+      path: '/financiamento'
+      fullPath: '/financiamento'
+      preLoaderRoute: typeof FinanciamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operacoes': {
+      id: '/operacoes'
+      path: '/operacoes'
+      fullPath: '/operacoes'
+      preLoaderRoute: typeof OperacoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/caminhoes/': {
+      id: '/caminhoes/'
+      path: '/caminhoes'
+      fullPath: '/caminhoes/'
+      preLoaderRoute: typeof CaminhoesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/caminhoes/$family': {
+      id: '/caminhoes/$family'
+      path: '/caminhoes/$family'
+      fullPath: '/caminhoes/$family'
+      preLoaderRoute: typeof CaminhoesFamilyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conteudos/': {
+      id: '/conteudos/'
+      path: '/conteudos'
+      fullPath: '/conteudos/'
+      preLoaderRoute: typeof ConteudosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conteudos/$slug': {
+      id: '/conteudos/$slug'
+      path: '/conteudos/$slug'
+      fullPath: '/conteudos/$slug'
+      preLoaderRoute: typeof ConteudosSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/oportunidades/': {
+      id: '/oportunidades/'
+      path: '/oportunidades'
+      fullPath: '/oportunidades/'
+      preLoaderRoute: typeof OportunidadesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/oportunidades/$id': {
+      id: '/oportunidades/$id'
+      path: '/oportunidades/$id'
+      fullPath: '/oportunidades/$id'
+      preLoaderRoute: typeof OportunidadesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContatoRoute: ContatoRoute,
+  DiagnosticoRoute: DiagnosticoRoute,
+  EntregasRoute: EntregasRoute,
+  FinanciamentoRoute: FinanciamentoRoute,
+  OperacoesRoute: OperacoesRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
+  SobreRoute: SobreRoute,
+  CaminhoesFamilyRoute: CaminhoesFamilyRoute,
+  ConteudosSlugRoute: ConteudosSlugRoute,
+  OportunidadesIdRoute: OportunidadesIdRoute,
+  CaminhoesIndexRoute: CaminhoesIndexRoute,
+  ConteudosIndexRoute: ConteudosIndexRoute,
+  OportunidadesIndexRoute: OportunidadesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
