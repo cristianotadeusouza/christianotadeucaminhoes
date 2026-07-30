@@ -16,14 +16,32 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        /* --- Variantes de marca (ver docs/BRAND-IMPLEMENTATION.md) --- */
+        /** CTA comercial principal — Vermelho Ação */
+        action:
+          "bg-action text-action-foreground shadow-sm hover:bg-action/90 active:bg-action/95 font-semibold",
+        /** CTA institucional — Azul Engenharia */
+        institutional:
+          "bg-engineering text-engineering-foreground shadow-sm hover:bg-engineering/90 font-semibold",
+        /** WhatsApp — Verde Resultado (uso restrito) */
+        whatsapp:
+          "bg-result text-result-foreground shadow-sm hover:bg-result/90 font-semibold",
+        /** Contorno sobre fundos escuros institucionais */
+        onDark:
+          "border border-silver/40 bg-transparent text-road-foreground hover:bg-road-foreground/10 font-medium",
+        /** Contorno neutro sobre fundo claro */
+        quiet:
+          "border border-border bg-background text-foreground hover:bg-surface font-medium shadow-none",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3 text-xs",
+        lg: "h-11 rounded-md px-6",
+        xl: "h-12 rounded-md px-7 text-base",
+        icon: "h-10 w-10",
       },
     },
+
     defaultVariants: {
       variant: "default",
       size: "default",
