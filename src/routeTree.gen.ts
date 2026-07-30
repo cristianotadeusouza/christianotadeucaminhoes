@@ -10,13 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EntregasRouteImport } from './routes/entregas'
 import { Route as OperacoesRouteImport } from './routes/operacoes'
 import { Route as CaminhoesIndexRouteImport } from './routes/caminhoes.index'
 import { Route as CaminhoesFamilyRouteImport } from './routes/caminhoes.$family'
+import { Route as ConteudosIndexRouteImport } from './routes/conteudos.index'
+import { Route as ConteudosSlugRouteImport } from './routes/conteudos.$slug'
+import { Route as OportunidadesIndexRouteImport } from './routes/oportunidades.index'
+import { Route as OportunidadesIdRouteImport } from './routes/oportunidades.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntregasRoute = EntregasRouteImport.update({
+  id: '/entregas',
+  path: '/entregas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OperacoesRoute = OperacoesRouteImport.update({
@@ -34,39 +44,107 @@ const CaminhoesFamilyRoute = CaminhoesFamilyRouteImport.update({
   path: '/caminhoes/$family',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConteudosIndexRoute = ConteudosIndexRouteImport.update({
+  id: '/conteudos/',
+  path: '/conteudos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConteudosSlugRoute = ConteudosSlugRouteImport.update({
+  id: '/conteudos/$slug',
+  path: '/conteudos/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OportunidadesIndexRoute = OportunidadesIndexRouteImport.update({
+  id: '/oportunidades/',
+  path: '/oportunidades/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OportunidadesIdRoute = OportunidadesIdRouteImport.update({
+  id: '/oportunidades/$id',
+  path: '/oportunidades/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/entregas': typeof EntregasRoute
   '/operacoes': typeof OperacoesRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
+  '/conteudos/$slug': typeof ConteudosSlugRoute
+  '/oportunidades/$id': typeof OportunidadesIdRoute
   '/caminhoes/': typeof CaminhoesIndexRoute
+  '/conteudos/': typeof ConteudosIndexRoute
+  '/oportunidades/': typeof OportunidadesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/entregas': typeof EntregasRoute
   '/operacoes': typeof OperacoesRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
+  '/conteudos/$slug': typeof ConteudosSlugRoute
+  '/oportunidades/$id': typeof OportunidadesIdRoute
   '/caminhoes': typeof CaminhoesIndexRoute
+  '/conteudos': typeof ConteudosIndexRoute
+  '/oportunidades': typeof OportunidadesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/entregas': typeof EntregasRoute
   '/operacoes': typeof OperacoesRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
+  '/conteudos/$slug': typeof ConteudosSlugRoute
+  '/oportunidades/$id': typeof OportunidadesIdRoute
   '/caminhoes/': typeof CaminhoesIndexRoute
+  '/conteudos/': typeof ConteudosIndexRoute
+  '/oportunidades/': typeof OportunidadesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/operacoes' | '/caminhoes/$family' | '/caminhoes/'
+  fullPaths:
+    | '/'
+    | '/entregas'
+    | '/operacoes'
+    | '/caminhoes/$family'
+    | '/conteudos/$slug'
+    | '/oportunidades/$id'
+    | '/caminhoes/'
+    | '/conteudos/'
+    | '/oportunidades/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/operacoes' | '/caminhoes/$family' | '/caminhoes'
-  id: '__root__' | '/' | '/operacoes' | '/caminhoes/$family' | '/caminhoes/'
+  to:
+    | '/'
+    | '/entregas'
+    | '/operacoes'
+    | '/caminhoes/$family'
+    | '/conteudos/$slug'
+    | '/oportunidades/$id'
+    | '/caminhoes'
+    | '/conteudos'
+    | '/oportunidades'
+  id:
+    | '__root__'
+    | '/'
+    | '/entregas'
+    | '/operacoes'
+    | '/caminhoes/$family'
+    | '/conteudos/$slug'
+    | '/oportunidades/$id'
+    | '/caminhoes/'
+    | '/conteudos/'
+    | '/oportunidades/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EntregasRoute: typeof EntregasRoute
   OperacoesRoute: typeof OperacoesRoute
   CaminhoesFamilyRoute: typeof CaminhoesFamilyRoute
+  ConteudosSlugRoute: typeof ConteudosSlugRoute
+  OportunidadesIdRoute: typeof OportunidadesIdRoute
   CaminhoesIndexRoute: typeof CaminhoesIndexRoute
+  ConteudosIndexRoute: typeof ConteudosIndexRoute
+  OportunidadesIndexRoute: typeof OportunidadesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -76,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entregas': {
+      id: '/entregas'
+      path: '/entregas'
+      fullPath: '/entregas'
+      preLoaderRoute: typeof EntregasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/operacoes': {
@@ -99,14 +184,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaminhoesFamilyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/conteudos/': {
+      id: '/conteudos/'
+      path: '/conteudos'
+      fullPath: '/conteudos/'
+      preLoaderRoute: typeof ConteudosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conteudos/$slug': {
+      id: '/conteudos/$slug'
+      path: '/conteudos/$slug'
+      fullPath: '/conteudos/$slug'
+      preLoaderRoute: typeof ConteudosSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/oportunidades/': {
+      id: '/oportunidades/'
+      path: '/oportunidades'
+      fullPath: '/oportunidades/'
+      preLoaderRoute: typeof OportunidadesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/oportunidades/$id': {
+      id: '/oportunidades/$id'
+      path: '/oportunidades/$id'
+      fullPath: '/oportunidades/$id'
+      preLoaderRoute: typeof OportunidadesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EntregasRoute: EntregasRoute,
   OperacoesRoute: OperacoesRoute,
   CaminhoesFamilyRoute: CaminhoesFamilyRoute,
+  ConteudosSlugRoute: ConteudosSlugRoute,
+  OportunidadesIdRoute: OportunidadesIdRoute,
   CaminhoesIndexRoute: CaminhoesIndexRoute,
+  ConteudosIndexRoute: ConteudosIndexRoute,
+  OportunidadesIndexRoute: OportunidadesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

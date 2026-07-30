@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 
+import type { InventoryItem } from "@/types";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { CTASection } from "@/components/common/CTASection";
 import { CommercialDisclaimer } from "@/components/common/CommercialDisclaimer";
@@ -41,7 +42,7 @@ export const Route = createFileRoute("/oportunidades/$id")({
 });
 
 function InventoryDetail() {
-  const { item } = Route.useLoaderData();
+  const { item } = Route.useLoaderData() as { item: InventoryItem };
   const identifier = [item.model, item.configuration].filter(Boolean).join(" · ");
 
   const rows: { label: string; value: string }[] = [

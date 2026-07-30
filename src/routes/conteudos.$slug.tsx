@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 
+import type { ContentPost } from "@/types";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { CTASection } from "@/components/common/CTASection";
 import { ImagePlaceholder } from "@/components/media/ImagePlaceholder";
@@ -34,7 +35,7 @@ export const Route = createFileRoute("/conteudos/$slug")({
 });
 
 function ContentDetail() {
-  const { post } = Route.useLoaderData();
+  const { post } = Route.useLoaderData() as { post: ContentPost };
 
   return (
     <>
@@ -69,7 +70,7 @@ function ContentDetail() {
         <ImagePlaceholder priority slot={post.cover} className="mt-8" />
 
         <div className="mt-10 max-w-3xl space-y-5">
-          {post.body.map((block, index) => {
+          {post.body.map((block: ContentPost["body"][number], index: number) => {
             if (block.type === "heading") {
               return (
                 <h2 key={index} className="pt-4 text-xl font-semibold text-road sm:text-2xl">
@@ -80,7 +81,7 @@ function ContentDetail() {
             if (block.type === "list") {
               return (
                 <ul key={index} className="space-y-2 text-base leading-relaxed text-foreground">
-                  {(block.items ?? []).map((item) => (
+                  {(block.items ?? []).map((item: string) => (
                     <li key={item} className="flex gap-3">
                       <span aria-hidden="true" className="mt-3 h-px w-3 shrink-0 bg-action" />
                       {item}
