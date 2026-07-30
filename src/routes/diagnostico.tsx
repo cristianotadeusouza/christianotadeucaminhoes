@@ -221,7 +221,14 @@ function DiagnosticPage() {
       toast.success("Resumo copiado. Envie para Christiano pelo canal de contato.");
     }
 
+    try {
+      window.localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* sem armazenamento local */
+    }
+
     setSubmitting(false);
+
   }
 
   return (
