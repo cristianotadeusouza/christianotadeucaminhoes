@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as EntregasRouteImport } from './routes/entregas'
 import { Route as FinanciamentoRouteImport } from './routes/financiamento'
 import { Route as OperacoesRouteImport } from './routes/operacoes'
@@ -31,6 +32,11 @@ const IndexRoute = IndexRouteImport.update({
 const ContatoRoute = ContatoRouteImport.update({
   id: '/contato',
   path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticoRoute = DiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EntregasRoute = EntregasRouteImport.update({
@@ -92,6 +98,7 @@ const OportunidadesIdRoute = OportunidadesIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
+  '/diagnostico': typeof DiagnosticoRoute
   '/entregas': typeof EntregasRoute
   '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
+  '/diagnostico': typeof DiagnosticoRoute
   '/entregas': typeof EntregasRoute
   '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
+  '/diagnostico': typeof DiagnosticoRoute
   '/entregas': typeof EntregasRoute
   '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contato'
+    | '/diagnostico'
     | '/entregas'
     | '/financiamento'
     | '/operacoes'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contato'
+    | '/diagnostico'
     | '/entregas'
     | '/financiamento'
     | '/operacoes'
@@ -170,6 +181,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contato'
+    | '/diagnostico'
     | '/entregas'
     | '/financiamento'
     | '/operacoes'
@@ -186,6 +198,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContatoRoute: typeof ContatoRoute
+  DiagnosticoRoute: typeof DiagnosticoRoute
   EntregasRoute: typeof EntregasRoute
   FinanciamentoRoute: typeof FinanciamentoRoute
   OperacoesRoute: typeof OperacoesRoute
@@ -213,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/contato'
       fullPath: '/contato'
       preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostico': {
+      id: '/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/diagnostico'
+      preLoaderRoute: typeof DiagnosticoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/entregas': {
@@ -298,6 +318,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContatoRoute: ContatoRoute,
+  DiagnosticoRoute: DiagnosticoRoute,
   EntregasRoute: EntregasRoute,
   FinanciamentoRoute: FinanciamentoRoute,
   OperacoesRoute: OperacoesRoute,

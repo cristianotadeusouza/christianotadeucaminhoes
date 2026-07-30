@@ -16,6 +16,8 @@ import { Footer } from "@/components/layout/Footer";
 import { FloatingWhatsApp } from "@/components/common/WhatsAppButton";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
+
 
 function NotFoundComponent() {
   return (
@@ -153,6 +155,8 @@ function RootComponent() {
         <Footer />
       </div>
       <FloatingWhatsApp />
+      <Toaster />
     </QueryClientProvider>
+
   );
 }
