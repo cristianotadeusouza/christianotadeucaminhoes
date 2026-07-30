@@ -10,8 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as EntregasRouteImport } from './routes/entregas'
+import { Route as FinanciamentoRouteImport } from './routes/financiamento'
 import { Route as OperacoesRouteImport } from './routes/operacoes'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as CaminhoesIndexRouteImport } from './routes/caminhoes.index'
 import { Route as CaminhoesFamilyRouteImport } from './routes/caminhoes.$family'
 import { Route as ConteudosIndexRouteImport } from './routes/conteudos.index'
@@ -24,14 +28,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EntregasRoute = EntregasRouteImport.update({
   id: '/entregas',
   path: '/entregas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinanciamentoRoute = FinanciamentoRouteImport.update({
+  id: '/financiamento',
+  path: '/financiamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OperacoesRoute = OperacoesRouteImport.update({
   id: '/operacoes',
   path: '/operacoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CaminhoesIndexRoute = CaminhoesIndexRouteImport.update({
@@ -67,8 +91,12 @@ const OportunidadesIdRoute = OportunidadesIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contato': typeof ContatoRoute
   '/entregas': typeof EntregasRoute
+  '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/sobre': typeof SobreRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/conteudos/$slug': typeof ConteudosSlugRoute
   '/oportunidades/$id': typeof OportunidadesIdRoute
@@ -78,8 +106,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contato': typeof ContatoRoute
   '/entregas': typeof EntregasRoute
+  '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/sobre': typeof SobreRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/conteudos/$slug': typeof ConteudosSlugRoute
   '/oportunidades/$id': typeof OportunidadesIdRoute
@@ -90,8 +122,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contato': typeof ContatoRoute
   '/entregas': typeof EntregasRoute
+  '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/sobre': typeof SobreRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/conteudos/$slug': typeof ConteudosSlugRoute
   '/oportunidades/$id': typeof OportunidadesIdRoute
@@ -103,8 +139,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/contato'
     | '/entregas'
+    | '/financiamento'
     | '/operacoes'
+    | '/privacidade'
+    | '/sobre'
     | '/caminhoes/$family'
     | '/conteudos/$slug'
     | '/oportunidades/$id'
@@ -114,8 +154,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/contato'
     | '/entregas'
+    | '/financiamento'
     | '/operacoes'
+    | '/privacidade'
+    | '/sobre'
     | '/caminhoes/$family'
     | '/conteudos/$slug'
     | '/oportunidades/$id'
@@ -125,8 +169,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/contato'
     | '/entregas'
+    | '/financiamento'
     | '/operacoes'
+    | '/privacidade'
+    | '/sobre'
     | '/caminhoes/$family'
     | '/conteudos/$slug'
     | '/oportunidades/$id'
@@ -137,8 +185,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContatoRoute: typeof ContatoRoute
   EntregasRoute: typeof EntregasRoute
+  FinanciamentoRoute: typeof FinanciamentoRoute
   OperacoesRoute: typeof OperacoesRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
+  SobreRoute: typeof SobreRoute
   CaminhoesFamilyRoute: typeof CaminhoesFamilyRoute
   ConteudosSlugRoute: typeof ConteudosSlugRoute
   OportunidadesIdRoute: typeof OportunidadesIdRoute
@@ -156,6 +208,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/entregas': {
       id: '/entregas'
       path: '/entregas'
@@ -163,11 +222,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EntregasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/financiamento': {
+      id: '/financiamento'
+      path: '/financiamento'
+      fullPath: '/financiamento'
+      preLoaderRoute: typeof FinanciamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/operacoes': {
       id: '/operacoes'
       path: '/operacoes'
       fullPath: '/operacoes'
       preLoaderRoute: typeof OperacoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/caminhoes/': {
@@ -217,8 +297,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContatoRoute: ContatoRoute,
   EntregasRoute: EntregasRoute,
+  FinanciamentoRoute: FinanciamentoRoute,
   OperacoesRoute: OperacoesRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
+  SobreRoute: SobreRoute,
   CaminhoesFamilyRoute: CaminhoesFamilyRoute,
   ConteudosSlugRoute: ConteudosSlugRoute,
   OportunidadesIdRoute: OportunidadesIdRoute,
