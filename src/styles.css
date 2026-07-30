@@ -264,6 +264,13 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,
