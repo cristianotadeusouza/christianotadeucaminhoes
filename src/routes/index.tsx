@@ -34,7 +34,18 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+/** Atalhos rápidos logo abaixo do hero — leitura mobile em uma linha rolável. */
+const shortcuts = [
+  { to: "/caminhoes", label: "Famílias" },
+  { to: "/operacoes", label: "Operações" },
+  { to: "/oportunidades", label: "Oportunidades" },
+  { to: "/financiamento", label: "Financiamento" },
+  { to: "/entregas", label: "Entregas" },
+  { to: "/conteudos", label: "Conteúdos" },
+] as const;
+
 const steps = [
+
   {
     title: "1. Entender a operação",
     description:
