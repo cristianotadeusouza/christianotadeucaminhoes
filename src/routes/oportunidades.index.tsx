@@ -15,6 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { siteSettings } from "@/data/site-settings";
 import { inventoryRepository } from "@/services/repositories";
+import { WhatsAppButton } from "@/components/common/WhatsAppButton";
+import { whatsappMessages } from "@/services/whatsapp";
 
 const title = "Oportunidades e estoque de caminhões | Christiano Tadeu";
 const description =
