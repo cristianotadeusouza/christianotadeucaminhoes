@@ -85,7 +85,8 @@ export const inventoryRepository = {
   async getById(id: string): Promise<InventoryItem | null> {
     return inventoryItems.find((item) => item.id === id) ?? null;
   },
-  async lastUpdatedAt(): Promise<string> {
+  /** `null` quando não há item real publicado. */
+  async lastUpdatedAt(): Promise<string | null> {
     return inventoryUpdatedAt;
   },
 };
