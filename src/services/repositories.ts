@@ -124,7 +124,7 @@ export const settingsRepository = {
  * WhatsApp, mantendo a mesma assinatura.
  */
 export const leadRepository = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  
   async create(lead: Omit<Lead, "id" | "createdAt" | "updatedAt">): Promise<{ ok: boolean }> {
     // Nenhum dado é registrado em console nem persistido nesta versão.
     return { ok: true };
