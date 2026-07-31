@@ -198,6 +198,8 @@ export interface ImageSlot {
   /** Descrição da foto que deverá ocupar o espaço (usado no placeholder). */
   caption: string;
   aspect: "16/9" | "4/3" | "3/2" | "1/1";
+  /** `contain` preserva recortes oficiais de produto; `cover` preenche fotografias. */
+  fit?: "cover" | "contain";
 }
 
 export interface CaseStudy {

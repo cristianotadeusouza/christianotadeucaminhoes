@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { CTASection } from "@/components/common/CTASection";
-import { ImagePlaceholder } from "@/components/media/ImagePlaceholder";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { siteSettings } from "@/data/site-settings";
 
 const title = "Sobre Christiano Tadeu | Venda consultiva de caminhões";
@@ -58,14 +58,23 @@ function AboutPage() {
               title="Christiano Tadeu, consultor de caminhões Volkswagen"
               description="Atuação consultiva em campo, junto de transportadores e empresas que dependem do caminhão para faturar. A conversa começa pela operação e termina no veículo que faz sentido para ela."
             />
-            <ImagePlaceholder
-              priority
-              slot={{
-                alt: "Christiano Tadeu em atendimento a um cliente transportador",
-                caption: "Retrato profissional de Christiano em campo — foto real necessária.",
-                aspect: "4/3",
-              }}
-            />
+            <aside className="surface-road road-lines relative overflow-hidden rounded-2xl border border-white/10 p-8 shadow-raised sm:p-10">
+              <BrandLogo
+                variant="dark"
+                lockup="full"
+                size="lg"
+                asLink={false}
+                className="max-w-[19rem]"
+              />
+              <p className="mt-9 text-xl font-semibold leading-snug text-white sm:text-2xl">
+                “Conhecimento de caminhão é importante. Conhecimento da operação é o que orienta uma
+                compra adequada.”
+              </p>
+              <div className="mt-8 border-t border-white/15 pt-5 text-sm leading-relaxed text-silver">
+                Atendimento próximo, informação confirmada e responsabilidade até o caminhão começar
+                a trabalhar.
+              </div>
+            </aside>
           </div>
         </div>
       </section>

@@ -40,6 +40,7 @@ export const Route = createFileRoute("/caminhoes/$family")({
 
 function FamilyPage() {
   const { family } = Route.useLoaderData();
+  const additionalGallery = family.gallery.filter((slot: ImageSlot) => slot.src).slice(1);
 
   return (
     <>
@@ -67,7 +68,11 @@ function FamilyPage() {
               />
             </div>
           </div>
-          <ImagePlaceholder priority slot={family.gallery[0]} />
+          <ImagePlaceholder
+            priority
+            slot={family.gallery[0]}
+            className="border border-white/10 bg-white/95 shadow-raised"
+          />
         </div>
       </section>
 
@@ -153,16 +158,18 @@ function FamilyPage() {
         </CommercialDisclaimer>
       </section>
 
-      <section className="bg-surface py-14 sm:py-20">
-        <div className="container-content">
-          <SectionHeader eyebrow="Galeria" title={`${family.name} em operação`} />
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {family.gallery.map((slot: ImageSlot) => (
-              <ImagePlaceholder key={slot.alt} slot={slot} />
-            ))}
+      {additionalGallery.length > 0 && (
+        <section className="bg-surface py-14 sm:py-20">
+          <div className="container-content">
+            <SectionHeader eyebrow="Galeria" title={`${family.name} em operação`} />
+            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {additionalGallery.map((slot: ImageSlot) => (
+                <ImagePlaceholder key={slot.alt} slot={slot} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="container-content py-14 sm:py-20">
         <FAQ items={family.faq} />

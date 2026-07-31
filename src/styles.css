@@ -135,6 +135,12 @@
     font-family: var(--font-body);
     font-feature-settings: "cv02", "cv03", "cv04";
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-engineering) 25%, white);
+    color: var(--color-road);
   }
 
   h1,
@@ -154,6 +160,55 @@
     outline: 2px solid var(--color-engineering);
     outline-offset: 2px;
     border-radius: 2px;
+  }
+}
+
+/* Hero principal: fotografia real com leitura preservada em qualquer viewport. */
+.home-hero__image {
+  object-position: 62% center;
+  filter: saturate(0.9) contrast(1.04);
+  transform: scale(1.015);
+  animation: hero-settle 1.2s var(--ease-brand) both;
+}
+
+.home-hero__scrim {
+  background:
+    linear-gradient(
+      90deg,
+      rgb(7 26 47 / 0.99) 0%,
+      rgb(7 26 47 / 0.96) 36%,
+      rgb(7 26 47 / 0.68) 62%,
+      rgb(7 26 47 / 0.16) 100%
+    ),
+    linear-gradient(0deg, rgb(7 26 47 / 0.38) 0%, transparent 45%);
+}
+
+@keyframes hero-settle {
+  from {
+    opacity: 0.72;
+    transform: scale(1.045);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.015);
+  }
+}
+
+@media (max-width: 767px) {
+  .home-hero__image {
+    object-position: 66% center;
+  }
+
+  .home-hero__scrim {
+    background:
+      linear-gradient(
+        90deg,
+        rgb(7 26 47 / 0.97) 0%,
+        rgb(7 26 47 / 0.82) 75%,
+        rgb(7 26 47 / 0.55) 100%
+      ),
+      linear-gradient(0deg, rgb(7 26 47 / 0.55) 0%, transparent 55%);
   }
 }
 
@@ -271,6 +326,11 @@
   [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .home-hero__image {
+    animation: none;
+    transform: none;
   }
 }
 
