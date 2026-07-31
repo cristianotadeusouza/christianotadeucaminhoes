@@ -71,7 +71,10 @@ function AboutPage() {
       </section>
 
       <section className="container-content py-14 sm:py-20">
-        <SectionHeader eyebrow="Como trabalho" title="Quatro compromissos que orientam o atendimento" />
+        <SectionHeader
+          eyebrow="Como trabalho"
+          title="Quatro compromissos que orientam o atendimento"
+        />
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {principles.map((principle) => (
             <div
@@ -89,7 +92,9 @@ function AboutPage() {
 
       <section className="bg-surface py-14 sm:py-20">
         <div className="container-content max-w-3xl">
-          <h2 className="text-xl font-semibold text-road sm:text-2xl">Atendimento e transparência</h2>
+          <h2 className="text-xl font-semibold text-road sm:text-2xl">
+            Atendimento e transparência
+          </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             {siteSettings.serviceAreaNote}
           </p>

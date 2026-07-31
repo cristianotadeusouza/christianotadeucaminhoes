@@ -3,20 +3,22 @@ import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 
 /**
- * BrandLogo — lockup da marca Christiano Tadeu | Caminhões Volkswagen.
+ * BrandLogo — assinatura oficial Christiano Tadeu | Caminhões Volkswagen.
  *
- * IMPORTANTE: os arquivos oficiais da logomarca (versão principal e versão
- * negativa) ainda não foram recebidos no repositório. Este componente
- * reproduz a estrutura do lockup (símbolo CT + nome + descritor + assinatura)
- * de forma tipográfica e é o ÚNICO ponto de troca: ao receber os arquivos,
- * substitua o bloco do símbolo por <img src={...} /> mantendo a API.
- *
- * Nenhum símbolo oficial da Volkswagen é reproduzido, redesenhado ou criado.
+ * Usa exclusivamente os arquivos oficiais em `public/brand/`. Nenhum elemento
+ * da marca é redesenhado, recolorido, distorcido ou composto manualmente:
+ * o lockup e o monograma são aplicados como imagem, com proporção preservada
+ * (`object-contain`) e dimensões intrínsecas declaradas.
  */
 export interface BrandLogoProps {
-  /** `light` = fundos claros (versão principal) · `dark` = fundo azul escuro (versão negativa) */
+  /** `light` = superfícies claras · `dark` = rodapé e áreas escuras. */
   variant?: "light" | "dark";
-  /** Exibe a assinatura da marca abaixo do nome. */
+  /**
+   * `auto` (padrão) mostra o monograma em telas estreitas e o lockup completo
+   * a partir de `sm`. `full` força a assinatura completa e `mark` o monograma.
+   */
+  lockup?: "auto" | "full" | "mark";
+  /** Exibe a assinatura textual abaixo da marca (rodapé). */
   withSignature?: boolean;
   size?: "sm" | "md" | "lg";
   className?: string;
@@ -24,75 +26,82 @@ export interface BrandLogoProps {
   asLink?: boolean;
 }
 
-const sizes = {
-  sm: { mark: "h-8 w-8 text-[0.68rem]", name: "text-sm", descriptor: "text-[0.6rem]" },
-  md: { mark: "h-11 w-11 text-sm", name: "text-base", descriptor: "text-[0.65rem]" },
-  lg: { mark: "h-14 w-14 text-lg", name: "text-xl", descriptor: "text-xs" },
-};
+const assets = {
+  light: {
+    full: { src: "/brand/christiano-tadeu-logo-clara.webp", width: 1860, height: 640 },
+    mark: { src: "/brand/christiano-tadeu-monograma-claro.webp", width: 650, height: 620 },
+  },
+  dark: {
+    full: { src: "/brand/christiano-tadeu-logo-negativa.webp", width: 1915, height: 1020 },
+    mark: { src: "/brand/christiano-tadeu-monograma-negativo.webp", width: 590, height: 650 },
+  },
+} as const;
+
+const heights = {
+  sm: { full: "h-9", mark: "h-9" },
+  md: { full: "h-12", mark: "h-11" },
+  lg: { full: "h-16", mark: "h-14" },
+} as const;
+
+const alt = "Christiano Tadeu — Caminhões Volkswagen";
 
 export function BrandLogo({
   variant = "light",
+  lockup = "auto",
   withSignature = false,
   size = "md",
   className,
   asLink = true,
 }: BrandLogoProps) {
-  const isDark = variant === "dark";
-  const s = sizes[size];
+  const set = assets[variant];
+  const height = heights[size];
 
   const content = (
-    <span className={cn("inline-flex items-center gap-3", className)}>
-      <span
-        aria-hidden="true"
-        className={cn(
-          "relative grid shrink-0 place-items-center rounded-md font-bold text-technical",
-          s.mark,
-          isDark
-            ? "bg-road-foreground text-road"
-            : "bg-road text-road-foreground",
-        )}
-      >
-        CT
-        {/* Faixa inferior em Vermelho Ação — referência ao chassi/estrada do lockup */}
-        <span className="absolute inset-x-1.5 bottom-1 h-[2px] rounded-full bg-action" />
-      </span>
-      <span className="flex min-w-0 flex-col leading-tight">
-        <span
+    <span className={cn("inline-flex min-w-0 flex-col gap-1", className)}>
+      {lockup !== "full" && (
+        <img
+          src={set.mark.src}
+          width={set.mark.width}
+          height={set.mark.height}
+          alt={alt}
+          loading="eager"
+          decoding="async"
+          className={cn("w-auto object-contain", height.mark, lockup === "auto" && "sm:hidden")}
+        />
+      )}
+      {lockup !== "mark" && (
+        <img
+          src={set.full.src}
+          width={set.full.width}
+          height={set.full.height}
+          alt={alt}
+          loading="eager"
+          decoding="async"
           className={cn(
-            "truncate font-semibold tracking-tight",
-            s.name,
-            isDark ? "text-road-foreground" : "text-road",
+            "w-auto max-w-full object-contain",
+            height.full,
+            lockup === "auto" && "hidden sm:block",
           )}
-        >
-          Christiano Tadeu
-        </span>
+        />
+      )}
+      {withSignature && (
         <span
-          className={cn(
-            "eyebrow truncate",
-            s.descriptor,
-            isDark ? "text-silver" : "text-engineering",
-          )}
+          className={cn("text-xs", variant === "dark" ? "text-silver" : "text-muted-foreground")}
         >
-          Caminhões Volkswagen
+          {siteConfig.signature}
         </span>
-        {withSignature && (
-          <span
-            className={cn(
-              "mt-1 text-xs",
-              isDark ? "text-silver" : "text-muted-foreground",
-            )}
-          >
-            {siteConfig.signature}
-          </span>
-        )}
-      </span>
+      )}
     </span>
   );
 
   if (!asLink) return content;
 
   return (
-    <Link to="/" aria-label={`${siteConfig.shortName} — página inicial`} className="rounded-md">
+    <Link
+      to="/"
+      aria-label={`${siteConfig.shortName} — página inicial`}
+      className="inline-flex rounded-md"
+    >
       {content}
     </Link>
   );

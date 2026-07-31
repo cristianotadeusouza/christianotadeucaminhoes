@@ -51,9 +51,7 @@ function ContentDetail() {
         <header className="mt-8 max-w-3xl">
           <p className="eyebrow text-engineering">{contentCategoryLabels[post.category]}</p>
           <h1 className="mt-3 text-3xl font-bold text-road sm:text-4xl">{post.title}</h1>
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            {post.description}
-          </p>
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground">{post.description}</p>
           <p className="text-technical mt-4 text-xs text-muted-foreground">
             {post.author} ·{" "}
             <time dateTime={post.publishedAt}>

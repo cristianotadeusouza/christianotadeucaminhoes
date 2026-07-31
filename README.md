@@ -116,7 +116,7 @@ Percepção que o site deve construir:
 
 2. RESTRIÇÃO COMERCIAL FUNDAMENTAL
 
-Não incluir, promover, mencionar ou criar páginas, banners, formulários, textos, chamadas ou serviços relacionados a consórcios.
+Não incluir, promover, mencionar ou criar páginas, banners, formulários, textos, chamadas ou serviços relacionados a produtos fora do escopo comercial definido abaixo.
 
 A marca será dedicada a:
 
@@ -134,7 +134,7 @@ A marca será dedicada a:
 
 - atendimento e acompanhamento.
 
-Consórcio está completamente fora do escopo deste projeto.
+Qualquer oferta fora da lista acima está completamente fora do escopo deste projeto.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -306,27 +306,27 @@ Organização sugerida:
 
 src/
 
-  components/
+components/
 
-  pages/
+pages/
 
-  layouts/
+layouts/
 
-  features/
+features/
 
-  services/
+services/
 
-  data/
+data/
 
-  hooks/
+hooks/
 
-  types/
+types/
 
-  lib/
+lib/
 
-  config/
+config/
 
-  assets/
+assets/
 
 Criar interfaces TypeScript para as entidades futuras:
 
@@ -2210,11 +2210,7 @@ Não criar:
 
 - chatbot artificial nesta primeira versão;
 
-- área de consórcios;
-
-- comparador de consórcios;
-
-- texto sobre contemplação;
+- áreas ou comparadores de produtos fora do escopo comercial;
 
 - área do cliente funcional sem backend seguro;
 
@@ -2250,7 +2246,7 @@ O projeto será considerado bem estruturado quando:
 
 - o diagnóstico gerar mensagem organizada;
 
-- o conteúdo não mencionar consórcio;
+- o conteúdo não mencionar produtos fora do escopo comercial;
 
 - nenhuma informação comercial tiver sido inventada;
 

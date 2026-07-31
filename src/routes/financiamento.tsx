@@ -20,25 +20,41 @@ const modalities = [
     name: "Financiamento bancário",
     summary:
       "Modalidade mais comum na aquisição de veículos pesados, com entrada, prazo e garantia definidos conforme o perfil da empresa.",
-    points: ["Entrada e prazo variam por perfil", "Análise de crédito obrigatória", "Alienação do veículo como garantia"],
+    points: [
+      "Entrada e prazo variam por perfil",
+      "Análise de crédito obrigatória",
+      "Alienação do veículo como garantia",
+    ],
   },
   {
     name: "Linhas de financiamento para máquinas e equipamentos",
     summary:
       "Dependem de enquadramento, do tipo de operação e de campanha vigente. A elegibilidade é confirmada caso a caso.",
-    points: ["Enquadramento precisa ser verificado", "Documentação específica", "Prazos costumam ser mais longos"],
+    points: [
+      "Enquadramento precisa ser verificado",
+      "Documentação específica",
+      "Prazos costumam ser mais longos",
+    ],
   },
   {
-    name: "Consórcio",
+    name: "Recursos próprios",
     summary:
-      "Alternativa para quem planeja a aquisição com antecedência e não depende de disponibilidade imediata do veículo.",
-    points: ["Sem juros de financiamento, com taxa de administração", "Contemplação por sorteio ou lance", "Planejamento de médio prazo"],
+      "Pagamento direto, sem operação de crédito. Simplifica o processo e depende apenas da disponibilidade de capital da empresa.",
+    points: [
+      "Sem análise de crédito",
+      "Negociação mais simples",
+      "Impacto direto no capital de giro",
+    ],
   },
   {
-    name: "Recursos próprios ou troca",
+    name: "Veículo usado na negociação",
     summary:
-      "Pagamento direto, com ou sem veículo na troca. A avaliação do usado entra na composição do negócio.",
-    points: ["Avaliação do veículo de troca", "Negociação mais simples", "Impacto direto no capital de giro"],
+      "O caminhão atual pode entrar na composição do negócio. O valor considerado depende da avaliação do veículo e da documentação.",
+    points: [
+      "Avaliação presencial do veículo",
+      "Documentação do usado precisa estar regular",
+      "Pode ser combinado com financiamento",
+    ],
   },
 ];
 
@@ -156,8 +172,8 @@ function FinancingPage() {
             <h2 className="text-xl font-semibold text-road sm:text-2xl">Como funciona a análise</h2>
             <ol className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
               <li>
-                <span className="font-semibold text-road">1. Contexto da operação.</span> Entender
-                o veículo pretendido, o implemento e o objetivo da aquisição.
+                <span className="font-semibold text-road">1. Contexto da operação.</span> Entender o
+                veículo pretendido, o implemento e o objetivo da aquisição.
               </li>
               <li>
                 <span className="font-semibold text-road">2. Organização da documentação.</span>{" "}

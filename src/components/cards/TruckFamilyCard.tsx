@@ -28,7 +28,10 @@ export function TruckFamilyCard({ family }: { family: TruckFamily }) {
           className="mt-6 inline-flex items-center gap-1.5 self-start text-sm font-semibold text-engineering hover:underline"
         >
           Conhecer a família {family.name}
-          <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+          <ArrowRight
+            className="size-4 transition-transform group-hover:translate-x-0.5"
+            aria-hidden="true"
+          />
         </Link>
       </div>
     </article>

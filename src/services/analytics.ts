@@ -13,6 +13,7 @@ import { analyticsEnabled } from "@/config/site";
 export type AnalyticsEvent =
   | "whatsapp_click"
   | "diagnostic_started"
+  | "diagnostic_step_completed"
   | "diagnostic_completed"
   | "financing_contact"
   | "inventory_view"

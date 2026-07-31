@@ -45,7 +45,6 @@ const shortcuts = [
 ] as const;
 
 const steps = [
-
   {
     title: "1. Entender a operação",
     description:
@@ -253,7 +252,6 @@ function Index() {
           {siteSettings.commercialDisclaimer}
         </CommercialDisclaimer>
       </section>
-
 
       <CTASection />
     </>
