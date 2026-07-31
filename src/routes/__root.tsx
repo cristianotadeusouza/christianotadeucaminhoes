@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -86,6 +87,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: siteConfig.description },
       { property: "og:image", content: "/og-image.webp" },
       { name: "twitter:image", content: "/og-image.webp" },
+      ...(siteConfig.googleSiteVerification
+        ? [
+            {
+              name: "google-site-verification",
+              content: siteConfig.googleSiteVerification,
+            },
+          ]
+        : []),
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -137,6 +146,9 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const isManagementPanel = useRouterState({
+    select: (state) => state.location.pathname.startsWith("/painel"),
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -147,14 +159,17 @@ function RootComponent() {
         Ir para o conteúdo principal
       </a>
       <div className="flex min-h-screen flex-col">
-        <Header />
-        <main id="conteudo-principal" className="flex-1">
+        {!isManagementPanel && <Header />}
+        <main
+          id="conteudo-principal"
+          className={isManagementPanel ? "min-h-screen flex-1 bg-road" : "flex-1"}
+        >
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>
-        <Footer />
+        {!isManagementPanel && <Footer />}
       </div>
-      <FloatingWhatsApp />
+      {!isManagementPanel && <FloatingWhatsApp />}
       <Toaster />
     </QueryClientProvider>
   );

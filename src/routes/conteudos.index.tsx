@@ -44,6 +44,7 @@ function ContentIndex() {
       </section>
 
       <section className="container-content py-14 sm:py-20">
+        <h2 className="sr-only">Conteúdos publicados</h2>
         {posts.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {posts.map((post: ContentPost) => (

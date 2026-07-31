@@ -2345,7 +2345,7 @@ Use seu repertório de produto digital, branding, UX, UI e conversão para eleva
 ## Desenvolvimento independente
 
 O GitHub é a fonte principal do projeto. O build utiliza diretamente Vite, TanStack Start,
-Tailwind CSS e Nitro, sem pacote obrigatório do Lovable. A sincronização com o editor pode ser
+Tailwind CSS e o adaptador oficial da Cloudflare, sem pacote obrigatório do Lovable. A sincronização com o editor pode ser
 mantida temporariamente, mas não é necessária para desenvolver, testar ou publicar o site.
 
 Pré-requisitos: Node.js 22 ou superior e npm.
@@ -2371,9 +2371,29 @@ Para inspecionar localmente o artefato já compilado:
 npm run preview
 ```
 
-O build de produção gera um Worker compatível com Cloudflare em `.output/`. As variáveis reais de
+O build de produção gera um Worker compatível com Cloudflare em `dist/`. As variáveis reais de
 contato devem ser configuradas conforme `.env.example`; telefone, preço, estoque, taxas e campanhas
 não são inventados no código.
+
+O artefato atual é gerado em `dist/client` e `dist/server`. Antes de conectar a conta de produção,
+é possível validar todo o pacote de publicação sem enviar nada:
+
+```sh
+npm run deploy:dry-run
+```
+
+Depois de autenticar o Wrangler na conta correta e configurar domínio e variáveis, a publicação é:
+
+```sh
+npm run deploy
+```
+
+SEO técnico: `/sitemap.xml` e `/robots.txt` são rotas do servidor. Defina `VITE_SITE_URL` com o
+domínio canônico e `VITE_GOOGLE_SITE_VERIFICATION` com o token entregue pelo Search Console.
+
+Área de gestão: `/painel` mantém clientes, funil, estoque e agenda em um cofre AES-GCM local,
+protegido por PIN. O backup criptografado é necessário para troca de dispositivo. A sincronização
+multiusuário depende da futura conexão com um projeto Supabase.
 
 Consulte também:
 

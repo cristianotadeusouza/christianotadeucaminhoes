@@ -45,6 +45,7 @@ function FamiliesPage() {
       </section>
 
       <section className="container-content py-14 sm:py-20">
+        <h2 className="sr-only">Famílias de caminhões disponíveis</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {families.map((family: TruckFamily) => (
             <TruckFamilyCard key={family.slug} family={family} />

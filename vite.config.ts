@@ -1,19 +1,20 @@
+import { cloudflare } from "@cloudflare/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 
 /**
  * Configuração portátil do projeto.
  *
- * O build usa apenas plugins oficiais do Vite, TanStack, Tailwind e Nitro.
+ * O build usa apenas plugins oficiais do Vite, TanStack, Tailwind e Cloudflare.
  * Não há dependência do editor ou da infraestrutura do Lovable para
  * desenvolver, compilar ou publicar a aplicação.
  */
-export default defineConfig(({ command }) => ({
+export default defineConfig({
   plugins: [
     tailwindcss(),
+    cloudflare({ viteEnvironment: { name: "ssr" } }),
     tanstackStart({
       server: { entry: "server" },
       importProtection: {
@@ -24,17 +25,6 @@ export default defineConfig(({ command }) => ({
         },
       },
     }),
-    ...(command === "build"
-      ? [
-          nitro({
-            preset: "cloudflare-module",
-            cloudflare: {
-              nodeCompat: true,
-              deployConfig: true,
-            },
-          }),
-        ]
-      : []),
     viteReact(),
   ],
   resolve: {
@@ -62,4 +52,4 @@ export default defineConfig(({ command }) => ({
     host: "0.0.0.0",
     port: 8080,
   },
-}));
+});

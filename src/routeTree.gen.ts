@@ -15,7 +15,10 @@ import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as EntregasRouteImport } from './routes/entregas'
 import { Route as FinanciamentoRouteImport } from './routes/financiamento'
 import { Route as OperacoesRouteImport } from './routes/operacoes'
+import { Route as PainelRouteImport } from './routes/painel'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as CaminhoesIndexRouteImport } from './routes/caminhoes.index'
 import { Route as CaminhoesFamilyRouteImport } from './routes/caminhoes.$family'
@@ -54,9 +57,24 @@ const OperacoesRoute = OperacoesRouteImport.update({
   path: '/operacoes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PainelRoute = PainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SobreRoute = SobreRouteImport.update({
@@ -102,7 +120,10 @@ export interface FileRoutesByFullPath {
   '/entregas': typeof EntregasRoute
   '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
+  '/painel': typeof PainelRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/conteudos/$slug': typeof ConteudosSlugRoute
@@ -118,7 +139,10 @@ export interface FileRoutesByTo {
   '/entregas': typeof EntregasRoute
   '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
+  '/painel': typeof PainelRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/conteudos/$slug': typeof ConteudosSlugRoute
@@ -135,7 +159,10 @@ export interface FileRoutesById {
   '/entregas': typeof EntregasRoute
   '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
+  '/painel': typeof PainelRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/caminhoes/$family': typeof CaminhoesFamilyRoute
   '/conteudos/$slug': typeof ConteudosSlugRoute
@@ -153,7 +180,10 @@ export interface FileRouteTypes {
     | '/entregas'
     | '/financiamento'
     | '/operacoes'
+    | '/painel'
     | '/privacidade'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/sobre'
     | '/caminhoes/$family'
     | '/conteudos/$slug'
@@ -169,7 +199,10 @@ export interface FileRouteTypes {
     | '/entregas'
     | '/financiamento'
     | '/operacoes'
+    | '/painel'
     | '/privacidade'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/sobre'
     | '/caminhoes/$family'
     | '/conteudos/$slug'
@@ -185,7 +218,10 @@ export interface FileRouteTypes {
     | '/entregas'
     | '/financiamento'
     | '/operacoes'
+    | '/painel'
     | '/privacidade'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/sobre'
     | '/caminhoes/$family'
     | '/conteudos/$slug'
@@ -202,7 +238,10 @@ export interface RootRouteChildren {
   EntregasRoute: typeof EntregasRoute
   FinanciamentoRoute: typeof FinanciamentoRoute
   OperacoesRoute: typeof OperacoesRoute
+  PainelRoute: typeof PainelRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
   CaminhoesFamilyRoute: typeof CaminhoesFamilyRoute
   ConteudosSlugRoute: typeof ConteudosSlugRoute
@@ -256,11 +295,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OperacoesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/painel': {
+      id: '/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof PainelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacidade': {
       id: '/privacidade'
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sobre': {
@@ -322,7 +382,10 @@ const rootRouteChildren: RootRouteChildren = {
   EntregasRoute: EntregasRoute,
   FinanciamentoRoute: FinanciamentoRoute,
   OperacoesRoute: OperacoesRoute,
+  PainelRoute: PainelRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
   CaminhoesFamilyRoute: CaminhoesFamilyRoute,
   ConteudosSlugRoute: ConteudosSlugRoute,

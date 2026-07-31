@@ -13,12 +13,15 @@ export function Reveal({
   children,
   as: Tag = "div",
   delay = 0,
+  direction = "up",
   className,
 }: {
   children: ReactNode;
   as?: ElementType;
   /** Atraso em ms para escalonar itens de uma mesma grade. */
   delay?: number;
+  /** Direção do movimento de entrada. Mantém a animação coerente sem repetir CSS. */
+  direction?: "up" | "left" | "right" | "scale" | "clip";
   className?: string;
 }) {
   const ref = useRef<HTMLElement | null>(null);
@@ -53,6 +56,7 @@ export function Reveal({
     <Tag
       ref={ref}
       data-reveal=""
+      data-reveal-direction={direction}
       data-visible={visible ? "true" : "false"}
       style={delay ? ({ "--reveal-delay": `${delay}ms` } as React.CSSProperties) : undefined}
       className={cn("reveal", className)}

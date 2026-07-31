@@ -21,6 +21,12 @@
 - Fallbacks editoriais de imagem substituíram os antigos blocos com aparência de placeholder.
 - Metadados sociais passaram a usar um ativo local e leve.
 - Build desacoplado do pacote de configuração do Lovable.
+- Preview migrado para o adaptador oficial Cloudflare e publicação validada com Wrangler em modo
+  `dry-run`.
+- Sitemap e robots dinâmicos, metatag de verificação do Google e hierarquia de títulos corrigida.
+- Triagem expressa em três passos com conversa contextual pronta para o WhatsApp.
+- Painel comercial em `/painel`, com cofre local criptografado, funil, clientes, estoque, agenda e
+  backups.
 
 ## Dados reais ainda necessários
 
@@ -36,17 +42,18 @@
 
 ### Supabase
 
-1. Criar tabelas para leads, perfis de operação, oportunidades, estoque, conteúdos e casos.
-2. Manter os repositórios atuais como contratos de dados e trocar somente a implementação.
-3. Aplicar RLS, validação no servidor e trilha de consentimento LGPD.
-4. Salvar o lead antes de abrir o WhatsApp, com fallback para o fluxo atual.
-5. Criar painel autenticado apenas depois da política de acesso estar definida.
+1. Criar e conectar o projeto; não existe projeto Supabase vinculado a este ambiente atualmente.
+2. Criar tabelas para leads, perfis de operação, oportunidades, estoque, conteúdos e casos.
+3. Manter os repositórios atuais como contratos de dados e trocar somente a implementação.
+4. Aplicar RLS, autenticação forte, validação no servidor e trilha de consentimento LGPD.
+5. Migrar o cofre local do painel para sincronização autenticada, preservando exportação e fallback.
+6. Salvar o lead antes de abrir o WhatsApp, com consentimento e fallback para o fluxo atual.
 
 ### Cloudflare
 
 1. Conectar este repositório ao projeto Cloudflare.
 2. Configurar as variáveis `VITE_*` no ambiente de produção.
-3. Publicar o Worker gerado pelo build Nitro e validar todas as rotas.
+3. Publicar o Worker gerado pelo plugin oficial Cloudflare para Vite e validar todas as rotas.
 4. Configurar domínio, redirects, headers de segurança e cache dos ativos.
 5. Ativar Web Analytics sem cookies invasivos após revisão da política de privacidade.
 
@@ -56,3 +63,7 @@
 - Imagens oficiais precisam de confirmação de autorização antes do lançamento definitivo.
 - Sem WhatsApp real configurado, os botões ficam desativados para não abrir um contato incorreto.
 - Estoque, condições comerciais e prova social permanecem vazios até receberem dados reais.
+- O painel atual é individual e local ao navegador; sincronização entre celular e computador só
+  deve ser ativada com backend, autenticação e RLS corretamente configurados.
+- Search Console só exibirá dados depois da verificação do domínio e do envio do sitemap na conta
+  Google do responsável.

@@ -30,6 +30,7 @@ export const siteConfig = {
     linkedin: env.VITE_LINKEDIN_URL ?? "",
     youtube: env.VITE_YOUTUBE_URL ?? "",
   },
+  googleSiteVerification: env.VITE_GOOGLE_SITE_VERIFICATION ?? "",
   legalName: "Christiano Tadeu",
   /** Aviso obrigatório de relação com a marca Volkswagen. */
   dealershipDisclosure:

@@ -16,6 +16,7 @@ import { TruckFamilyCard } from "@/components/cards/TruckFamilyCard";
 import { CTASection } from "@/components/common/CTASection";
 import { CommercialDisclaimer } from "@/components/common/CommercialDisclaimer";
 import { Reveal } from "@/components/common/Reveal";
+import { QuickConsult } from "@/components/common/QuickConsult";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { Button } from "@/components/ui/button";
@@ -106,13 +107,14 @@ function Index() {
           className="home-hero__image absolute inset-0 -z-20 h-full w-full object-cover"
         />
         <div className="home-hero__scrim absolute inset-0 -z-10" aria-hidden="true" />
+        <div className="home-hero__signal absolute inset-0 -z-[5]" aria-hidden="true" />
         <div className="container-content flex min-h-[650px] items-center py-16 sm:min-h-[700px] sm:py-24 lg:min-h-[740px]">
-          <div className="max-w-3xl">
+          <div className="home-hero__content max-w-3xl">
             <p className="eyebrow flex items-center gap-3 text-silver">
               <span className="h-px w-8 bg-action" aria-hidden="true" />
               Venda consultiva de caminhões Volkswagen
             </p>
-            <h1 className="mt-6 max-w-3xl text-[clamp(2.65rem,7vw,5.8rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white">
+            <h1 className="home-hero__title mt-6 max-w-3xl text-[clamp(2.65rem,7vw,5.8rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white">
               O caminhão certo começa pela operação certa.
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg lg:text-xl">
@@ -193,6 +195,8 @@ function Index() {
           })}
         </div>
       </section>
+
+      <QuickConsult />
 
       <section className="container-content py-20 sm:py-28">
         <Reveal>
