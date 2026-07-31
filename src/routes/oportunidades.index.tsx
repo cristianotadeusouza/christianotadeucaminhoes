@@ -178,21 +178,43 @@ function InventoryPage() {
             title="Veículos acompanhados por Christiano"
             description="A disponibilidade muda com frequência. O que estiver aqui é confirmado no primeiro contato, antes de qualquer proposta."
           />
-          <p className="text-technical mt-6 text-xs text-muted-foreground">
-            Última atualização:{" "}
-            <time dateTime={updatedAt}>
-              {new Date(updatedAt).toLocaleDateString("pt-BR", {
-                day: "2-digit",
-                month: "long",
-                year: "numeric",
-              })}
-            </time>
-          </p>
+          {updatedAt && (
+            <p className="text-technical mt-6 text-xs text-muted-foreground">
+              Última atualização:{" "}
+              <time dateTime={updatedAt}>
+                {new Date(updatedAt).toLocaleDateString("pt-BR", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </time>
+            </p>
+          )}
         </div>
       </section>
 
       <section className="container-content py-12 sm:py-16">
+        {items.length === 0 ? (
+          <EmptyState
+            title="Nenhuma oportunidade publicada no momento"
+            description="O estoque de caminhões novos e seminovos muda com frequência e é confirmado diretamente no atendimento — inclusive veículos que ainda não entraram no site. Fale pelo WhatsApp ou preencha o diagnóstico para receber o que faz sentido para a sua operação."
+            action={
+              <div className="flex flex-wrap justify-center gap-3">
+                <WhatsAppButton
+                  message={whatsappMessages.general}
+                  label="Consultar disponibilidade"
+                  context={{ placement: "inventory_empty_state" }}
+                />
+                <Button asChild variant="quiet">
+                  <Link to="/diagnostico">Preencher diagnóstico</Link>
+                </Button>
+              </div>
+            }
+          />
+        ) : (
+          <>
         <div className="rounded-xl border border-border bg-card p-5 shadow-card">
+
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
             <div className="flex-1">
               <label htmlFor="busca" className="text-sm font-medium text-foreground">
