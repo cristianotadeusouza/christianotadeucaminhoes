@@ -15,6 +15,7 @@ import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as EntregasRouteImport } from './routes/entregas'
 import { Route as FichasTecnicasRouteImport } from './routes/fichas-tecnicas'
 import { Route as FinanciamentoRouteImport } from './routes/financiamento'
+import { Route as LinksRouteImport } from './routes/links'
 import { Route as OperacoesRouteImport } from './routes/operacoes'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
@@ -56,6 +57,11 @@ const FichasTecnicasRoute = FichasTecnicasRouteImport.update({
 const FinanciamentoRoute = FinanciamentoRouteImport.update({
   id: '/financiamento',
   path: '/financiamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LinksRoute = LinksRouteImport.update({
+  id: '/links',
+  path: '/links',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OperacoesRoute = OperacoesRouteImport.update({
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/entregas': typeof EntregasRoute
   '/fichas-tecnicas': typeof FichasTecnicasRoute
   '/financiamento': typeof FinanciamentoRoute
+  '/links': typeof LinksRoute
   '/operacoes': typeof OperacoesRoute
   '/painel': typeof PainelRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/entregas': typeof EntregasRoute
   '/fichas-tecnicas': typeof FichasTecnicasRoute
   '/financiamento': typeof FinanciamentoRoute
+  '/links': typeof LinksRoute
   '/operacoes': typeof OperacoesRoute
   '/painel': typeof PainelRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/entregas': typeof EntregasRoute
   '/fichas-tecnicas': typeof FichasTecnicasRoute
   '/financiamento': typeof FinanciamentoRoute
+  '/links': typeof LinksRoute
   '/operacoes': typeof OperacoesRoute
   '/painel': typeof PainelRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/entregas'
     | '/fichas-tecnicas'
     | '/financiamento'
+    | '/links'
     | '/operacoes'
     | '/painel'
     | '/privacidade'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/entregas'
     | '/fichas-tecnicas'
     | '/financiamento'
+    | '/links'
     | '/operacoes'
     | '/painel'
     | '/privacidade'
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/entregas'
     | '/fichas-tecnicas'
     | '/financiamento'
+    | '/links'
     | '/operacoes'
     | '/painel'
     | '/privacidade'
@@ -250,6 +262,7 @@ export interface RootRouteChildren {
   EntregasRoute: typeof EntregasRoute
   FichasTecnicasRoute: typeof FichasTecnicasRoute
   FinanciamentoRoute: typeof FinanciamentoRoute
+  LinksRoute: typeof LinksRoute
   OperacoesRoute: typeof OperacoesRoute
   PainelRoute: typeof PainelRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
@@ -306,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/financiamento'
       fullPath: '/financiamento'
       preLoaderRoute: typeof FinanciamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/links': {
+      id: '/links'
+      path: '/links'
+      fullPath: '/links'
+      preLoaderRoute: typeof LinksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/operacoes': {
@@ -402,6 +422,7 @@ const rootRouteChildren: RootRouteChildren = {
   EntregasRoute: EntregasRoute,
   FichasTecnicasRoute: FichasTecnicasRoute,
   FinanciamentoRoute: FinanciamentoRoute,
+  LinksRoute: LinksRoute,
   OperacoesRoute: OperacoesRoute,
   PainelRoute: PainelRoute,
   PrivacidadeRoute: PrivacidadeRoute,

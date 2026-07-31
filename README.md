@@ -92,6 +92,19 @@ npx wrangler deploy --keep-vars
 
 O `wrangler.jsonc` mantém somente configuração pública do Worker; chaves de build continuam no ambiente do Cloudflare.
 
+## Monitoramento automático
+
+O workflow [`.github/workflows/availability.yml`](./.github/workflows/availability.yml) roda após
+cada publicação na `main` e diariamente às 8h17 no horário de São Paulo. Ele:
+
+- verifica a página inicial, a página reservada de links, o painel, o sitemap e o robots.txt;
+- executa uma leitura mínima no Supabase usando a chave publicável e respeitando as políticas RLS;
+- falha de forma visível no GitHub Actions caso uma rota ou o banco não responda.
+
+O Supabase pode pausar projetos gratuitos com pouca atividade em sete dias. Em repositórios públicos,
+o GitHub também pode desativar workflows agendados depois de 60 dias sem atividade no repositório;
+novos commits na `main` mantêm o agendamento ativo.
+
 ## Aviso institucional
 
 Este é um canal profissional pessoal de Christiano Tadeu, vendedor vinculado à Belcar Caminhões. Não é o site institucional da Belcar, da Volkswagen Caminhões e Ônibus nem da Volkswagen. Marcas e modelos citados pertencem aos respectivos titulares.

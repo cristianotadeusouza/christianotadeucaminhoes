@@ -1,0 +1,65 @@
+name: Disponibilidade e atividade
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 8 * * *"
+      timezone: "America/Sao_Paulo"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: availability-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke-test:
+    name: Verificar site e Supabase
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITE_URL: https://caminhoes.christianotadeu.workers.dev
+      SUPABASE_URL: https://smevuovhvvhejtbgnign.supabase.co
+      # Chave publicável de frontend. O acesso aos dados continua limitado pelas políticas RLS.
+      SUPABASE_PUBLISHABLE_KEY: sb_publishable_Yq3FOmel3rf9DKLYkXv9Ag_9EmnvB2b
+
+    steps:
+      - name: Conferir rotas públicas e painel
+        shell: bash
+        run: |
+          set -euo pipefail
+          for path in / /links /painel /sitemap.xml /robots.txt; do
+            echo "Verificando ${SITE_URL}${path}"
+            curl \
+              --silent \
+              --show-error \
+              --fail-with-body \
+              --location \
+              --retry 3 \
+              --retry-all-errors \
+              --max-time 25 \
+              --output /dev/null \
+              "${SITE_URL}${path}"
+          done
+
+      - name: Realizar consulta mínima no Supabase
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 3 \
+            --retry-all-errors \
+            --max-time 25 \
+            --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+            --header "Accept: application/json" \
+            --output /tmp/supabase-health.json \
+            "${SUPABASE_URL}/rest/v1/inventory_items?select=id&is_public=eq.true&limit=1"
+
+          node -e \
+            'const fs=require("fs"); const value=JSON.parse(fs.readFileSync("/tmp/supabase-health.json","utf8")); if(!Array.isArray(value)) process.exit(1)'

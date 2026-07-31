@@ -26,7 +26,7 @@ export const siteConfig = {
   /** Região de atendimento — confirmar com Christiano antes de publicar. */
   serviceArea: env.VITE_SERVICE_AREA ?? "",
   socialLinks: {
-    instagram: env.VITE_INSTAGRAM_URL ?? "",
+    instagram: env.VITE_INSTAGRAM_URL ?? "https://www.instagram.com/vw.christianotadeu/",
     linkedin: env.VITE_LINKEDIN_URL ?? "",
     youtube: env.VITE_YOUTUBE_URL ?? "",
   },

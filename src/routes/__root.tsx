@@ -157,9 +157,12 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const isManagementPanel = useRouterState({
-    select: (state) => state.location.pathname.startsWith("/painel"),
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
   });
+  const isManagementPanel = pathname.startsWith("/painel");
+  const isLinkHub = pathname === "/links" || pathname === "/links/";
+  const hasSiteChrome = !isManagementPanel && !isLinkHub;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -170,17 +173,17 @@ function RootComponent() {
         Ir para o conteúdo principal
       </a>
       <div className="flex min-h-screen flex-col">
-        {!isManagementPanel && <Header />}
+        {hasSiteChrome && <Header />}
         <main
           id="conteudo-principal"
-          className={isManagementPanel ? "min-h-screen flex-1 bg-road" : "flex-1"}
+          className={isManagementPanel || isLinkHub ? "min-h-screen flex-1 bg-road" : "flex-1"}
         >
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>
-        {!isManagementPanel && <Footer />}
+        {hasSiteChrome && <Footer />}
       </div>
-      {!isManagementPanel && <FloatingWhatsApp />}
+      {hasSiteChrome && <FloatingWhatsApp />}
       <PwaManager />
       <Toaster />
     </QueryClientProvider>

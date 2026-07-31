@@ -58,53 +58,43 @@ export type TruckPaint = {
   name: string;
   code: string;
   finish: "Sólida" | "Metálica" | "Perolizada";
-  tone:
-    | "amarelo"
-    | "azul"
-    | "bege"
-    | "branco"
-    | "bronze"
-    | "cinza"
-    | "laranja"
-    | "prata"
-    | "preto"
-    | "verde"
-    | "vermelho";
+  /** Aproximação digital individual, conferida na tabela recebida. */
+  sample: `#${string}`;
 };
 
 export const truckPaints: TruckPaint[] = [
-  { name: "Amarelo Bem-Te-Vi", code: "2633", finish: "Sólida", tone: "amarelo" },
-  { name: "Azul Ambev", code: "2322", finish: "Sólida", tone: "azul" },
-  { name: "Azul Biscay", code: "7Q7Q", finish: "Metálica", tone: "azul" },
-  { name: "Azul Ibiza", code: "2327", finish: "Sólida", tone: "azul" },
-  { name: "Azul Norway", code: "5T5T", finish: "Metálica", tone: "azul" },
-  { name: "Azul Noturno", code: "2351", finish: "Sólida", tone: "azul" },
-  { name: "Azul Paragas", code: "2316", finish: "Sólida", tone: "azul" },
-  { name: "Azul Pepsi", code: "2317", finish: "Sólida", tone: "azul" },
-  { name: "Azul Safira", code: "4X4X", finish: "Metálica", tone: "azul" },
-  { name: "Azul Unique", code: "5D5D", finish: "Perolizada", tone: "azul" },
-  { name: "Bege Ágata", code: "K0K0", finish: "Metálica", tone: "bege" },
-  { name: "Bege Júpiter", code: "7K7K", finish: "Metálica", tone: "bege" },
-  { name: "Branco Albino", code: "2810", finish: "Sólida", tone: "branco" },
-  { name: "Branco Geada", code: "3B3B", finish: "Sólida", tone: "branco" },
-  { name: "Bronze Namíbia", code: "9N9N", finish: "Metálica", tone: "bronze" },
-  { name: "Cinza Cosmos", code: "4F4F", finish: "Metálica", tone: "cinza" },
-  { name: "Cinza Moonstone", code: "C2C2", finish: "Sólida", tone: "cinza" },
-  { name: "Laranja Energetic", code: "4M4M", finish: "Metálica", tone: "laranja" },
-  { name: "Laranja Nepal", code: "2704", finish: "Sólida", tone: "laranja" },
-  { name: "Laranja Premium (Molten Lava)", code: "K3K3", finish: "Metálica", tone: "laranja" },
-  { name: "Prata Imperial", code: "3E3E", finish: "Metálica", tone: "prata" },
-  { name: "Prata Pyrit", code: "K2K2", finish: "Metálica", tone: "prata" },
-  { name: "Prata Tungsten", code: "K5K5", finish: "Metálica", tone: "prata" },
-  { name: "Preto Universal", code: "A1A1", finish: "Metálica", tone: "preto" },
-  { name: "Verde Ecovias", code: "2872", finish: "Sólida", tone: "verde" },
-  { name: "Verde Menta", code: "2870", finish: "Sólida", tone: "verde" },
-  { name: "Verde Oceano", code: "2U2U", finish: "Metálica", tone: "verde" },
-  { name: "Verde Primavera", code: "I4I4", finish: "Metálica", tone: "verde" },
-  { name: "Verde Turquesa", code: "E5E5", finish: "Metálica", tone: "verde" },
-  { name: "Vermelho Daytona", code: "2545", finish: "Sólida", tone: "vermelho" },
-  { name: "Vermelho FEMSA", code: "0S0S", finish: "Sólida", tone: "vermelho" },
-  { name: "Vermelho Nobre", code: "2517", finish: "Sólida", tone: "vermelho" },
-  { name: "Vermelho Pétrus", code: "2767", finish: "Metálica", tone: "vermelho" },
-  { name: "Vermelho Rubi", code: "A0A0", finish: "Metálica", tone: "vermelho" },
+  { name: "Amarelo Bem-Te-Vi", code: "2633", finish: "Sólida", sample: "#d9b400" },
+  { name: "Azul Ambev", code: "2322", finish: "Sólida", sample: "#1b2b39" },
+  { name: "Azul Biscay", code: "7Q7Q", finish: "Metálica", sample: "#6370a6" },
+  { name: "Azul Ibiza", code: "2327", finish: "Sólida", sample: "#435384" },
+  { name: "Azul Norway", code: "5T5T", finish: "Metálica", sample: "#6977a6" },
+  { name: "Azul Noturno", code: "2351", finish: "Sólida", sample: "#1e2933" },
+  { name: "Azul Paragas", code: "2316", finish: "Sólida", sample: "#243844" },
+  { name: "Azul Pepsi", code: "2317", finish: "Sólida", sample: "#1d2b70" },
+  { name: "Azul Safira", code: "4X4X", finish: "Metálica", sample: "#2045a7" },
+  { name: "Azul Unique", code: "5D5D", finish: "Perolizada", sample: "#2e2d80" },
+  { name: "Bege Ágata", code: "K0K0", finish: "Metálica", sample: "#786a47" },
+  { name: "Bege Júpiter", code: "7K7K", finish: "Metálica", sample: "#d7d094" },
+  { name: "Branco Albino", code: "2810", finish: "Sólida", sample: "#f4f3f0" },
+  { name: "Branco Geada", code: "3B3B", finish: "Sólida", sample: "#dedfd9" },
+  { name: "Bronze Namíbia", code: "9N9N", finish: "Metálica", sample: "#5c2a22" },
+  { name: "Cinza Cosmos", code: "4F4F", finish: "Metálica", sample: "#332b2b" },
+  { name: "Cinza Moonstone", code: "C2C2", finish: "Sólida", sample: "#c4c8db" },
+  { name: "Laranja Energetic", code: "4M4M", finish: "Metálica", sample: "#ee9d98" },
+  { name: "Laranja Nepal", code: "2704", finish: "Sólida", sample: "#d54713" },
+  { name: "Laranja Premium (Molten Lava)", code: "K3K3", finish: "Metálica", sample: "#f26a17" },
+  { name: "Prata Imperial", code: "3E3E", finish: "Metálica", sample: "#a69ec1" },
+  { name: "Prata Pyrit", code: "K2K2", finish: "Metálica", sample: "#bdb6c7" },
+  { name: "Prata Tungsten", code: "K5K5", finish: "Metálica", sample: "#d0cad2" },
+  { name: "Preto Universal", code: "A1A1", finish: "Metálica", sample: "#161a1d" },
+  { name: "Verde Ecovias", code: "2872", finish: "Sólida", sample: "#70875a" },
+  { name: "Verde Menta", code: "2870", finish: "Sólida", sample: "#b6c3ae" },
+  { name: "Verde Oceano", code: "2U2U", finish: "Metálica", sample: "#51b075" },
+  { name: "Verde Primavera", code: "I4I4", finish: "Metálica", sample: "#36a75b" },
+  { name: "Verde Turquesa", code: "E5E5", finish: "Metálica", sample: "#52c5b5" },
+  { name: "Vermelho Daytona", code: "2545", finish: "Sólida", sample: "#d32620" },
+  { name: "Vermelho FEMSA", code: "0S0S", finish: "Sólida", sample: "#e0261f" },
+  { name: "Vermelho Nobre", code: "2517", finish: "Sólida", sample: "#7e2223" },
+  { name: "Vermelho Pétrus", code: "2767", finish: "Metálica", sample: "#c0686b" },
+  { name: "Vermelho Rubi", code: "A0A0", finish: "Metálica", sample: "#b54c34" },
 ];

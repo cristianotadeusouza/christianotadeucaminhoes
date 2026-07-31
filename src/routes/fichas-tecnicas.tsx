@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ExternalLink, FileText, Palette, Search, ShieldCheck } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { CommercialDisclaimer } from "@/components/common/CommercialDisclaimer";
@@ -14,27 +14,12 @@ import {
   technicalSheets,
   truckPaints,
   type TechnicalSheetFamily,
-  type TruckPaint,
 } from "@/data/technical-sheets";
 import { whatsappMessages } from "@/services/whatsapp";
 
 const title = "Fichas técnicas e cores | Caminhões Volkswagen";
 const description =
   "Consulte fichas técnicas de modelos Volkswagen Delivery, Constellation e Meteor e a relação de cores recebida para referência comercial.";
-
-const toneColors: Record<TruckPaint["tone"], string> = {
-  amarelo: "#e4bd1a",
-  azul: "#2f5296",
-  bege: "#b6a57c",
-  branco: "#f4f3ef",
-  bronze: "#71412d",
-  cinza: "#73777d",
-  laranja: "#da5a1d",
-  prata: "#b5bac3",
-  preto: "#17191d",
-  verde: "#39936a",
-  vermelho: "#bd2d2d",
-};
 
 const families = Object.keys(technicalSheetFiles) as TechnicalSheetFamily[];
 
@@ -196,73 +181,55 @@ function TechnicalSheetsPage() {
 
       <section className="border-y border-border bg-surface py-14 sm:py-20">
         <div className="container-content">
-          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-            <div>
-              <SectionHeader
-                eyebrow="Acabamentos"
-                title="Cores de referência"
-                description="Nomes, códigos e acabamentos foram transcritos da tabela enviada."
-              />
-              <figure className="mt-7 overflow-hidden rounded-xl border border-border bg-white p-3 shadow-card">
-                <img
-                  src="/media/cores-caminhoes-vw-referencia.jpeg"
-                  alt="Tabela recebida com nomes, códigos e acabamentos de cores para caminhões"
-                  width={849}
-                  height={1280}
-                  loading="lazy"
-                  className="h-auto w-full rounded-lg"
-                />
-                <figcaption className="px-2 pb-1 pt-3 text-xs leading-relaxed text-muted-foreground">
-                  Imagem original usada na conferência da transcrição.
-                </figcaption>
-              </figure>
+          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+            <SectionHeader
+              eyebrow="Acabamentos"
+              title="Cores e códigos de fábrica"
+              description="Cada código agora possui uma aproximação digital própria, diferenciando tons sólidos, metálicos e perolizados."
+            />
+            <div className="flex items-center gap-3 rounded-xl border border-border bg-white px-5 py-4 shadow-card">
+              <span className="grid size-10 place-items-center rounded-xl bg-road text-white">
+                <Palette className="size-5" aria-hidden="true" />
+              </span>
+              <div>
+                <p className="text-technical text-2xl font-bold text-road">
+                  {filteredPaints.length}
+                </p>
+                <p className="text-xs text-muted-foreground">cores encontradas</p>
+              </div>
             </div>
+          </div>
 
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="grid size-10 place-items-center rounded-xl bg-road text-white">
-                  <Palette className="size-5" aria-hidden="true" />
-                </span>
-                <div>
-                  <h2 className="text-xl font-bold text-road">
-                    {filteredPaints.length} cores encontradas
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    Use a busca acima para filtrar por nome, código ou acabamento.
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredPaints.map((paint) => (
+              <article
+                key={paint.code}
+                className="group flex items-center gap-4 rounded-xl border border-border bg-white p-4 shadow-sm transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-engineering/30 hover:shadow-card"
+              >
+                <span
+                  className={`truck-paint-swatch truck-paint-swatch--${paint.finish
+                    .toLocaleLowerCase("pt-BR")
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")}`}
+                  style={{ "--paint-color": paint.sample } as CSSProperties}
+                  title={`Aproximação digital da cor ${paint.name}`}
+                  aria-hidden="true"
+                />
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-sm font-semibold text-road">{paint.name}</h3>
+                  <p className="mt-1.5 flex items-center justify-between gap-3 text-xs text-muted-foreground">
+                    <span className="text-technical font-bold text-engineering">{paint.code}</span>
+                    <span>{paint.finish}</span>
                   </p>
                 </div>
-              </div>
+              </article>
+            ))}
+          </div>
 
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                {filteredPaints.map((paint) => (
-                  <article
-                    key={paint.code}
-                    className="flex items-center gap-4 rounded-lg border border-border bg-white p-4 shadow-sm"
-                  >
-                    <span
-                      className="size-11 shrink-0 rounded-full border border-black/15 shadow-inner"
-                      style={{ backgroundColor: toneColors[paint.tone] }}
-                      aria-hidden="true"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <h3 className="truncate text-sm font-semibold text-road">{paint.name}</h3>
-                      <p className="mt-1 flex items-center justify-between gap-3 text-xs text-muted-foreground">
-                        <span className="text-technical font-bold text-engineering">
-                          {paint.code}
-                        </span>
-                        <span>{paint.finish}</span>
-                      </p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-
-              <div className="mt-6 rounded-lg border border-action/20 bg-action/5 p-4 text-sm leading-relaxed text-muted-foreground">
-                As bolinhas mostram apenas a família cromática e não reproduzem a tinta. Tela,
-                iluminação, lote, modelo e disponibilidade alteram a percepção. Confirme o código e
-                a amostra física na Belcar antes do pedido.
-              </div>
-            </div>
+          <div className="mt-7 rounded-xl border border-action/20 bg-action/5 p-5 text-sm leading-relaxed text-muted-foreground">
+            As amostras na tela são aproximações individuais para facilitar a identificação. A
+            aparência muda conforme brilho, iluminação e acabamento da carroceria. Confirme sempre o
+            código e a amostra física disponível na Belcar antes de fechar o pedido.
           </div>
         </div>
       </section>

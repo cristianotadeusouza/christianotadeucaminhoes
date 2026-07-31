@@ -13,6 +13,7 @@ import {
   History,
   Download,
   Gauge,
+  Home,
   KeyRound,
   LayoutDashboard,
   LoaderCircle,
@@ -162,6 +163,22 @@ function mapsUrl(value: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(value)}`;
 }
 
+function BackToSiteLink({ compact = false, className }: { compact?: boolean; className?: string }) {
+  return (
+    <a
+      href="/"
+      className={cn(
+        "inline-flex items-center gap-2 rounded-lg border border-white/12 bg-white/7 px-3 py-2 text-xs font-semibold text-white/70 backdrop-blur-xl transition-colors hover:bg-white/12 hover:text-white",
+        className,
+      )}
+      aria-label="Voltar ao início do site"
+    >
+      <Home className="size-4" aria-hidden="true" />
+      {!compact && <span>Voltar ao site</span>}
+    </a>
+  );
+}
+
 function EmptyState({
   icon: Icon,
   title,
@@ -251,6 +268,7 @@ function VaultGate({
     <div className="admin-vault relative isolate grid min-h-screen overflow-hidden bg-road px-5 py-12 text-white lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-16">
       <div className="admin-orbit admin-orbit--one" aria-hidden="true" />
       <div className="admin-orbit admin-orbit--two" aria-hidden="true" />
+      <BackToSiteLink className="absolute left-4 top-4 z-20 sm:left-6 sm:top-6" />
       <div className="relative mx-auto w-full max-w-2xl py-8 lg:pr-16">
         <p className="eyebrow flex items-center gap-3 text-silver">
           <span className="h-px w-8 bg-action" /> Central comercial privada
@@ -453,7 +471,8 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
 
   if (checking) {
     return (
-      <div className="grid min-h-screen place-items-center bg-road text-white">
+      <div className="relative grid min-h-screen place-items-center bg-road text-white">
+        <BackToSiteLink className="absolute left-4 top-4 sm:left-6 sm:top-6" />
         <div className="text-center">
           <LoaderCircle className="mx-auto size-8 animate-spin text-action" />
           <p className="mt-4 text-sm text-white/65">Conectando à central comercial...</p>
@@ -464,7 +483,8 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
 
   if (connectionError) {
     return (
-      <div className="grid min-h-screen place-items-center bg-road px-5 text-white">
+      <div className="relative grid min-h-screen place-items-center bg-road px-5 text-white">
+        <BackToSiteLink className="absolute left-4 top-4 sm:left-6 sm:top-6" />
         <div className="w-full max-w-md rounded-2xl border border-white/15 bg-white p-7 text-center text-foreground shadow-raised">
           <CloudOff className="mx-auto size-9 text-action" aria-hidden="true" />
           <h1 className="mt-5 text-2xl font-bold text-road">A central não respondeu</h1>
@@ -491,6 +511,7 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
     <div className="admin-vault relative isolate grid min-h-screen overflow-hidden bg-road px-5 py-10 text-white lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-16">
       <div className="admin-orbit admin-orbit--one" aria-hidden="true" />
       <div className="admin-orbit admin-orbit--two" aria-hidden="true" />
+      <BackToSiteLink className="absolute left-4 top-4 z-20 sm:left-6 sm:top-6" />
       <div className="relative mx-auto w-full max-w-2xl py-8 lg:pr-16">
         <p className="eyebrow flex items-center gap-3 text-silver">
           <span className="h-px w-8 bg-action" /> Central comercial sincronizada
@@ -2220,9 +2241,14 @@ function WorkspacePanel({
             </p>
             <p className="mt-1 text-lg font-bold">Central comercial Belcar</p>
           </div>
-          <span className="grid size-10 place-items-center rounded-xl border border-white/10 bg-white/5">
+          <a
+            href="/"
+            className="grid size-10 place-items-center rounded-xl border border-white/10 bg-white/5 transition-colors hover:border-white/25 hover:bg-white/10"
+            aria-label="Voltar ao início do site"
+            title="Voltar ao início do site"
+          >
             <Truck className="size-5 text-action" />
-          </span>
+          </a>
         </div>
         <nav
           className="mt-8 hidden min-h-0 flex-1 space-y-1 overflow-y-auto pr-1 lg:block"
@@ -2296,6 +2322,11 @@ function WorkspacePanel({
                     : "Salvo e criptografado"
                   : "Salvando..."}
               </span>
+              <Button asChild size="icon" variant="quiet">
+                <a href="/" aria-label="Voltar ao início do site" title="Voltar ao site">
+                  <Home />
+                </a>
+              </Button>
               {storageMode === "local" && (
                 <Button
                   size="icon"
