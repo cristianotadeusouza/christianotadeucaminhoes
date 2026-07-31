@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "christianotadeucaminhoes",
+  "name": "caminhoes",
   "main": "@tanstack/react-start/server-entry",
   "compatibility_date": "2026-07-31",
   "compatibility_flags": ["nodejs_compat"],
