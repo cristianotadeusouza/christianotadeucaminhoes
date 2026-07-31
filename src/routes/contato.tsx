@@ -58,18 +58,32 @@ function ContactPage() {
               <Phone className="mt-0.5 size-4 text-engineering" aria-hidden="true" />
               <div>
                 <p className="font-medium text-foreground">Telefone</p>
-                <p className="text-technical text-muted-foreground">
-                  {siteConfig.phone || "Telefone a ser informado."}
-                </p>
+                {siteConfig.phone ? (
+                  <a
+                    href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
+                    className="text-technical text-muted-foreground hover:text-engineering hover:underline"
+                  >
+                    {siteConfig.phone}
+                  </a>
+                ) : (
+                  <p className="text-technical text-muted-foreground">Telefone a ser informado.</p>
+                )}
               </div>
             </li>
             <li className="flex items-start gap-3">
               <Mail className="mt-0.5 size-4 text-engineering" aria-hidden="true" />
               <div>
                 <p className="font-medium text-foreground">E-mail</p>
-                <p className="text-muted-foreground">
-                  {siteConfig.email || "E-mail a ser informado."}
-                </p>
+                {siteConfig.email ? (
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="text-muted-foreground hover:text-engineering hover:underline"
+                  >
+                    {siteConfig.email}
+                  </a>
+                ) : (
+                  <p className="text-muted-foreground">E-mail a ser informado.</p>
+                )}
               </div>
             </li>
           </ul>

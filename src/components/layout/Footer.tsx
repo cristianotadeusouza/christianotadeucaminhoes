@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { LockKeyhole, Mail, MapPin, Phone } from "lucide-react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { footerNav } from "@/components/layout/navigation";
 import { siteConfig } from "@/config/site";
@@ -85,9 +85,17 @@ export function Footer() {
         <div className="mt-12 space-y-4 border-t border-silver/20 pt-8 text-xs leading-relaxed text-silver">
           <p>{siteSettings.commercialDisclaimer}</p>
           <p>{siteSettings.brandDisclosure}</p>
-          <p className="text-silver/80">
-            © {year} {siteConfig.legalName}. Todos os direitos reservados.
-          </p>
+          <div className="flex flex-col gap-3 text-silver/80 sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              © {year} {siteConfig.legalName}. Todos os direitos reservados.
+            </p>
+            <Link
+              to="/painel"
+              className="inline-flex w-fit items-center gap-2 rounded-md px-2 py-1 text-silver/55 transition-colors hover:bg-white/5 hover:text-silver"
+            >
+              <LockKeyhole className="size-3.5" aria-hidden="true" /> Área de gestão
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

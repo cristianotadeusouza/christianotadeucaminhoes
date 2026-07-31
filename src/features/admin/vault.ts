@@ -1,4 +1,4 @@
-import type { SalesWorkspace } from "./types";
+import { normalizeWorkspace, type SalesWorkspace } from "./types";
 
 const STORAGE_KEY = "ct-vendas-vault-v1";
 const ITERATIONS = 250_000;
@@ -91,7 +91,7 @@ export async function unlockVault(pin: string): Promise<{
     throw new Error("Formato de cofre inválido.");
   }
 
-  return { key, workspace };
+  return { key, workspace: normalizeWorkspace(workspace) };
 }
 
 export async function saveVault(key: CryptoKey, workspace: SalesWorkspace) {

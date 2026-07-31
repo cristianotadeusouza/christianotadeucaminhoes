@@ -2391,9 +2391,10 @@ npm run deploy
 SEO técnico: `/sitemap.xml` e `/robots.txt` são rotas do servidor. Defina `VITE_SITE_URL` com o
 domínio canônico e `VITE_GOOGLE_SITE_VERIFICATION` com o token entregue pelo Search Console.
 
-Área de gestão: `/painel` mantém clientes, funil, estoque e agenda em um cofre AES-GCM local,
-protegido por PIN. O backup criptografado é necessário para troca de dispositivo. A sincronização
-multiusuário depende da futura conexão com um projeto Supabase.
+Área de gestão: `/painel` usa autenticação Supabase e RLS para sincronizar clientes, funil, estoque,
+agenda e histórico de contatos entre celular e computador. O painel oferece atalhos para WhatsApp,
+ligação, Gmail, Google Agenda e Google Maps. Sem as variáveis do Supabase, o cofre AES-GCM local
+continua disponível como fallback.
 
 Consulte também:
 

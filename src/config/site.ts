@@ -8,19 +8,19 @@
 const env = import.meta.env as Record<string, string | undefined>;
 
 /** Número de WhatsApp em formato internacional apenas com dígitos (ex.: 5531999999999). */
-export const WHATSAPP_NUMBER = env.VITE_WHATSAPP_NUMBER ?? "";
+export const WHATSAPP_NUMBER = env.VITE_WHATSAPP_NUMBER ?? "5562982689070";
 
 export const siteConfig = {
   siteName: "Christiano Tadeu — Caminhões Volkswagen",
   shortName: "Christiano Tadeu",
   signature: "O caminhão certo para sua operação.",
-  siteUrl: env.VITE_SITE_URL ?? "",
+  siteUrl: env.VITE_SITE_URL ?? "https://caminhoes.christianotadeu.workers.dev",
   title: "Christiano Tadeu | Caminhões Volkswagen",
   description:
     "Venda consultiva de caminhões Volkswagen: análise da operação, indicação de configuração, financiamento e acompanhamento até a entrega.",
-  phone: env.VITE_CONTACT_PHONE ?? "",
+  phone: env.VITE_CONTACT_PHONE ?? "+55 62 98268-9070",
   whatsapp: WHATSAPP_NUMBER,
-  email: env.VITE_CONTACT_EMAIL ?? "",
+  email: env.VITE_CONTACT_EMAIL ?? "cristiano.tadeu.souza@gmail.com",
   city: env.VITE_CITY ?? "",
   state: env.VITE_STATE ?? "",
   /** Região de atendimento — confirmar com Christiano antes de publicar. */

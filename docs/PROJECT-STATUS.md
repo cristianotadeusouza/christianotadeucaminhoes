@@ -25,13 +25,15 @@
   `dry-run`.
 - Sitemap e robots dinâmicos, metatag de verificação do Google e hierarquia de títulos corrigida.
 - Triagem expressa em três passos com conversa contextual pronta para o WhatsApp.
-- Painel comercial em `/painel`, com cofre local criptografado, funil, clientes, estoque, agenda e
-  backups.
+- Painel comercial em `/painel`, com autenticação Supabase, RLS, sincronização em nuvem, funil,
+  clientes, histórico de contatos, estoque e agenda.
+- Atalhos operacionais para WhatsApp, ligação, Gmail, Google Agenda e Google Maps.
+- Contato público, URL canônica e acesso discreto ao painel atualizados com os dados reais.
+- Navegação móvel do painel refeita com barra inferior, áreas de toque maiores e funil horizontal.
 
 ## Dados reais ainda necessários
 
-- `VITE_WHATSAPP_NUMBER` e telefone público.
-- E-mail, cidade, estado e região real de atendimento.
+- Cidade, estado e região real de atendimento.
 - Links de redes sociais confirmados.
 - Estoque e campanhas com validade e responsável pela atualização.
 - Especificações técnicas oficiais por versão que o Christiano desejar destacar.
@@ -42,28 +44,22 @@
 
 ### Supabase
 
-1. Criar e conectar o projeto; não existe projeto Supabase vinculado a este ambiente atualmente.
-2. Criar tabelas para leads, perfis de operação, oportunidades, estoque, conteúdos e casos.
-3. Manter os repositórios atuais como contratos de dados e trocar somente a implementação.
-4. Aplicar RLS, autenticação forte, validação no servidor e trilha de consentimento LGPD.
-5. Migrar o cofre local do painel para sincronização autenticada, preservando exportação e fallback.
-6. Salvar o lead antes de abrir o WhatsApp, com consentimento e fallback para o fluxo atual.
+1. Manter `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` no ambiente de produção.
+2. Confirmar senha ou link mágico do usuário do Christiano e revisar os usuários autorizados.
+3. Evoluir a captação do site para salvar leads somente após definir consentimento e política LGPD.
+4. Adicionar trilha de auditoria e anexos de propostas quando o fluxo real de vendas exigir.
 
 ### Cloudflare
 
-1. Conectar este repositório ao projeto Cloudflare.
-2. Configurar as variáveis `VITE_*` no ambiente de produção.
-3. Publicar o Worker gerado pelo plugin oficial Cloudflare para Vite e validar todas as rotas.
-4. Configurar domínio, redirects, headers de segurança e cache dos ativos.
-5. Ativar Web Analytics sem cookies invasivos após revisão da política de privacidade.
+1. Manter as variáveis `VITE_*` configuradas no ambiente de produção.
+2. Validar todas as rotas após cada publicação automática da `main`.
+3. Configurar domínio definitivo, redirects, headers de segurança e cache dos ativos.
+4. Ativar Web Analytics sem cookies invasivos após revisão da política de privacidade.
 
 ## Riscos controlados
 
-- O projeto ainda sincroniza com o Lovable; não reescrever o histórico publicado.
 - Imagens oficiais precisam de confirmação de autorização antes do lançamento definitivo.
-- Sem WhatsApp real configurado, os botões ficam desativados para não abrir um contato incorreto.
 - Estoque, condições comerciais e prova social permanecem vazios até receberem dados reais.
-- O painel atual é individual e local ao navegador; sincronização entre celular e computador só
-  deve ser ativada com backend, autenticação e RLS corretamente configurados.
+- O cofre local permanece apenas como fallback quando as variáveis do Supabase não estão presentes.
 - Search Console só exibirá dados depois da verificação do domínio e do envio do sitemap na conta
   Google do responsável.

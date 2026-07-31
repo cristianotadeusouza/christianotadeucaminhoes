@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, LockKeyhole } from "lucide-react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -160,6 +160,11 @@ export function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
           context={{ placement: "mobile_menu" }}
           className="w-full"
         />
+        <Button asChild variant="ghost" size="sm" className="w-full text-muted-foreground">
+          <Link to="/painel" onClick={onNavigate}>
+            <LockKeyhole className="size-3.5" /> Área de gestão
+          </Link>
+        </Button>
       </div>
     </div>
   );
