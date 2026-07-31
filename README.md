@@ -2342,23 +2342,40 @@ Ao terminar, apresente um relatório com:
 
 Use seu repertório de produto digital, branding, UX, UI e conversão para elevar o projeto, mantendo fidelidade total à estratégia de Christiano Tadeu.
 
-This project was built with [Lovable](https://lovable.dev).
+## Desenvolvimento independente
 
-## Build with Lovable
+O GitHub é a fonte principal do projeto. O build utiliza diretamente Vite, TanStack Start,
+Tailwind CSS e Nitro, sem pacote obrigatório do Lovable. A sincronização com o editor pode ser
+mantida temporariamente, mas não é necessária para desenvolver, testar ou publicar o site.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/5511fb9b-cf66-4ca0-ba81-fb86f905ed74).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Pré-requisitos: Node.js 22 ou superior e npm.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+git clone https://github.com/cristianotadeusouza/christianotadeucaminhoes.git
+cd christianotadeucaminhoes
+npm ci
 npm run dev
 ```
+
+Validação antes de publicar:
+
+```sh
+npm run lint
+npm run typecheck
+npm run build
+```
+
+Para inspecionar localmente o artefato já compilado:
+
+```sh
+npm run preview
+```
+
+O build de produção gera um Worker compatível com Cloudflare em `.output/`. As variáveis reais de
+contato devem ser configuradas conforme `.env.example`; telefone, preço, estoque, taxas e campanhas
+não são inventados no código.
+
+Consulte também:
+
+- `docs/PROJECT-STATUS.md` — diagnóstico, pendências e próximos passos;
+- `docs/IMAGE-SOURCES.md` — origem e controle das imagens do site.

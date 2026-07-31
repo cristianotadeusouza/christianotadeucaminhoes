@@ -18,7 +18,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-background/95 backdrop-blur transition-[box-shadow,border-color,background-color] duration-300 supports-[backdrop-filter]:bg-background/85",
+        "sticky top-0 z-50 border-b bg-background/95 backdrop-blur-xl transition-[box-shadow,border-color,background-color] duration-300 supports-[backdrop-filter]:bg-background/88",
         scrolled ? "border-border/80 shadow-card" : "border-border",
       )}
     >
@@ -30,10 +30,10 @@ export function Header() {
       <div
         className={cn(
           "container-content grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 transition-[padding] duration-300",
-          scrolled ? "py-2" : "py-3",
+          scrolled ? "py-2" : "py-3.5",
         )}
       >
-        <BrandLogo size="md" className="max-w-[13rem] sm:max-w-[16rem]" />
+        <BrandLogo size="lg" className="max-w-[15rem] sm:max-w-[18rem]" />
 
         <div className="flex items-center gap-2">
           <nav aria-label="Navegação principal" className="hidden lg:block">
@@ -43,7 +43,7 @@ export function Header() {
                   <Link
                     to={item.to}
                     activeProps={{ className: "text-engineering bg-surface" }}
-                    className="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-surface hover:text-engineering"
+                    className="inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-surface hover:text-engineering"
                   >
                     {item.label}
                   </Link>
@@ -53,7 +53,7 @@ export function Header() {
                 <li key={group.label} className="group relative">
                   <button
                     type="button"
-                    className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-surface hover:text-engineering"
+                    className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-surface hover:text-engineering"
                     aria-haspopup="true"
                   >
                     {group.label}
@@ -83,8 +83,8 @@ export function Header() {
             </ul>
           </nav>
 
-          <Button asChild variant="action" size="sm" className="hidden sm:inline-flex">
-            <Link to="/diagnostico">Analisar minha operação</Link>
+          <Button asChild variant="action" size="default" className="hidden sm:inline-flex">
+            <Link to="/diagnostico">Analisar operação</Link>
           </Button>
 
           <Sheet open={open} onOpenChange={setOpen}>

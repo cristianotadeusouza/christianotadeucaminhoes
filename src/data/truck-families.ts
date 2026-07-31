@@ -72,9 +72,11 @@ export const truckFamilies: TruckFamily[] = [
     ],
     gallery: [
       {
-        alt: "Caminhão Delivery em operação de distribuição urbana",
-        caption: "Delivery em rota urbana, com implemento carregado — foto real necessária.",
+        src: "/media/delivery.webp",
+        alt: "Caminhão Volkswagen Delivery em vista frontal lateral",
+        caption: "Imagem oficial de produto Volkswagen Delivery.",
         aspect: "4/3",
+        fit: "contain",
       },
       {
         alt: "Cabine do caminhão Delivery",
@@ -169,9 +171,11 @@ export const truckFamilies: TruckFamily[] = [
     ],
     gallery: [
       {
-        alt: "Caminhão Constellation em rodovia",
-        caption: "Constellation em operação rodoviária — foto real necessária.",
+        src: "/media/constellation.webp",
+        alt: "Caminhão Volkswagen Constellation em vista frontal lateral",
+        caption: "Imagem oficial de produto Volkswagen Constellation.",
         aspect: "4/3",
+        fit: "contain",
       },
       {
         alt: "Caminhão Constellation em operação no agronegócio",
@@ -264,9 +268,11 @@ export const truckFamilies: TruckFamily[] = [
     ],
     gallery: [
       {
-        alt: "Caminhão Meteor em rodovia de longa distância",
-        caption: "Meteor em rodovia, com composição acoplada — foto real necessária.",
+        src: "/media/meteor.webp",
+        alt: "Caminhão Volkswagen Meteor em vista frontal lateral",
+        caption: "Imagem oficial de produto Volkswagen Meteor.",
         aspect: "4/3",
+        fit: "contain",
       },
       {
         alt: "Cabine leito do Meteor",

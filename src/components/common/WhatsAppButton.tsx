@@ -63,13 +63,14 @@ export function FloatingWhatsApp({ message = whatsappMessages.general }: { messa
       aria-label="Conversar com Christiano pelo WhatsApp"
       onClick={() => trackEvent("whatsapp_click", { placement: "floating" })}
       className={cn(
-        "fixed right-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full",
-        "bg-result text-result-foreground shadow-raised transition-transform duration-200",
-        "hover:scale-105 focus-visible:scale-105 sm:h-14 sm:w-14",
+        "fixed right-4 z-40 inline-flex h-14 items-center justify-center gap-2 rounded-full px-4",
+        "bg-result text-result-foreground shadow-raised transition-[transform,box-shadow] duration-200",
+        "hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-16px_rgb(27_157_90_/_0.7)] focus-visible:-translate-y-0.5",
       )}
       style={{ bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
     >
       <MessageCircle className="size-6" aria-hidden="true" />
+      <span className="hidden pr-1 text-sm font-semibold sm:inline">Falar com Christiano</span>
     </a>
   );
 }

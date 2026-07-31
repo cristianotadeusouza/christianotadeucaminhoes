@@ -7,10 +7,9 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingWhatsApp } from "@/components/common/WhatsAppButton";
@@ -42,9 +41,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="container-content flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
@@ -83,23 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "theme-color", content: "#0B1B33" },
-      { title: "Christiano Tadeu | Caminhões Volkswagen" },
-      { property: "og:title", content: "Christiano Tadeu | Caminhões Volkswagen" },
-      { name: "twitter:title", content: "Christiano Tadeu | Caminhões Volkswagen" },
-      { name: "description", content: "O caminhão certo para sua operação." },
-      { property: "og:description", content: "O caminhão certo para sua operação." },
-      { name: "twitter:description", content: "O caminhão certo para sua operação." },
-      {
-        property: "og:image",
-        content:
-          "https://storage.googleapis.com/gpt-engineer-file-uploads/MDGqPf2OQPQnaTTfJ9so3XZG3no1/social-images/social-1785506272752-IMG_1460.webp",
-      },
-      {
-        name: "twitter:image",
-        content:
-          "https://storage.googleapis.com/gpt-engineer-file-uploads/MDGqPf2OQPQnaTTfJ9so3XZG3no1/social-images/social-1785506272752-IMG_1460.webp",
-      },
+      { name: "theme-color", content: "#071A2F" },
+      { property: "og:title", content: siteConfig.title },
+      { name: "twitter:title", content: siteConfig.title },
+      { property: "og:description", content: siteConfig.description },
+      { name: "twitter:description", content: siteConfig.description },
+      { property: "og:image", content: "/og-image.webp" },
+      { name: "twitter:image", content: "/og-image.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
