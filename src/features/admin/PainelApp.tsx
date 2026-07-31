@@ -4,6 +4,7 @@ import {
   CalendarDays,
   Check,
   CheckCircle2,
+  CircleHelp,
   CircleDollarSign,
   Cloud,
   CloudOff,
@@ -94,6 +95,7 @@ import {
   uploadSalesDocument,
   type DocumentUploadInput,
 } from "./cloud";
+import { PanelGuide, type GuideTarget, type PanelView } from "./PanelGuide";
 
 const labelClass = "text-technical text-xs font-bold uppercase tracking-[0.11em] text-road";
 const fieldClass = "mt-2 h-11 bg-white";
@@ -1978,9 +1980,15 @@ function WorkspacePanel({
   onLock: () => void;
 }) {
   const [workspace, setWorkspace] = useState(initialWorkspace);
-  const [view, setView] = useState("dashboard");
+  const [view, setView] = useState<PanelView>("dashboard");
+  const [guideFocus, setGuideFocus] = useState<GuideTarget>("dashboard");
   const [saved, setSaved] = useState(true);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  function openGuide() {
+    if (view !== "guia") setGuideFocus(view);
+    setView("guia");
+  }
 
   useEffect(() => {
     setSaved(false);
@@ -2229,6 +2237,7 @@ function WorkspacePanel({
     ["visitas", "Visitas", Route],
     ["arquivos", "Arquivos", Files],
     ["dados", "Dados", Download],
+    ["guia", "Tutorial", CircleHelp],
   ] as const;
 
   return (
@@ -2258,7 +2267,7 @@ function WorkspacePanel({
             <button
               key={value}
               type="button"
-              onClick={() => setView(value)}
+              onClick={() => (value === "guia" ? openGuide() : setView(value))}
               className={cn(
                 "flex shrink-0 items-center gap-3 rounded-lg px-3 py-3 text-left text-sm font-medium transition-colors lg:w-full",
                 view === value
@@ -2327,6 +2336,15 @@ function WorkspacePanel({
                   <Home />
                 </a>
               </Button>
+              <Button
+                size="icon"
+                variant="quiet"
+                onClick={openGuide}
+                aria-label="Abrir tutorial desta tela"
+                title="Tutorial do painel"
+              >
+                <CircleHelp />
+              </Button>
               {storageMode === "local" && (
                 <Button
                   size="icon"
@@ -2370,6 +2388,8 @@ function WorkspacePanel({
                   "Propostas e fotos guardadas em área privada com acesso temporário."}
                 {view === "dados" &&
                   "Importação, exportação, deduplicação e instalação da central no celular."}
+                {view === "guia" &&
+                  "Aprenda cada função do painel e siga fluxos completos de atendimento, estoque, proposta e visita."}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -2484,6 +2504,13 @@ function WorkspacePanel({
               }
             />
           )}
+          {view === "guia" && (
+            <PanelGuide
+              storageMode={storageMode}
+              focusView={guideFocus}
+              onNavigate={(target) => setView(target)}
+            />
+          )}
 
           <div className="mt-8 flex flex-col gap-3 rounded-xl border border-engineering/15 bg-engineering/5 p-5 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <p className="flex items-start gap-2">
@@ -2549,7 +2576,7 @@ function WorkspacePanel({
           <button
             key={value}
             type="button"
-            onClick={() => setView(value)}
+            onClick={() => (value === "guia" ? openGuide() : setView(value))}
             className={cn(
               "flex min-w-[4.6rem] flex-col items-center gap-1 rounded-xl px-1 py-2 text-[0.62rem] font-semibold transition-colors",
               view === value ? "bg-white text-road" : "text-white/55",
