@@ -87,7 +87,7 @@ export async function unlockVault(pin: string): Promise<{
   );
   const workspace = JSON.parse(new TextDecoder().decode(plaintext)) as SalesWorkspace;
 
-  if (workspace.version !== 1 || !Array.isArray(workspace.contacts)) {
+  if (![1, 2].includes(Number(workspace.version)) || !Array.isArray(workspace.contacts)) {
     throw new Error("Formato de cofre inválido.");
   }
 

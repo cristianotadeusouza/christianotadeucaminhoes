@@ -99,6 +99,7 @@ export type Database = {
           channel: string;
           interaction_at: string;
           notes: string | null;
+          metadata: Json;
         };
         Insert: {
           id?: string;
@@ -108,9 +109,68 @@ export type Database = {
           channel?: string;
           interaction_at?: string;
           notes?: string | null;
+          metadata?: Json;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["contact_interactions"]["Insert"]>;
+        Relationships: [];
+      };
+      sales_proposals: {
+        Row: BaseRow & {
+          lead_id: string;
+          inventory_item_id: string | null;
+          title: string;
+          model: string | null;
+          amount: number | null;
+          status: string;
+          valid_until: string | null;
+          conditions: string | null;
+          notes: string | null;
+          sent_at: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string;
+          lead_id: string;
+          inventory_item_id?: string | null;
+          title: string;
+          model?: string | null;
+          amount?: number | null;
+          status?: string;
+          valid_until?: string | null;
+          conditions?: string | null;
+          notes?: string | null;
+          sent_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["sales_proposals"]["Insert"]>;
+        Relationships: [];
+      };
+      sales_documents: {
+        Row: BaseRow & {
+          lead_id: string | null;
+          proposal_id: string | null;
+          name: string;
+          storage_path: string;
+          mime_type: string | null;
+          size_bytes: number;
+          category: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string;
+          lead_id?: string | null;
+          proposal_id?: string | null;
+          name: string;
+          storage_path: string;
+          mime_type?: string | null;
+          size_bytes?: number;
+          category?: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["sales_documents"]["Insert"]>;
         Relationships: [];
       };
       customers: {

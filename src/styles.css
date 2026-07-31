@@ -557,6 +557,16 @@
 
 .admin-mobile-nav {
   bottom: max(0.75rem, env(safe-area-inset-bottom));
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+
+.admin-mobile-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-mobile-nav > button {
+  scroll-snap-align: center;
 }
 
 @media (max-width: 639px) {

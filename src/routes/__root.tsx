@@ -17,6 +17,7 @@ import { FloatingWhatsApp } from "@/components/common/WhatsAppButton";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
+import { PwaManager } from "@/components/common/PwaManager";
 
 function NotFoundComponent() {
   return (
@@ -98,6 +99,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icons/app-192.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -178,6 +181,7 @@ function RootComponent() {
         {!isManagementPanel && <Footer />}
       </div>
       {!isManagementPanel && <FloatingWhatsApp />}
+      <PwaManager />
       <Toaster />
     </QueryClientProvider>
   );

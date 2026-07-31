@@ -8,6 +8,9 @@ import {
   Cloud,
   CloudOff,
   ContactRound,
+  FileText,
+  Files,
+  History,
   Download,
   Gauge,
   KeyRound,
@@ -23,6 +26,8 @@ import {
   Search,
   ShieldCheck,
   Phone,
+  Route,
+  Sparkles,
   Truck,
   Upload,
   UsersRound,
@@ -54,11 +59,23 @@ import {
   type InventoryStatus,
   type PipelineStage,
   type SalesContact,
+  type SalesDocument,
   type SalesInteraction,
+  type SalesProposal,
   type SalesTask,
   type SalesWorkspace,
   type StockVehicle,
 } from "./types";
+import {
+  DataCenter,
+  DocumentsCenter,
+  MatchCenter,
+  ProposalsCenter,
+  QuickInteractionDialog,
+  TimelineCenter,
+  VisitCenter,
+  type QuickRecordInput,
+} from "./AdvancedSalesViews";
 import {
   createVault,
   downloadVaultBackup,
@@ -67,7 +84,15 @@ import {
   saveVault,
   unlockVault,
 } from "./vault";
-import { loadCloudWorkspace, saveCloudWorkspace, saveInteraction } from "./cloud";
+import {
+  loadCloudWorkspace,
+  openSalesDocument,
+  removeSalesDocument,
+  saveCloudWorkspace,
+  saveInteraction,
+  uploadSalesDocument,
+  type DocumentUploadInput,
+} from "./cloud";
 
 const labelClass = "text-technical text-xs font-bold uppercase tracking-[0.11em] text-road";
 const fieldClass = "mt-2 h-11 bg-white";
@@ -88,6 +113,12 @@ function todayString() {
 
 function isOverdue(task: SalesTask) {
   return !task.completed && Boolean(task.dueDate) && task.dueDate < todayString();
+}
+
+function daysSince(value: string) {
+  if (!value) return null;
+  const elapsed = Date.now() - new Date(value).getTime();
+  return Number.isFinite(elapsed) ? Math.max(0, Math.floor(elapsed / 86_400_000)) : null;
 }
 
 const interactionChannelLabels: Record<SalesInteraction["channel"], string> = {
@@ -620,6 +651,14 @@ function ContactDialog({ onAdd }: { onAdd: (contact: SalesContact) => void }) {
       source: String(form.get("source") || "outro") as SalesContact["source"],
       temperature: String(form.get("temperature") || "morno") as SalesContact["temperature"],
       lastContactAt: "",
+      operation: String(form.get("operation") || "").trim(),
+      budget: String(form.get("budget") || "").trim(),
+      purchaseWindow: String(
+        form.get("purchaseWindow") || "indefinido",
+      ) as SalesContact["purchaseWindow"],
+      address: String(form.get("address") || "").trim(),
+      lossReason: "",
+      winReason: "",
       notes: String(form.get("notes") || "").trim(),
       createdAt: now,
       updatedAt: now,
@@ -676,6 +715,32 @@ function ContactDialog({ onAdd }: { onAdd: (contact: SalesContact) => void }) {
           <label>
             <span className={labelClass}>Interesse</span>
             <Input className={fieldClass} name="interest" placeholder="Ex.: Meteor para carreta" />
+          </label>
+          <label>
+            <span className={labelClass}>Operação principal</span>
+            <Input
+              className={fieldClass}
+              name="operation"
+              placeholder="Carga, rota, peso e implemento"
+            />
+          </label>
+          <label>
+            <span className={labelClass}>Orçamento estimado</span>
+            <Input className={fieldClass} name="budget" inputMode="decimal" placeholder="R$ 0,00" />
+          </label>
+          <label>
+            <span className={labelClass}>Prazo de compra</span>
+            <select className={nativeSelectClass} name="purchaseWindow" defaultValue="indefinido">
+              <option value="imediato">Imediato</option>
+              <option value="30_dias">Até 30 dias</option>
+              <option value="90_dias">Até 90 dias</option>
+              <option value="futuro">Projeto futuro</option>
+              <option value="indefinido">Ainda não definido</option>
+            </select>
+          </label>
+          <label className="sm:col-span-2">
+            <span className={labelClass}>Endereço para visita</span>
+            <Input className={fieldClass} name="address" placeholder="Rua, número, cidade e UF" />
           </label>
           <label>
             <span className={labelClass}>Etapa</span>
@@ -750,6 +815,13 @@ function InventoryDialog({ onAdd }: { onAdd: (vehicle: StockVehicle) => void }) 
       status: String(form.get("status")) as InventoryStatus,
       price: String(form.get("price") || "").trim(),
       location: String(form.get("location") || "").trim(),
+      traction: String(form.get("traction") || "").trim(),
+      application: String(form.get("application") || "").trim(),
+      bodyType: String(form.get("bodyType") || "").trim(),
+      color: String(form.get("color") || "").trim(),
+      quantity: Number(form.get("quantity")) || 1,
+      availabilityDate: String(form.get("availabilityDate") || ""),
+      source: "manual",
       notes: String(form.get("notes") || "").trim(),
       updatedAt: new Date().toISOString(),
     });
@@ -764,7 +836,7 @@ function InventoryDialog({ onAdd }: { onAdd: (vehicle: StockVehicle) => void }) 
           <Plus /> Adicionar caminhão
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>Novo item de estoque</DialogTitle>
           <DialogDescription>
@@ -806,6 +878,34 @@ function InventoryDialog({ onAdd }: { onAdd: (vehicle: StockVehicle) => void }) 
             <span className={labelClass}>Localização</span>
             <Input className={fieldClass} name="location" placeholder="Pátio / concessionária" />
           </label>
+          <label>
+            <span className={labelClass}>Tração</span>
+            <Input className={fieldClass} name="traction" placeholder="Ex.: 6x2" />
+          </label>
+          <label>
+            <span className={labelClass}>Aplicação</span>
+            <Input className={fieldClass} name="application" placeholder="Rodoviário, urbano..." />
+          </label>
+          <label>
+            <span className={labelClass}>Implemento / carroceria</span>
+            <Input
+              className={fieldClass}
+              name="bodyType"
+              placeholder="Baú, graneleiro, caçamba..."
+            />
+          </label>
+          <label>
+            <span className={labelClass}>Cor</span>
+            <Input className={fieldClass} name="color" placeholder="Nome ou código" />
+          </label>
+          <label>
+            <span className={labelClass}>Quantidade</span>
+            <Input className={fieldClass} name="quantity" type="number" min="1" defaultValue="1" />
+          </label>
+          <label>
+            <span className={labelClass}>Previsão disponível</span>
+            <Input className={fieldClass} name="availabilityDate" type="date" />
+          </label>
           <label className="sm:col-span-2">
             <span className={labelClass}>Observações</span>
             <Textarea
@@ -846,6 +946,7 @@ function TaskDialog({
       kind: String(form.get("kind") || "retorno") as SalesTask["kind"],
       location: String(form.get("location") || "").trim(),
       completed: false,
+      completedAt: "",
       createdAt: new Date().toISOString(),
     });
     event.currentTarget.reset();
@@ -936,8 +1037,14 @@ function Dashboard({ workspace }: { workspace: SalesWorkspace }) {
   const active = workspace.contacts.filter(
     (contact) => !["ganho", "perdido"].includes(contact.stage),
   );
-  const proposals = workspace.contacts.filter((contact) =>
+  const proposalContacts = workspace.contacts.filter((contact) =>
     ["proposta", "negociacao"].includes(contact.stage),
+  );
+  const openProposals = workspace.proposals.filter((proposal) =>
+    ["rascunho", "enviada", "revisao"].includes(proposal.status),
+  );
+  const expiringProposals = openProposals.filter(
+    (proposal) => proposal.validUntil && proposal.validUntil <= todayString(),
   );
   const available = workspace.inventory.filter((vehicle) => vehicle.status === "disponivel");
   const pendingTasks = workspace.tasks.filter((task) => !task.completed);
@@ -963,8 +1070,12 @@ function Dashboard({ workspace }: { workspace: SalesWorkspace }) {
         <MetricCard
           icon={CircleDollarSign}
           label="Propostas em jogo"
-          value={proposals.length}
-          detail="Proposta ou negociação"
+          value={workspace.proposals.length ? openProposals.length : proposalContacts.length}
+          detail={
+            workspace.proposals.length
+              ? "Rascunhos, enviadas e revisões"
+              : "Clientes em proposta ou negociação"
+          }
         />
         <MetricCard
           icon={Truck}
@@ -982,7 +1093,7 @@ function Dashboard({ workspace }: { workspace: SalesWorkspace }) {
         />
       </div>
 
-      <section className="grid gap-3 rounded-xl border border-border bg-white p-4 shadow-card sm:grid-cols-3 sm:p-5">
+      <section className="grid gap-3 rounded-xl border border-border bg-white p-4 shadow-card sm:grid-cols-2 sm:p-5 xl:grid-cols-4">
         <div className="rounded-lg bg-action/7 p-4">
           <p className="text-technical text-2xl font-bold text-action">{overdueTasks.length}</p>
           <p className="mt-1 text-xs font-semibold text-road">Ações atrasadas</p>
@@ -1004,6 +1115,13 @@ function Dashboard({ workspace }: { workspace: SalesWorkspace }) {
           <p className="mt-1 text-xs font-semibold text-road">Sem próximo passo</p>
           <p className="mt-1 text-xs text-muted-foreground">
             Atendimentos que precisam de uma ação definida.
+          </p>
+        </div>
+        <div className="rounded-lg bg-road/7 p-4">
+          <p className="text-technical text-2xl font-bold text-road">{expiringProposals.length}</p>
+          <p className="mt-1 text-xs font-semibold text-road">Propostas vencendo</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Revisar validade e condição antes do retorno.
           </p>
         </div>
       </section>
@@ -1158,12 +1276,33 @@ function Pipeline({
                   <p className="mt-1 truncate text-xs text-muted-foreground">
                     {contact.company || contact.city || "Contato direto"}
                   </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    <Badge
+                      variant="outline"
+                      className={cn(
+                        contact.temperature === "quente" &&
+                          "border-action/30 bg-action/8 text-action",
+                      )}
+                    >
+                      {contact.temperature}
+                    </Badge>
+                    {daysSince(contact.lastContactAt) !== null && (
+                      <Badge variant="outline">
+                        {daysSince(contact.lastContactAt)} dias sem contato
+                      </Badge>
+                    )}
+                  </div>
                   {contact.interest && (
                     <p className="mt-4 text-xs font-medium text-engineering">{contact.interest}</p>
                   )}
                   {contact.nextAction && (
                     <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
                       Próximo: {contact.nextAction}
+                    </p>
+                  )}
+                  {contact.stage === "perdido" && contact.lossReason && (
+                    <p className="mt-2 line-clamp-2 text-xs text-action">
+                      Motivo: {contact.lossReason}
                     </p>
                   )}
                   <div className="mt-4 flex items-center gap-2">
@@ -1251,6 +1390,12 @@ function ContactDetailsDialog({
       source: String(form.get("source")) as SalesContact["source"],
       nextAction: String(form.get("nextAction") || "").trim(),
       nextActionDate: String(form.get("nextActionDate") || ""),
+      operation: String(form.get("operation") || "").trim(),
+      budget: String(form.get("budget") || "").trim(),
+      purchaseWindow: String(form.get("purchaseWindow")) as SalesContact["purchaseWindow"],
+      address: String(form.get("address") || "").trim(),
+      lossReason: String(form.get("lossReason") || "").trim(),
+      winReason: String(form.get("winReason") || "").trim(),
       notes: String(form.get("notes") || "").trim(),
       updatedAt: new Date().toISOString(),
     });
@@ -1399,6 +1544,60 @@ function ContactDetailsDialog({
                 name="nextAction"
                 defaultValue={contact.nextAction}
                 placeholder="Ex.: ligar com a simulação"
+              />
+            </label>
+            <label>
+              <span className={labelClass}>Operação principal</span>
+              <Input
+                className={fieldClass}
+                name="operation"
+                defaultValue={contact.operation}
+                placeholder="Carga, rota, peso e implemento"
+              />
+            </label>
+            <label>
+              <span className={labelClass}>Orçamento estimado</span>
+              <Input
+                className={fieldClass}
+                name="budget"
+                defaultValue={contact.budget}
+                placeholder="R$ 0,00"
+              />
+            </label>
+            <label>
+              <span className={labelClass}>Prazo de compra</span>
+              <select
+                className={nativeSelectClass}
+                name="purchaseWindow"
+                defaultValue={contact.purchaseWindow}
+              >
+                <option value="imediato">Imediato</option>
+                <option value="30_dias">Até 30 dias</option>
+                <option value="90_dias">Até 90 dias</option>
+                <option value="futuro">Projeto futuro</option>
+                <option value="indefinido">Ainda não definido</option>
+              </select>
+            </label>
+            <label>
+              <span className={labelClass}>Endereço de visita</span>
+              <Input className={fieldClass} name="address" defaultValue={contact.address} />
+            </label>
+            <label>
+              <span className={labelClass}>Motivo de perda</span>
+              <Input
+                className={fieldClass}
+                name="lossReason"
+                defaultValue={contact.lossReason}
+                placeholder="Preço, prazo, concorrente..."
+              />
+            </label>
+            <label>
+              <span className={labelClass}>Motivo de ganho</span>
+              <Input
+                className={fieldClass}
+                name="winReason"
+                defaultValue={contact.winReason}
+                placeholder="Relacionamento, produto, condição..."
               />
             </label>
             <label>
@@ -1602,7 +1801,22 @@ function Inventory({
                 <p className="text-xs text-muted-foreground">Localização</p>
                 <p className="mt-1 font-semibold text-road">{vehicle.location || "A confirmar"}</p>
               </div>
+              <div>
+                <p className="text-xs text-muted-foreground">Tração</p>
+                <p className="mt-1 font-semibold text-road">{vehicle.traction || "A confirmar"}</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">Quantidade</p>
+                <p className="mt-1 font-semibold text-road">{vehicle.quantity || 1}</p>
+              </div>
             </div>
+            {(vehicle.application || vehicle.bodyType || vehicle.color) && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {vehicle.application && <Badge variant="outline">{vehicle.application}</Badge>}
+                {vehicle.bodyType && <Badge variant="outline">{vehicle.bodyType}</Badge>}
+                {vehicle.color && <Badge variant="outline">{vehicle.color}</Badge>}
+              </div>
+            )}
             {vehicle.price && (
               <p className="text-technical mt-5 border-t border-border pt-4 text-lg font-bold text-road">
                 {vehicle.price}
@@ -1790,6 +2004,38 @@ function WorkspacePanel({
     }));
   }
 
+  function addProposal(proposal: SalesProposal) {
+    setWorkspace((current) => ({ ...current, proposals: [proposal, ...current.proposals] }));
+    toast.success("Proposta adicionada à central.");
+  }
+
+  function updateProposal(proposal: SalesProposal) {
+    setWorkspace((current) => ({
+      ...current,
+      proposals: current.proposals.map((item) => (item.id === proposal.id ? proposal : item)),
+    }));
+  }
+
+  function createProposalFromMatch(contact: SalesContact, vehicle: StockVehicle) {
+    const now = new Date().toISOString();
+    addProposal({
+      id: crypto.randomUUID(),
+      contactId: contact.id,
+      vehicleId: vehicle.id,
+      title: `Proposta VW ${vehicle.family} ${vehicle.model}`,
+      model: `VW ${vehicle.family} ${vehicle.model}`,
+      value: vehicle.price,
+      status: "rascunho",
+      validUntil: "",
+      conditions: "",
+      notes: `Encaixe sugerido para: ${contact.operation || contact.interest || "operação a confirmar"}.`,
+      sentAt: "",
+      createdAt: now,
+      updatedAt: now,
+    });
+    setView("propostas");
+  }
+
   function updateContact(contact: SalesContact) {
     setWorkspace((current) => ({
       ...current,
@@ -1812,25 +2058,98 @@ function WorkspacePanel({
     channel: SalesInteraction["channel"],
     notes: string,
   ) {
+    await recordQuickInteraction({
+      contactId: contact.id,
+      channel,
+      notes,
+      outcome: "outro",
+      nextAction: "",
+      nextActionDate: "",
+      location: "",
+      createTask: false,
+      taskTitle: "",
+      priority: "normal",
+    });
+  }
+
+  async function recordQuickInteraction(input: QuickRecordInput) {
+    const contact = workspace.contacts.find((item) => item.id === input.contactId);
+    if (!contact) {
+      toast.error("Selecione um cliente válido.");
+      return;
+    }
     try {
       const interaction =
         storageMode === "cloud"
-          ? await saveInteraction(contact.id, channel, notes)
+          ? await saveInteraction(input)
           : {
               id: crypto.randomUUID(),
               contactId: contact.id,
-              channel,
-              notes,
+              channel: input.channel,
+              notes: input.notes,
+              outcome: input.outcome,
+              nextAction: input.nextAction,
+              nextActionDate: input.nextActionDate,
+              location: input.location,
               interactionAt: new Date().toISOString(),
             };
       setWorkspace((current) => ({
         ...current,
         interactions: [interaction, ...current.interactions],
+        tasks:
+          input.createTask && (input.nextAction || input.nextActionDate)
+            ? [
+                {
+                  id: crypto.randomUUID(),
+                  title: input.taskTitle || input.nextAction || "Retornar contato",
+                  dueDate: input.nextActionDate,
+                  contactId: contact.id,
+                  priority: input.priority,
+                  kind:
+                    input.channel === "phone"
+                      ? "ligacao"
+                      : input.channel === "email"
+                        ? "email"
+                        : input.channel === "visit"
+                          ? "visita"
+                          : input.channel === "whatsapp"
+                            ? "whatsapp"
+                            : "retorno",
+                  location: input.location,
+                  completed: false,
+                  completedAt: "",
+                  createdAt: new Date().toISOString(),
+                },
+                ...current.tasks.map((task) =>
+                  input.channel === "visit" &&
+                  task.contactId === contact.id &&
+                  task.kind === "visita" &&
+                  !task.completed
+                    ? { ...task, completed: true, completedAt: interaction.interactionAt }
+                    : task,
+                ),
+              ]
+            : current.tasks.map((task) =>
+                input.channel === "visit" &&
+                task.contactId === contact.id &&
+                task.kind === "visita" &&
+                !task.completed
+                  ? { ...task, completed: true, completedAt: interaction.interactionAt }
+                  : task,
+              ),
         contacts: current.contacts.map((item) =>
           item.id === contact.id
             ? {
                 ...item,
                 lastContactAt: interaction.interactionAt,
+                nextAction: input.nextAction || item.nextAction,
+                nextActionDate: input.nextActionDate || item.nextActionDate,
+                stage:
+                  input.outcome === "pediu_proposta"
+                    ? "proposta"
+                    : input.outcome === "negociacao"
+                      ? "negociacao"
+                      : item.stage,
                 updatedAt: new Date().toISOString(),
               }
             : item,
@@ -1842,12 +2161,53 @@ function WorkspacePanel({
     }
   }
 
+  async function uploadDocument(input: DocumentUploadInput) {
+    if (storageMode !== "cloud") {
+      toast.error("O envio de arquivos exige o painel sincronizado.");
+      return;
+    }
+    try {
+      const document = await uploadSalesDocument(input);
+      setWorkspace((current) => ({ ...current, documents: [document, ...current.documents] }));
+      toast.success("Arquivo protegido e anexado.");
+    } catch {
+      toast.error("Não foi possível enviar esse arquivo.");
+    }
+  }
+
+  async function openDocument(document: SalesDocument) {
+    try {
+      await openSalesDocument(document);
+    } catch {
+      toast.error("Não foi possível abrir o arquivo.");
+    }
+  }
+
+  async function removeDocument(document: SalesDocument) {
+    try {
+      await removeSalesDocument(document);
+      setWorkspace((current) => ({
+        ...current,
+        documents: current.documents.filter((item) => item.id !== document.id),
+      }));
+      toast.success("Arquivo removido.");
+    } catch {
+      toast.error("Não foi possível remover o arquivo.");
+    }
+  }
+
   const navigation = [
-    ["dashboard", "Visão geral", LayoutDashboard],
+    ["dashboard", "Hoje", LayoutDashboard],
     ["pipeline", "Funil", Gauge],
     ["clientes", "Clientes", UsersRound],
+    ["historico", "Histórico", History],
+    ["encaixes", "Encaixes", Sparkles],
+    ["propostas", "Propostas", FileText],
     ["estoque", "Estoque", Truck],
     ["agenda", "Agenda", CalendarDays],
+    ["visitas", "Visitas", Route],
+    ["arquivos", "Arquivos", Files],
+    ["dados", "Dados", Download],
   ] as const;
 
   return (
@@ -1864,7 +2224,10 @@ function WorkspacePanel({
             <Truck className="size-5 text-action" />
           </span>
         </div>
-        <nav className="mt-10 hidden space-y-1 lg:block" aria-label="Navegação do painel">
+        <nav
+          className="mt-8 hidden min-h-0 flex-1 space-y-1 overflow-y-auto pr-1 lg:block"
+          aria-label="Navegação do painel"
+        >
           {navigation.map(([value, label, Icon]) => (
             <button
               key={value}
@@ -1955,21 +2318,40 @@ function WorkspacePanel({
             <div>
               <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
                 {view === "dashboard" &&
-                  "Prioridades, ritmo do funil e disponibilidade para decidir o próximo movimento."}
+                  "Retornos vencidos, clientes quentes e propostas que pedem ação hoje."}
                 {view === "pipeline" &&
                   "Mova cada oportunidade conforme a conversa evolui e enxergue onde agir."}
                 {view === "clientes" &&
                   "Carteira organizada para localizar informação e retomar uma conversa em segundos."}
+                {view === "historico" &&
+                  "Todas as interações, tarefas, propostas e arquivos em uma sequência por cliente."}
+                {view === "encaixes" &&
+                  "Cruze necessidade, orçamento e prazo com as unidades registradas no estoque."}
+                {view === "propostas" &&
+                  "Prepare, envie e acompanhe condições comerciais, revisões e validade."}
                 {view === "estoque" &&
                   "Visão interna de unidades e encomendas; nenhum item é publicado automaticamente."}
                 {view === "agenda" &&
                   "Retornos, visitas e pendências que não podem ficar apenas na memória."}
+                {view === "visitas" &&
+                  "Rota, contato, check-in, voz e fotos autorizadas para o atendimento em campo."}
+                {view === "arquivos" &&
+                  "Propostas e fotos guardadas em área privada com acesso temporário."}
+                {view === "dados" &&
+                  "Importação, exportação, deduplicação e instalação da central no celular."}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
               {(view === "dashboard" || view === "pipeline" || view === "clientes") && (
                 <ContactDialog onAdd={addContact} />
               )}
+              {workspace.contacts.length > 0 &&
+                ["dashboard", "pipeline", "clientes", "historico", "agenda"].includes(view) && (
+                  <QuickInteractionDialog
+                    contacts={workspace.contacts}
+                    onRecord={recordQuickInteraction}
+                  />
+                )}
               {view === "estoque" && <InventoryDialog onAdd={addInventory} />}
               {view === "agenda" && <TaskDialog contacts={workspace.contacts} onAdd={addTask} />}
             </div>
@@ -1995,6 +2377,13 @@ function WorkspacePanel({
               onUpdate={updateContact}
             />
           )}
+          {view === "historico" && <TimelineCenter workspace={workspace} />}
+          {view === "encaixes" && (
+            <MatchCenter workspace={workspace} onCreateProposal={createProposalFromMatch} />
+          )}
+          {view === "propostas" && (
+            <ProposalsCenter workspace={workspace} onAdd={addProposal} onUpdate={updateProposal} />
+          )}
           {view === "estoque" && (
             <Inventory
               inventory={workspace.inventory}
@@ -2018,8 +2407,48 @@ function WorkspacePanel({
                 setWorkspace((current) => ({
                   ...current,
                   tasks: current.tasks.map((task) =>
-                    task.id === id ? { ...task, completed: !task.completed } : task,
+                    task.id === id
+                      ? {
+                          ...task,
+                          completed: !task.completed,
+                          completedAt: !task.completed ? new Date().toISOString() : "",
+                        }
+                      : task,
                   ),
+                }))
+              }
+            />
+          )}
+          {view === "visitas" && (
+            <VisitCenter
+              workspace={workspace}
+              storageMode={storageMode}
+              onRecord={recordQuickInteraction}
+              onUpload={uploadDocument}
+            />
+          )}
+          {view === "arquivos" && (
+            <DocumentsCenter
+              workspace={workspace}
+              storageMode={storageMode}
+              onUpload={uploadDocument}
+              onOpen={openDocument}
+              onRemove={removeDocument}
+            />
+          )}
+          {view === "dados" && (
+            <DataCenter
+              workspace={workspace}
+              onImportContacts={(contacts) =>
+                setWorkspace((current) => ({
+                  ...current,
+                  contacts: [...contacts, ...current.contacts],
+                }))
+              }
+              onImportInventory={(vehicles) =>
+                setWorkspace((current) => ({
+                  ...current,
+                  inventory: [...vehicles, ...current.inventory],
                 }))
               }
             />
@@ -2083,7 +2512,7 @@ function WorkspacePanel({
 
       <nav
         aria-label="Navegação móvel do painel"
-        className="admin-mobile-nav fixed inset-x-3 z-50 grid grid-cols-5 rounded-2xl border border-white/10 bg-road/95 p-1.5 text-white shadow-[0_18px_50px_-12px_rgb(0_0_0_/_0.55)] backdrop-blur-xl lg:hidden"
+        className="admin-mobile-nav fixed inset-x-3 z-50 flex gap-1 overflow-x-auto rounded-2xl border border-white/10 bg-road/95 p-1.5 text-white shadow-[0_18px_50px_-12px_rgb(0_0_0_/_0.55)] backdrop-blur-xl lg:hidden"
       >
         {navigation.map(([value, label, Icon]) => (
           <button
@@ -2091,12 +2520,12 @@ function WorkspacePanel({
             type="button"
             onClick={() => setView(value)}
             className={cn(
-              "flex min-w-0 flex-col items-center gap-1 rounded-xl px-1 py-2 text-[0.62rem] font-semibold transition-colors",
+              "flex min-w-[4.6rem] flex-col items-center gap-1 rounded-xl px-1 py-2 text-[0.62rem] font-semibold transition-colors",
               view === value ? "bg-white text-road" : "text-white/55",
             )}
           >
             <Icon className={cn("size-4", view === value && "text-action")} />
-            <span className="max-w-full truncate">{label.replace("Visão geral", "Início")}</span>
+            <span className="max-w-full truncate">{label}</span>
           </button>
         ))}
       </nav>
