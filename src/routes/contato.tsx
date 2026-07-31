@@ -8,10 +8,11 @@ import { siteConfig } from "@/config/site";
 import { siteSettings } from "@/data/site-settings";
 import { whatsappMessages } from "@/services/whatsapp";
 import { Mail, MessageCircle, Phone } from "lucide-react";
+import { BelcarAffiliation } from "@/components/common/BelcarAffiliation";
 
-const title = "Contato | Christiano Tadeu — Caminhões Volkswagen";
+const title = "Contato | Christiano Tadeu, consultor Belcar Caminhões";
 const description =
-  "Fale com Christiano Tadeu pelos canais disponíveis para avaliar a aquisição ou a renovação de caminhões.";
+  "Fale com Christiano Tadeu, consultor de vendas da Belcar Caminhões, para avaliar a aquisição ou renovação de caminhões Volkswagen.";
 
 export const Route = createFileRoute("/contato")({
   head: () => ({
@@ -35,22 +36,26 @@ function ContactPage() {
             as="h1"
             className="mt-6 max-w-3xl"
             eyebrow="Contato"
-            title="Fale direto com Christiano"
-            description="O atendimento é pessoal. Quanto mais contexto sobre a carga e a rota, mais rápida fica a conversa."
+            title="Fale com Christiano na Belcar Caminhões"
+            description="O atendimento é pessoal e faz parte da operação comercial da Belcar. Conte o básico sobre carga e rota para agilizar a conversa."
           />
         </div>
       </section>
 
-      <section className="container-content grid gap-10 py-14 sm:py-20 lg:grid-cols-2">
+      <div className="container-content pt-10 sm:pt-12">
+        <BelcarAffiliation />
+      </div>
+
+      <section className="container-content grid gap-10 py-10 sm:py-14 lg:grid-cols-2">
         <div>
           <h2 className="text-xl font-semibold text-road">Canais disponíveis</h2>
           <ul className="mt-6 space-y-4 text-sm">
             <li className="flex items-start gap-3">
               <MessageCircle className="mt-0.5 size-4 text-result" aria-hidden="true" />
               <div>
-                <p className="font-medium text-foreground">WhatsApp</p>
+                <p className="font-medium text-foreground">WhatsApp do Christiano</p>
                 <p className="text-muted-foreground">
-                  Canal principal para dúvidas rápidas e envio de informações da operação.
+                  Canal direto para o atendimento comercial Belcar Caminhões.
                 </p>
               </div>
             </li>

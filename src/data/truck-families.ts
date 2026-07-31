@@ -80,12 +80,12 @@ export const truckFamilies: TruckFamily[] = [
       },
       {
         alt: "Cabine do caminhão Delivery",
-        caption: "Interior da cabine, posição de dirigir — foto real necessária.",
+        caption: "Interior da cabine e posição de dirigir. Foto real necessária.",
         aspect: "4/3",
       },
       {
         alt: "Detalhe do implemento instalado em caminhão Delivery",
-        caption: "Detalhe do implemento (baú ou carroceria) — foto real necessária.",
+        caption: "Detalhe do implemento, como baú ou carroceria. Foto real necessária.",
         aspect: "4/3",
       },
     ],
@@ -179,12 +179,12 @@ export const truckFamilies: TruckFamily[] = [
       },
       {
         alt: "Caminhão Constellation em operação no agronegócio",
-        caption: "Constellation em pátio agrícola ou carregamento de grãos — foto real necessária.",
+        caption: "Constellation em pátio agrícola ou carregamento de grãos. Foto real necessária.",
         aspect: "4/3",
       },
       {
         alt: "Painel e posto de trabalho do Constellation",
-        caption: "Painel e posto de trabalho — foto real necessária.",
+        caption: "Painel e posto de trabalho. Foto real necessária.",
         aspect: "4/3",
       },
     ],
@@ -233,7 +233,7 @@ export const truckFamilies: TruckFamily[] = [
       {
         title: "Conforto do motorista",
         description:
-          "Cabine e posto de trabalho influenciam a permanência do motorista na frota — um custo real e muitas vezes ignorado na conta.",
+          "Cabine e posto de trabalho influenciam a permanência do motorista na frota. Esse é um custo real e muitas vezes ignorado na conta.",
       },
       {
         title: "Composição da carreta",
@@ -276,12 +276,12 @@ export const truckFamilies: TruckFamily[] = [
       },
       {
         alt: "Cabine leito do Meteor",
-        caption: "Cabine leito e área de descanso — foto real necessária.",
+        caption: "Cabine leito e área de descanso. Foto real necessária.",
         aspect: "4/3",
       },
       {
         alt: "Detalhe do quinta-roda e engate do Meteor",
-        caption: "Detalhe técnico do engate e quinta-roda — foto real necessária.",
+        caption: "Detalhe técnico do engate e quinta-roda. Foto real necessária.",
         aspect: "4/3",
       },
     ],

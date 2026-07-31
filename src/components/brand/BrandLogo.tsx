@@ -43,7 +43,7 @@ const heights = {
   lg: { full: "h-16", mark: "h-14" },
 } as const;
 
-const alt = "Christiano Tadeu — Caminhões Volkswagen";
+const alt = "Christiano Tadeu | Consultor Belcar Caminhões";
 
 export function BrandLogo({
   variant = "light",
@@ -99,7 +99,7 @@ export function BrandLogo({
   return (
     <Link
       to="/"
-      aria-label={`${siteConfig.shortName} — página inicial`}
+      aria-label={`${siteConfig.shortName} | página inicial`}
       className="inline-flex rounded-md"
     >
       {content}

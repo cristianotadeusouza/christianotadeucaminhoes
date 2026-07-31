@@ -198,7 +198,7 @@ function InventoryPage() {
         {items.length === 0 ? (
           <EmptyState
             title="Nenhuma oportunidade publicada no momento"
-            description="O estoque de caminhões novos e seminovos muda com frequência e é confirmado diretamente no atendimento — inclusive veículos que ainda não entraram no site. Fale pelo WhatsApp ou preencha o diagnóstico para receber o que faz sentido para a sua operação."
+            description="O estoque de caminhões novos e seminovos muda com frequência e é confirmado diretamente no atendimento. Isso inclui veículos que ainda não entraram no site. Fale pelo WhatsApp ou preencha o diagnóstico para receber opções adequadas à sua operação."
             action={
               <div className="flex flex-wrap justify-center gap-3">
                 <WhatsAppButton

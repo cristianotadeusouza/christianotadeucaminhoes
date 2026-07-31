@@ -5,10 +5,12 @@ import { SectionHeader } from "@/components/common/SectionHeader";
 import { CTASection } from "@/components/common/CTASection";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { siteSettings } from "@/data/site-settings";
+import { BelcarAffiliation } from "@/components/common/BelcarAffiliation";
+import { siteConfig } from "@/config/site";
 
 const title = "Sobre Christiano Tadeu | Venda consultiva de caminhões";
 const description =
-  "Atendimento consultivo em campo: análise da operação, indicação técnica de configuração e acompanhamento até a entrega do caminhão.";
+  "Conheça o trabalho de Christiano Tadeu, consultor de vendas da Belcar Caminhões em Goiás.";
 
 const principles = [
   {
@@ -24,7 +26,7 @@ const principles = [
   {
     title: "Acompanhamento até a entrega",
     description:
-      "Documentação, implemento e prazo continuam sendo acompanhados depois da assinatura — não só até a venda.",
+      "Documentação, implemento e prazo continuam sendo acompanhados depois da assinatura e até a entrega.",
   },
   {
     title: "Relação de longo prazo",
@@ -55,8 +57,8 @@ function AboutPage() {
             <SectionHeader
               as="h1"
               eyebrow="Sobre"
-              title="Christiano Tadeu, consultor de caminhões Volkswagen"
-              description="Atuação consultiva em campo, junto de transportadores e empresas que dependem do caminhão para faturar. A conversa começa pela operação e termina no veículo que faz sentido para ela."
+              title="Christiano Tadeu, consultor de vendas na Belcar Caminhões"
+              description="Atendimento a transportadores e empresas que dependem do caminhão para trabalhar. A conversa começa pela operação e segue pelos processos comerciais oficiais da Belcar."
             />
             <aside className="surface-road road-lines relative overflow-hidden rounded-2xl border border-white/10 p-8 shadow-raised sm:p-10">
               <BrandLogo
@@ -79,7 +81,11 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="container-content py-14 sm:py-20">
+      <section className="container-content py-10 sm:py-14">
+        <BelcarAffiliation />
+      </section>
+
+      <section className="container-content pb-14 sm:pb-20">
         <SectionHeader
           eyebrow="Como trabalho"
           title="Quatro compromissos que orientam o atendimento"
@@ -109,6 +115,9 @@ function AboutPage() {
           </p>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             {siteSettings.brandDisclosure}
+          </p>
+          <p className="mt-4 text-sm font-medium text-road">
+            {siteConfig.employer.legalName} | CNPJ {siteConfig.employer.cnpj}
           </p>
         </div>
       </section>

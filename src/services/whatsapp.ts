@@ -18,7 +18,8 @@ export function buildWhatsAppUrl(message: string): string {
 }
 
 export const whatsappMessages = {
-  general: "Olá, Christiano. Vim pelo site e gostaria de conversar sobre um caminhão Volkswagen.",
+  general:
+    "Olá, Christiano. Vim pelo seu site e gostaria de falar com você na Belcar sobre um caminhão Volkswagen.",
   family: (familyName: string) =>
     `Olá, Christiano. Vi no site a família ${familyName} e quero entender se ela atende minha operação.`,
   operation: (operationName: string) =>

@@ -27,6 +27,11 @@ export const navGroups: NavGroup[] = [
         description: "Um roteiro curto para chegar à proposta certa.",
       },
       {
+        label: "Fichas técnicas e cores",
+        to: "/fichas-tecnicas",
+        description: "Documentação dos modelos e códigos de cores.",
+      },
+      {
         label: "Entregas e casos",
         to: "/entregas",
         description: "Como as operações foram resolvidas.",
@@ -46,6 +51,7 @@ export const footerNav: NavGroup[] = [
       { label: "Delivery", to: "/caminhoes/delivery" },
       { label: "Constellation", to: "/caminhoes/constellation" },
       { label: "Meteor", to: "/caminhoes/meteor" },
+      { label: "Fichas técnicas e cores", to: "/fichas-tecnicas" },
     ],
   },
   {

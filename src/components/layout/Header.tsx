@@ -9,6 +9,7 @@ import { whatsappMessages } from "@/services/whatsapp";
 import { navGroups, primaryNav } from "@/components/layout/navigation";
 import { useScrollProgress } from "@/hooks/use-scroll-progress";
 import { cn } from "@/lib/utils";
+import { BelcarAffiliation } from "@/components/common/BelcarAffiliation";
 
 /** Cabeçalho principal — mobile-first, com menu lateral no celular. */
 export function Header() {
@@ -33,7 +34,10 @@ export function Header() {
           scrolled ? "py-2" : "py-3.5",
         )}
       >
-        <BrandLogo size="lg" className="max-w-[15rem] sm:max-w-[18rem]" />
+        <div className="min-w-0">
+          <BrandLogo size="lg" className="max-w-[15rem] sm:max-w-[18rem]" />
+          <BelcarAffiliation compact className="mt-1 hidden sm:inline-flex" />
+        </div>
 
         <div className="flex items-center gap-2">
           <nav aria-label="Navegação principal" className="hidden lg:block">
@@ -113,6 +117,10 @@ export function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
         <Button variant="ghost" size="icon" onClick={onNavigate} aria-label="Fechar menu">
           <X aria-hidden="true" />
         </Button>
+      </div>
+
+      <div className="border-b border-border bg-engineering/5 px-5 py-3">
+        <BelcarAffiliation compact />
       </div>
 
       <nav aria-label="Navegação" className="flex-1 px-5 py-5">

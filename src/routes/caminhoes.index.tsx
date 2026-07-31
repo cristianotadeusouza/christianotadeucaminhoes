@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { FileText } from "lucide-react";
 
 import type { TruckFamily } from "@/types";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
@@ -8,6 +9,7 @@ import { CommercialDisclaimer } from "@/components/common/CommercialDisclaimer";
 import { TruckFamilyCard } from "@/components/cards/TruckFamilyCard";
 import { siteSettings } from "@/data/site-settings";
 import { truckFamilyRepository } from "@/services/repositories";
+import { Button } from "@/components/ui/button";
 
 const title = "Caminhões Volkswagen: Delivery, Constellation e Meteor";
 const description =
@@ -54,6 +56,22 @@ function FamiliesPage() {
         <CommercialDisclaimer className="mt-10">
           {siteSettings.specificationDisclaimer}
         </CommercialDisclaimer>
+        <div className="mt-8 flex flex-col gap-4 rounded-xl border border-engineering/20 bg-engineering/5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <div className="flex items-start gap-4">
+            <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-road text-white">
+              <FileText className="size-5" aria-hidden="true" />
+            </span>
+            <div>
+              <h2 className="text-lg font-bold text-road">Fichas técnicas e cores</h2>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                Consulte 23 modelos e 34 códigos de cores recebidos para referência.
+              </p>
+            </div>
+          </div>
+          <Button asChild variant="institutional" className="shrink-0">
+            <Link to="/fichas-tecnicas">Abrir documentação</Link>
+          </Button>
+        </div>
       </section>
 
       <CTASection />

@@ -101,7 +101,7 @@ const interactionChannelLabels: Record<SalesInteraction["channel"], string> = {
 function contactWhatsAppUrl(contact: SalesContact) {
   const digits = contact.whatsapp.replace(/\D/g, "");
   const message = encodeURIComponent(
-    `Olá, ${contact.name}. Aqui é o Christiano. Podemos continuar a conversa sobre ${contact.interest || "seu próximo caminhão"}?`,
+    `Olá, ${contact.name}. Aqui é o Christiano, consultor de vendas da Belcar Caminhões. Podemos continuar a conversa sobre ${contact.interest || "seu próximo caminhão"}?`,
   );
   return digits ? `https://wa.me/${digits}?text=${message}` : `https://wa.me/?text=${message}`;
 }
@@ -109,7 +109,7 @@ function contactWhatsAppUrl(contact: SalesContact) {
 function contactGmailUrl(contact: SalesContact) {
   const subject = encodeURIComponent(`Caminhão Volkswagen - ${contact.interest || "atendimento"}`);
   const body = encodeURIComponent(
-    `Olá, ${contact.name}.\n\nConforme nossa conversa, seguimos à disposição para organizar a melhor configuração Volkswagen para sua operação.\n\nChristiano Tadeu\n${siteConfig.phone}`,
+    `Olá, ${contact.name}.\n\nConforme nossa conversa, sigo à disposição para organizar uma configuração Volkswagen adequada à sua operação.\n\nChristiano Tadeu\nConsultor de vendas | Belcar Caminhões\n${siteConfig.phone}`,
   );
   return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contact.email)}&su=${subject}&body=${body}`;
 }
@@ -334,29 +334,55 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
   const [password, setPassword] = useState("");
   const [checking, setChecking] = useState(true);
   const [busy, setBusy] = useState(false);
+  const [connectionError, setConnectionError] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
 
   useEffect(() => {
     const client = requireSupabase();
     let active = true;
+    let hydrating = false;
 
-    async function restoreSession() {
+    async function hydrateWorkspace() {
+      if (!active || hydrating) return;
+      hydrating = true;
       try {
-        const { data } = await client.auth.getClaims();
-        if (data?.claims && active) {
-          onReady(await loadCloudWorkspace());
-        }
+        const workspace = await loadCloudWorkspace();
+        if (active) onReady(workspace);
       } catch {
-        if (active) toast.error("Não foi possível consultar a sessão do painel.");
+        if (active) {
+          setConnectionError(true);
+          toast.error("Não foi possível carregar os dados do painel.");
+        }
       } finally {
+        hydrating = false;
         if (active) setChecking(false);
       }
     }
 
-    void restoreSession();
+    async function restoreSession() {
+      const { data, error } = await client.auth.getSession();
+      if (error) throw error;
+      if (data.session) await hydrateWorkspace();
+      else if (active) setChecking(false);
+    }
+
+    const { data: authListener } = client.auth.onAuthStateChange((event, session) => {
+      if (!session || event === "SIGNED_OUT") return;
+      window.setTimeout(() => void hydrateWorkspace(), 0);
+    });
+
+    void restoreSession().catch(() => {
+      if (active) {
+        setConnectionError(true);
+        setChecking(false);
+        toast.error("Não foi possível consultar a sessão do painel.");
+      }
+    });
     return () => {
       active = false;
+      authListener.subscription.unsubscribe();
     };
-  }, [onReady]);
+  }, [onReady, retryKey]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -366,6 +392,7 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
       const { error } = await client.auth.signInWithPassword({ email, password });
       if (error) throw error;
       onReady(await loadCloudWorkspace());
+      setConnectionError(false);
       toast.success("Painel sincronizado com segurança.");
     } catch {
       toast.error("E-mail ou senha incorretos.");
@@ -399,6 +426,31 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
         <div className="text-center">
           <LoaderCircle className="mx-auto size-8 animate-spin text-action" />
           <p className="mt-4 text-sm text-white/65">Conectando à central comercial...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (connectionError) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-road px-5 text-white">
+        <div className="w-full max-w-md rounded-2xl border border-white/15 bg-white p-7 text-center text-foreground shadow-raised">
+          <CloudOff className="mx-auto size-9 text-action" aria-hidden="true" />
+          <h1 className="mt-5 text-2xl font-bold text-road">A central não respondeu</h1>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            Sua sessão continua protegida. Verifique a conexão e tente carregar os dados novamente.
+          </p>
+          <Button
+            variant="institutional"
+            className="mt-6 w-full"
+            onClick={() => {
+              setConnectionError(false);
+              setChecking(true);
+              setRetryKey((value) => value + 1);
+            }}
+          >
+            Tentar novamente
+          </Button>
         </div>
       </div>
     );
@@ -1806,7 +1858,7 @@ function WorkspacePanel({
             <p className="text-technical text-xs font-semibold uppercase tracking-[0.13em] text-silver">
               Christiano Tadeu
             </p>
-            <p className="mt-1 text-lg font-bold">Central de vendas</p>
+            <p className="mt-1 text-lg font-bold">Central comercial Belcar</p>
           </div>
           <span className="grid size-10 place-items-center rounded-xl border border-white/10 bg-white/5">
             <Truck className="size-5 text-action" />

@@ -20,7 +20,7 @@ export const contentPosts: ContentPost[] = [
     readingMinutes: 4,
     cover: {
       alt: "Caminhão sendo avaliado antes da definição de configuração",
-      caption: "Christiano analisando a operação junto ao cliente — foto real necessária.",
+      caption: "Christiano analisando a operação junto ao cliente. Foto real necessária.",
       aspect: "16/9",
     },
     body: [
@@ -41,7 +41,7 @@ export const contentPosts: ContentPost[] = [
       },
       {
         type: "paragraph",
-        text: "Quando esses pontos estão claros, a lista de configurações possíveis diminui bastante — e a conversa deixa de ser sobre preferência e passa a ser sobre adequação.",
+        text: "Quando esses pontos estão claros, a lista de configurações possíveis diminui bastante. A conversa deixa de ser sobre preferência e passa a ser sobre adequação.",
       },
       { type: "heading", text: "O erro mais comum" },
       {
@@ -59,14 +59,14 @@ export const contentPosts: ContentPost[] = [
     isPublished: true,
     title: "O custo de manter um caminhão além do ponto de troca",
     description:
-      "Manutenção crescente, dias parado e frete não realizado raramente entram na conta — mas aparecem no caixa.",
+      "Manutenção crescente, dias parado e frete não realizado raramente entram na conta, mas aparecem no caixa.",
     category: "renovacao-de-frota",
     author: "Christiano Tadeu",
     publishedAt: "2026-01-26T09:00:00.000Z",
     readingMinutes: 4,
     cover: {
       alt: "Caminhão em manutenção no pátio de uma transportadora",
-      caption: "Veículo em manutenção ou pátio de frota — foto real necessária.",
+      caption: "Veículo em manutenção ou pátio de frota. Foto real necessária.",
       aspect: "16/9",
     },
     body: [
@@ -87,7 +87,7 @@ export const contentPosts: ContentPost[] = [
       },
       {
         type: "paragraph",
-        text: "Colocados lado a lado, esses números costumam mudar a percepção. Em muitos casos o custo de manter já se aproxima do custo de renovar — e a diferença está em previsibilidade, não em economia.",
+        text: "Colocados lado a lado, esses números costumam mudar a percepção. Em muitos casos, o custo de manter já se aproxima do custo de renovar. A diferença está em previsibilidade, não em economia.",
       },
       { type: "heading", text: "Quando esperar faz sentido" },
       {
@@ -108,7 +108,7 @@ export const contentPosts: ContentPost[] = [
     readingMinutes: 3,
     cover: {
       alt: "Análise de proposta comercial de aquisição de caminhão",
-      caption: "Atendimento com cliente analisando proposta — foto real necessária.",
+      caption: "Atendimento com cliente analisando proposta. Foto real necessária.",
       aspect: "16/9",
     },
     body: [
@@ -129,7 +129,7 @@ export const contentPosts: ContentPost[] = [
       },
       {
         type: "paragraph",
-        text: "Condições variam conforme o perfil do cliente, o veículo, a campanha vigente e a análise de crédito. Por isso não existe taxa ou aprovação prometida antes da análise — existe organização das informações para que a proposta chegue coerente com a realidade da empresa.",
+        text: "As condições variam conforme o perfil do cliente, o veículo, a campanha vigente e a análise de crédito. Por isso, não há taxa ou aprovação prometida antes da análise. O que existe é organização para a proposta chegar coerente com a realidade da empresa.",
       },
       {
         type: "paragraph",

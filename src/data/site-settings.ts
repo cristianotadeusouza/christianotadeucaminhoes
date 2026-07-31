@@ -4,7 +4,7 @@ import { siteConfig } from "@/config/site";
 export const siteSettings: SiteSettings = {
   signature: siteConfig.signature,
   serviceAreaNote:
-    "Atendimento presencial e por WhatsApp. A região atendida é confirmada no primeiro contato.",
+    "Atendimento comercial pela Belcar Caminhões, presencialmente, por telefone e pelo WhatsApp. A região atendida é confirmada no primeiro contato.",
   commercialDisclaimer: siteConfig.commercialDisclaimer,
   brandDisclosure: siteConfig.dealershipDisclosure,
   specificationDisclaimer:

@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 import { siteSettings } from "@/data/site-settings";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { whatsappMessages } from "@/services/whatsapp";
+import { BelcarAffiliation } from "@/components/common/BelcarAffiliation";
 
 /** Rodapé institucional — versão negativa da marca sobre Azul Estrada. */
 export function Footer() {
@@ -24,9 +25,11 @@ export function Footer() {
               className="max-w-[18rem]"
             />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-silver">
-              Venda consultiva de caminhões Volkswagen: análise da operação, indicação de
-              configuração, apoio no financiamento e acompanhamento até a entrega.
+              Atendimento de caminhões Volkswagen por Christiano Tadeu, consultor de vendas da
+              Belcar Caminhões.
             </p>
+
+            <BelcarAffiliation compact dark className="mt-4" />
 
             <div className="mt-6 space-y-2 text-sm text-silver">
               {siteConfig.phone && (
@@ -83,6 +86,9 @@ export function Footer() {
         </div>
 
         <div className="mt-12 space-y-4 border-t border-silver/20 pt-8 text-xs leading-relaxed text-silver">
+          <p className="font-semibold text-road-foreground">
+            Vínculo profissional: {siteConfig.employer.legalName} | CNPJ {siteConfig.employer.cnpj}
+          </p>
           <p>{siteSettings.commercialDisclaimer}</p>
           <p>{siteSettings.brandDisclosure}</p>
           <div className="flex flex-col gap-3 text-silver/80 sm:flex-row sm:items-center sm:justify-between">

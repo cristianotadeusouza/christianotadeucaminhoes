@@ -27,6 +27,7 @@ import {
   truckFamilyRepository,
 } from "@/services/repositories";
 import { whatsappMessages } from "@/services/whatsapp";
+import { BelcarAffiliation } from "@/components/common/BelcarAffiliation";
 
 export const Route = createFileRoute("/")({
   loader: async () => ({
@@ -112,14 +113,14 @@ function Index() {
           <div className="home-hero__content max-w-3xl">
             <p className="eyebrow flex items-center gap-3 text-silver">
               <span className="h-px w-8 bg-action" aria-hidden="true" />
-              Venda consultiva de caminhões Volkswagen
+              Consultor de vendas na Belcar Caminhões
             </p>
             <h1 className="home-hero__title mt-6 max-w-3xl text-[clamp(2.65rem,7vw,5.8rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white">
               O caminhão certo começa pela operação certa.
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg lg:text-xl">
-              Christiano Tadeu ajuda a transformar carga, rota e implemento em uma escolha mais
-              segura — da configuração à proposta, com acompanhamento até a entrega.
+              Christiano entende a carga, a rota e o implemento antes de indicar a configuração.
+              Depois, acompanha a proposta e a entrega pelos processos oficiais da Belcar Caminhões.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Button asChild variant="action" size="xl" className="group">
@@ -167,6 +168,12 @@ function Index() {
               />
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border bg-background py-8 sm:py-10">
+        <div className="container-content">
+          <BelcarAffiliation />
         </div>
       </section>
 
@@ -237,8 +244,8 @@ function Index() {
             <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
               <SectionHeader
                 eyebrow="Portfólio Volkswagen"
-                title="Três famílias. Uma escolha orientada pela operação."
-                description="Delivery, Constellation e Meteor cobrem perfis distintos. O modelo e a configuração final são confirmados depois do diagnóstico."
+                title="Delivery, Constellation e Meteor para operações diferentes"
+                description="A família ajuda a iniciar a conversa. O modelo e a configuração são definidos depois de entender carga, rota e implemento."
               />
               <Button asChild variant="institutional" size="lg" className="group lg:mb-1">
                 <Link to="/caminhoes">
@@ -333,7 +340,7 @@ function Index() {
             <SectionHeader
               eyebrow="Conteúdo que ajuda a decidir"
               title="Critério comercial também se constrói com informação"
-              description="Leituras diretas sobre configuração, operação, renovação e financiamento — sem promessas ou atalhos fáceis."
+              description="Leituras diretas sobre configuração, operação, renovação e financiamento, sem promessas ou atalhos fáceis."
             />
             <Button asChild variant="quiet" size="lg" className="group lg:mb-1">
               <Link to="/conteudos">

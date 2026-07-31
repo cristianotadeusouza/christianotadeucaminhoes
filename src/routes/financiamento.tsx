@@ -76,7 +76,7 @@ const faq = [
   {
     question: "Qual entrada costuma ser pedida?",
     answer:
-      "Varia conforme o perfil de crédito, o veículo, o prazo e a campanha vigente. Esse número só faz sentido depois da análise — antes disso, qualquer percentual seria chute.",
+      "Varia conforme o perfil de crédito, o veículo, o prazo e a campanha vigente. Esse número só faz sentido depois da análise. Antes disso, qualquer percentual seria chute.",
   },
   {
     question: "O implemento pode entrar no financiamento?",

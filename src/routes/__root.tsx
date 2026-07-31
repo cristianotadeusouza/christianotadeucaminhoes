@@ -112,7 +112,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Person",
           name: "Christiano Tadeu",
-          jobTitle: "Consultor de vendas de caminhões Volkswagen",
+          url: siteConfig.siteUrl,
+          jobTitle: siteConfig.jobTitle,
+          worksFor: {
+            "@type": "Organization",
+            name: siteConfig.employer.name,
+            legalName: siteConfig.employer.legalName,
+            taxID: siteConfig.employer.cnpj,
+            url: siteConfig.employer.website,
+          },
           description: siteConfig.description,
           slogan: siteConfig.signature,
           knowsAbout: [

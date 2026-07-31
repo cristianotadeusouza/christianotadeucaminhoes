@@ -28,7 +28,7 @@ export const caseStudies: CaseStudy[] = [
     media: [
       {
         alt: "Entrega do caminhão ao cliente",
-        caption: "Foto da entrega, com autorização do cliente — foto real necessária.",
+        caption: "Foto da entrega com autorização do cliente. Foto real necessária.",
         aspect: "3/2",
       },
     ],

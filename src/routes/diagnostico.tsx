@@ -314,17 +314,17 @@ function DiagnosticPage() {
       "Olá, Christiano. Fiz o diagnóstico pelo site.",
       "",
       `Nome: ${form.name}`,
-      `Empresa: ${form.companyName || "—"}`,
-      `Cidade: ${[form.city, form.state.toUpperCase()].filter(Boolean).join("/") || "—"}`,
-      `Atividade: ${form.activity || "—"}`,
-      `Carga: ${form.cargoType || "—"}`,
-      `Rota: ${labelOf(routeProfiles, form.routeProfile) || "—"}`,
-      `Caminhão atual: ${form.currentTruck || "—"}`,
-      `Objetivo: ${labelOf(goals, form.purchaseGoal) || "—"}`,
-      `Quantidade: ${form.quantity || "—"}`,
-      `Prazo: ${labelOf(horizons, form.horizon) || "—"}`,
+      `Empresa: ${form.companyName || "Não informado"}`,
+      `Cidade: ${[form.city, form.state.toUpperCase()].filter(Boolean).join("/") || "Não informado"}`,
+      `Atividade: ${form.activity || "Não informado"}`,
+      `Carga: ${form.cargoType || "Não informado"}`,
+      `Rota: ${labelOf(routeProfiles, form.routeProfile) || "Não informado"}`,
+      `Caminhão atual: ${form.currentTruck || "Não informado"}`,
+      `Objetivo: ${labelOf(goals, form.purchaseGoal) || "Não informado"}`,
+      `Quantidade: ${form.quantity || "Não informado"}`,
+      `Prazo: ${labelOf(horizons, form.horizon) || "Não informado"}`,
       `Financiamento: ${form.financingInterest ? "Sim" : "Não"}`,
-      `Observações: ${form.notes || "—"}`,
+      `Observações: ${form.notes || "Não informado"}`,
     ].join("\n");
   }
 
@@ -384,7 +384,7 @@ function DiagnosticPage() {
 
       if (hasWhatsAppNumber) {
         openWhatsApp(message, { placement: "diagnostic_form" });
-        toast.success("Diagnóstico pronto — é só enviar a mensagem no WhatsApp.");
+        toast.success("Diagnóstico pronto. Agora é só enviar a mensagem no WhatsApp.");
       } else {
         const copied = await navigator.clipboard
           ?.writeText(message)
@@ -421,7 +421,7 @@ function DiagnosticPage() {
             className="mt-6 max-w-3xl"
             eyebrow="Diagnóstico"
             title="Um roteiro curto para chegar à configuração certa"
-            description="São seis etapas rápidas. Ao final o resumo é organizado para você enviar pelo WhatsApp — nada é publicado nem compartilhado."
+            description="São seis etapas rápidas. No final, o resumo fica pronto para você enviar pelo WhatsApp. Nada é publicado ou compartilhado."
           />
         </div>
       </section>

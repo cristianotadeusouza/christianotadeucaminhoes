@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as EntregasRouteImport } from './routes/entregas'
+import { Route as FichasTecnicasRouteImport } from './routes/fichas-tecnicas'
 import { Route as FinanciamentoRouteImport } from './routes/financiamento'
 import { Route as OperacoesRouteImport } from './routes/operacoes'
 import { Route as PainelRouteImport } from './routes/painel'
@@ -45,6 +46,11 @@ const DiagnosticoRoute = DiagnosticoRouteImport.update({
 const EntregasRoute = EntregasRouteImport.update({
   id: '/entregas',
   path: '/entregas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FichasTecnicasRoute = FichasTecnicasRouteImport.update({
+  id: '/fichas-tecnicas',
+  path: '/fichas-tecnicas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanciamentoRoute = FinanciamentoRouteImport.update({
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/contato': typeof ContatoRoute
   '/diagnostico': typeof DiagnosticoRoute
   '/entregas': typeof EntregasRoute
+  '/fichas-tecnicas': typeof FichasTecnicasRoute
   '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
   '/painel': typeof PainelRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/contato': typeof ContatoRoute
   '/diagnostico': typeof DiagnosticoRoute
   '/entregas': typeof EntregasRoute
+  '/fichas-tecnicas': typeof FichasTecnicasRoute
   '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
   '/painel': typeof PainelRoute
@@ -157,6 +165,7 @@ export interface FileRoutesById {
   '/contato': typeof ContatoRoute
   '/diagnostico': typeof DiagnosticoRoute
   '/entregas': typeof EntregasRoute
+  '/fichas-tecnicas': typeof FichasTecnicasRoute
   '/financiamento': typeof FinanciamentoRoute
   '/operacoes': typeof OperacoesRoute
   '/painel': typeof PainelRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/contato'
     | '/diagnostico'
     | '/entregas'
+    | '/fichas-tecnicas'
     | '/financiamento'
     | '/operacoes'
     | '/painel'
@@ -197,6 +207,7 @@ export interface FileRouteTypes {
     | '/contato'
     | '/diagnostico'
     | '/entregas'
+    | '/fichas-tecnicas'
     | '/financiamento'
     | '/operacoes'
     | '/painel'
@@ -216,6 +227,7 @@ export interface FileRouteTypes {
     | '/contato'
     | '/diagnostico'
     | '/entregas'
+    | '/fichas-tecnicas'
     | '/financiamento'
     | '/operacoes'
     | '/painel'
@@ -236,6 +248,7 @@ export interface RootRouteChildren {
   ContatoRoute: typeof ContatoRoute
   DiagnosticoRoute: typeof DiagnosticoRoute
   EntregasRoute: typeof EntregasRoute
+  FichasTecnicasRoute: typeof FichasTecnicasRoute
   FinanciamentoRoute: typeof FinanciamentoRoute
   OperacoesRoute: typeof OperacoesRoute
   PainelRoute: typeof PainelRoute
@@ -279,6 +292,13 @@ declare module '@tanstack/react-router' {
       path: '/entregas'
       fullPath: '/entregas'
       preLoaderRoute: typeof EntregasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fichas-tecnicas': {
+      id: '/fichas-tecnicas'
+      path: '/fichas-tecnicas'
+      fullPath: '/fichas-tecnicas'
+      preLoaderRoute: typeof FichasTecnicasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/financiamento': {
@@ -380,6 +400,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContatoRoute: ContatoRoute,
   DiagnosticoRoute: DiagnosticoRoute,
   EntregasRoute: EntregasRoute,
+  FichasTecnicasRoute: FichasTecnicasRoute,
   FinanciamentoRoute: FinanciamentoRoute,
   OperacoesRoute: OperacoesRoute,
   PainelRoute: PainelRoute,

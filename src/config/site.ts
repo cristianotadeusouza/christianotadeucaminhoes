@@ -11,13 +11,13 @@ const env = import.meta.env as Record<string, string | undefined>;
 export const WHATSAPP_NUMBER = env.VITE_WHATSAPP_NUMBER ?? "5562982689070";
 
 export const siteConfig = {
-  siteName: "Christiano Tadeu — Caminhões Volkswagen",
+  siteName: "Christiano Tadeu | Consultor Belcar Caminhões",
   shortName: "Christiano Tadeu",
   signature: "O caminhão certo para sua operação.",
   siteUrl: env.VITE_SITE_URL ?? "https://caminhoes.christianotadeu.workers.dev",
-  title: "Christiano Tadeu | Caminhões Volkswagen",
+  title: "Christiano Tadeu | Consultor Belcar Caminhões",
   description:
-    "Venda consultiva de caminhões Volkswagen: análise da operação, indicação de configuração, financiamento e acompanhamento até a entrega.",
+    "Atendimento comercial de caminhões Volkswagen por Christiano Tadeu, consultor de vendas da Belcar Caminhões em Goiás.",
   phone: env.VITE_CONTACT_PHONE ?? "+55 62 98268-9070",
   whatsapp: WHATSAPP_NUMBER,
   email: env.VITE_CONTACT_EMAIL ?? "cristiano.tadeu.souza@gmail.com",
@@ -32,11 +32,19 @@ export const siteConfig = {
   },
   googleSiteVerification: env.VITE_GOOGLE_SITE_VERIFICATION ?? "",
   legalName: "Christiano Tadeu",
-  /** Aviso obrigatório de relação com a marca Volkswagen. */
+  jobTitle: "Consultor de vendas",
+  employer: {
+    name: "Belcar Caminhões",
+    legalName: "Belcar Caminhões e Máquinas Ltda.",
+    cnpj: "02.212.918/0001-20",
+    website: "https://www.belcarcaminhoes.com.br/",
+    officialContact: "https://www.belcarcaminhoes.com.br/fale-conosco",
+  },
+  /** Aviso obrigatório de vínculo profissional e uso das marcas. */
   dealershipDisclosure:
-    "Este site representa a atuação profissional de Christiano Tadeu na venda consultiva de caminhões. Não se trata de site oficial da Volkswagen Caminhões e Ônibus. Marcas, nomes e modelos citados pertencem aos respectivos titulares.",
+    "Este é o site profissional de Christiano Tadeu, consultor de vendas da Belcar Caminhões. Não é o site institucional da Belcar Caminhões nem da Volkswagen Caminhões e Ônibus. Propostas, pedidos, condições, disponibilidade, faturamento e documentação são confirmados e formalizados pela Belcar Caminhões e Máquinas Ltda. Marcas e modelos pertencem aos respectivos titulares.",
   commercialDisclaimer:
-    "Disponibilidade, configurações, condições comerciais e de financiamento estão sujeitas a estoque, campanha vigente e análise de crédito.",
+    "Disponibilidade, configurações, preços, prazos e condições de financiamento dependem do estoque, da campanha vigente e da análise de crédito. A confirmação ocorre na proposta oficial da Belcar Caminhões.",
 } as const;
 
 export const analyticsEnabled = (env.VITE_ANALYTICS_ENABLED ?? "false") === "true";
