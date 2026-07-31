@@ -352,10 +352,13 @@ function InventoryPage() {
             />
           )}
         </div>
+          </>
+        )}
 
         <CommercialDisclaimer className="mt-10">
           {siteSettings.commercialDisclaimer}
         </CommercialDisclaimer>
+
       </section>
 
       <CTASection />
