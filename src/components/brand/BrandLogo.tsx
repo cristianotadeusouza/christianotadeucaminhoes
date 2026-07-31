@@ -85,7 +85,9 @@ export function BrandLogo({
         />
       )}
       {withSignature && (
-        <span className={cn("text-xs", variant === "dark" ? "text-silver" : "text-muted-foreground")}>
+        <span
+          className={cn("text-xs", variant === "dark" ? "text-silver" : "text-muted-foreground")}
+        >
           {siteConfig.signature}
         </span>
       )}

@@ -20,13 +20,21 @@ const modalities = [
     name: "Financiamento bancário",
     summary:
       "Modalidade mais comum na aquisição de veículos pesados, com entrada, prazo e garantia definidos conforme o perfil da empresa.",
-    points: ["Entrada e prazo variam por perfil", "Análise de crédito obrigatória", "Alienação do veículo como garantia"],
+    points: [
+      "Entrada e prazo variam por perfil",
+      "Análise de crédito obrigatória",
+      "Alienação do veículo como garantia",
+    ],
   },
   {
     name: "Linhas de financiamento para máquinas e equipamentos",
     summary:
       "Dependem de enquadramento, do tipo de operação e de campanha vigente. A elegibilidade é confirmada caso a caso.",
-    points: ["Enquadramento precisa ser verificado", "Documentação específica", "Prazos costumam ser mais longos"],
+    points: [
+      "Enquadramento precisa ser verificado",
+      "Documentação específica",
+      "Prazos costumam ser mais longos",
+    ],
   },
   {
     name: "Recursos próprios",
@@ -48,7 +56,6 @@ const modalities = [
       "Pode ser combinado com financiamento",
     ],
   },
-
 ];
 
 const documents = [
@@ -165,8 +172,8 @@ function FinancingPage() {
             <h2 className="text-xl font-semibold text-road sm:text-2xl">Como funciona a análise</h2>
             <ol className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
               <li>
-                <span className="font-semibold text-road">1. Contexto da operação.</span> Entender
-                o veículo pretendido, o implemento e o objetivo da aquisição.
+                <span className="font-semibold text-road">1. Contexto da operação.</span> Entender o
+                veículo pretendido, o implemento e o objetivo da aquisição.
               </li>
               <li>
                 <span className="font-semibold text-road">2. Organização da documentação.</span>{" "}

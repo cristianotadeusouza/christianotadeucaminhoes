@@ -24,8 +24,7 @@ const buttonVariants = cva(
         institutional:
           "bg-engineering text-engineering-foreground shadow-sm hover:bg-engineering/90 font-semibold",
         /** WhatsApp — Verde Resultado (uso restrito) */
-        whatsapp:
-          "bg-result text-result-foreground shadow-sm hover:bg-result/90 font-semibold",
+        whatsapp: "bg-result text-result-foreground shadow-sm hover:bg-result/90 font-semibold",
         /** Contorno sobre fundos escuros institucionais */
         onDark:
           "border border-silver/40 bg-transparent text-road-foreground hover:bg-road-foreground/10 font-medium",

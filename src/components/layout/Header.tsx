@@ -33,8 +33,7 @@ export function Header() {
           scrolled ? "py-2" : "py-3",
         )}
       >
-
-        <BrandLogo size="sm" />
+        <BrandLogo size="md" className="max-w-[13rem] sm:max-w-[16rem]" />
 
         <div className="flex items-center gap-2">
           <nav aria-label="Navegação principal" className="hidden lg:block">
@@ -110,7 +109,7 @@ export function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div className="flex min-h-full flex-col">
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
-        <BrandLogo size="sm" asLink={false} />
+        <BrandLogo size="sm" lockup="full" asLink={false} className="max-w-[11rem]" />
         <Button variant="ghost" size="icon" onClick={onNavigate} aria-label="Fechar menu">
           <X aria-hidden="true" />
         </Button>

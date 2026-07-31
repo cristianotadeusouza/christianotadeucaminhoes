@@ -110,7 +110,6 @@ function InventoryPage() {
       replace: true,
     });
 
-
   const filtered = useMemo(() => {
     const term = q.trim().toLowerCase();
     const result = (items as InventoryItem[]).filter((item) => {
@@ -215,152 +214,155 @@ function InventoryPage() {
           />
         ) : (
           <>
-        <div className="rounded-xl border border-border bg-card p-5 shadow-card">
+            <div className="rounded-xl border border-border bg-card p-5 shadow-card">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
+                <div className="flex-1">
+                  <label htmlFor="busca" className="text-sm font-medium text-foreground">
+                    Buscar
+                  </label>
+                  <Input
+                    id="busca"
+                    value={q}
+                    onChange={(event) => setSearch({ q: event.target.value })}
+                    placeholder="Modelo, configuração ou aplicação"
+                    className="mt-2"
+                  />
+                </div>
+                <fieldset className="flex-1">
+                  <legend className="text-sm font-medium text-foreground">Família</legend>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {familyFilters.map((option) => (
+                      <Button
+                        key={option.value}
+                        type="button"
+                        size="sm"
+                        aria-pressed={familia === option.value}
+                        variant={familia === option.value ? "institutional" : "quiet"}
+                        onClick={() => setSearch({ familia: option.value })}
+                      >
+                        {option.label}
+                      </Button>
+                    ))}
+                  </div>
+                </fieldset>
+                <fieldset className="flex-1">
+                  <legend className="text-sm font-medium text-foreground">Condição</legend>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {conditionFilters.map((option) => (
+                      <Button
+                        key={option.value}
+                        type="button"
+                        size="sm"
+                        aria-pressed={condicao === option.value}
+                        variant={condicao === option.value ? "institutional" : "quiet"}
+                        onClick={() => setSearch({ condicao: option.value })}
+                      >
+                        {option.label}
+                      </Button>
+                    ))}
+                  </div>
+                </fieldset>
+              </div>
 
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
-            <div className="flex-1">
-              <label htmlFor="busca" className="text-sm font-medium text-foreground">
-                Buscar
-              </label>
-              <Input
-                id="busca"
-                value={q}
-                onChange={(event) => setSearch({ q: event.target.value })}
-                placeholder="Modelo, configuração ou aplicação"
-                className="mt-2"
-              />
-            </div>
-            <fieldset className="flex-1">
-              <legend className="text-sm font-medium text-foreground">Família</legend>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {familyFilters.map((option) => (
+              <div className="mt-5 flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex min-w-0 items-center gap-2">
+                  <SlidersHorizontal
+                    className="size-4 shrink-0 text-muted-foreground"
+                    aria-hidden
+                  />
+                  <label htmlFor="ordem" className="sr-only">
+                    Ordenar resultados
+                  </label>
+                  <select
+                    id="ordem"
+                    value={ordem}
+                    onChange={(event) => setSearch({ ordem: event.target.value as SortValue })}
+                    className="rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground transition-colors hover:border-engineering/50"
+                  >
+                    {sortOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <p aria-live="polite" className="text-technical text-sm text-muted-foreground">
+                  <strong className="text-foreground">{filtered.length}</strong>{" "}
+                  {filtered.length === 1 ? "veículo" : "veículos"}
+                  {availableCount > 0 && <> · {availableCount} disponível(is) agora</>}
+                </p>
+              </div>
+
+              {activeFilters.length > 0 && (
+                <div className="mt-4 flex flex-wrap items-center gap-2">
+                  {activeFilters.map((filter) => (
+                    <button
+                      key={filter.key}
+                      type="button"
+                      onClick={() =>
+                        setSearch({ [filter.key]: filter.reset } as Partial<InventorySearch>)
+                      }
+                      className="group"
+                      aria-label={`Remover filtro ${filter.label}`}
+                    >
+                      <Badge
+                        variant="outline"
+                        className="gap-1 border-engineering/40 text-engineering transition-colors group-hover:bg-engineering/10"
+                      >
+                        {filter.label}
+                        <X className="size-3" aria-hidden />
+                      </Badge>
+                    </button>
+                  ))}
                   <Button
-                    key={option.value}
                     type="button"
                     size="sm"
-                    aria-pressed={familia === option.value}
-                    variant={familia === option.value ? "institutional" : "quiet"}
-                    onClick={() => setSearch({ familia: option.value })}
-                  >
-                    {option.label}
-                  </Button>
-                ))}
-              </div>
-            </fieldset>
-            <fieldset className="flex-1">
-              <legend className="text-sm font-medium text-foreground">Condição</legend>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {conditionFilters.map((option) => (
-                  <Button
-                    key={option.value}
-                    type="button"
-                    size="sm"
-                    aria-pressed={condicao === option.value}
-                    variant={condicao === option.value ? "institutional" : "quiet"}
-                    onClick={() => setSearch({ condicao: option.value })}
-                  >
-                    {option.label}
-                  </Button>
-                ))}
-              </div>
-            </fieldset>
-          </div>
-
-          <div className="mt-5 flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex min-w-0 items-center gap-2">
-              <SlidersHorizontal className="size-4 shrink-0 text-muted-foreground" aria-hidden />
-              <label htmlFor="ordem" className="sr-only">
-                Ordenar resultados
-              </label>
-              <select
-                id="ordem"
-                value={ordem}
-                onChange={(event) => setSearch({ ordem: event.target.value as SortValue })}
-                className="rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground transition-colors hover:border-engineering/50"
-              >
-                {sortOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <p aria-live="polite" className="text-technical text-sm text-muted-foreground">
-              <strong className="text-foreground">{filtered.length}</strong>{" "}
-              {filtered.length === 1 ? "veículo" : "veículos"}
-              {availableCount > 0 && <> · {availableCount} disponível(is) agora</>}
-            </p>
-          </div>
-
-          {activeFilters.length > 0 && (
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              {activeFilters.map((filter) => (
-                <button
-                  key={filter.key}
-                  type="button"
-                  onClick={() => setSearch({ [filter.key]: filter.reset } as Partial<InventorySearch>)}
-                  className="group"
-                  aria-label={`Remover filtro ${filter.label}`}
-                >
-                  <Badge
-                    variant="outline"
-                    className="gap-1 border-engineering/40 text-engineering transition-colors group-hover:bg-engineering/10"
-                  >
-                    {filter.label}
-                    <X className="size-3" aria-hidden />
-                  </Badge>
-                </button>
-              ))}
-              <Button
-                type="button"
-                size="sm"
-                variant="quiet"
-                onClick={() => setSearch({ q: "", familia: "todos", condicao: "todos" })}
-              >
-                Limpar filtros
-              </Button>
-            </div>
-          )}
-        </div>
-
-        <div className="mt-10">
-          {filtered.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filtered.map((item, index) => (
-                <Reveal key={item.id} delay={Math.min(index, 5) * 70} className="flex">
-                  <InventoryCard item={item} />
-                </Reveal>
-              ))}
-            </div>
-          ) : (
-            <EmptyState
-              title="Nenhum veículo com esses filtros"
-              description="Ajuste a busca ou fale diretamente: muitas oportunidades são confirmadas antes de entrar no site."
-              action={
-                <div className="flex flex-wrap justify-center gap-3">
-                  <Button
-                    type="button"
-                    variant="institutional"
+                    variant="quiet"
                     onClick={() => setSearch({ q: "", familia: "todos", condicao: "todos" })}
                   >
                     Limpar filtros
                   </Button>
-                  <Button asChild variant="quiet">
-                    <Link to="/contato">Falar com Christiano</Link>
-                  </Button>
                 </div>
-              }
-            />
-          )}
-        </div>
+              )}
+            </div>
+
+            <div className="mt-10">
+              {filtered.length > 0 ? (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {filtered.map((item, index) => (
+                    <Reveal key={item.id} delay={Math.min(index, 5) * 70} className="flex">
+                      <InventoryCard item={item} />
+                    </Reveal>
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  title="Nenhum veículo com esses filtros"
+                  description="Ajuste a busca ou fale diretamente: muitas oportunidades são confirmadas antes de entrar no site."
+                  action={
+                    <div className="flex flex-wrap justify-center gap-3">
+                      <Button
+                        type="button"
+                        variant="institutional"
+                        onClick={() => setSearch({ q: "", familia: "todos", condicao: "todos" })}
+                      >
+                        Limpar filtros
+                      </Button>
+                      <Button asChild variant="quiet">
+                        <Link to="/contato">Falar com Christiano</Link>
+                      </Button>
+                    </div>
+                  }
+                />
+              )}
+            </div>
           </>
         )}
 
         <CommercialDisclaimer className="mt-10">
           {siteSettings.commercialDisclaimer}
         </CommercialDisclaimer>
-
       </section>
 
       <CTASection />

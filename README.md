@@ -306,27 +306,27 @@ Organização sugerida:
 
 src/
 
-  components/
+components/
 
-  pages/
+pages/
 
-  layouts/
+layouts/
 
-  features/
+features/
 
-  services/
+services/
 
-  data/
+data/
 
-  hooks/
+hooks/
 
-  types/
+types/
 
-  lib/
+lib/
 
-  config/
+config/
 
-  assets/
+assets/
 
 Criar interfaces TypeScript para as entidades futuras:
 

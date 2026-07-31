@@ -18,7 +18,6 @@ import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
 
-
 function NotFoundComponent() {
   return (
     <div className="container-content flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
@@ -91,8 +90,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "O caminhão certo para sua operação." },
       { property: "og:description", content: "O caminhão certo para sua operação." },
       { name: "twitter:description", content: "O caminhão certo para sua operação." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/MDGqPf2OQPQnaTTfJ9so3XZG3no1/social-images/social-1785506272752-IMG_1460.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/MDGqPf2OQPQnaTTfJ9so3XZG3no1/social-images/social-1785506272752-IMG_1460.webp" },
+      {
+        property: "og:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/MDGqPf2OQPQnaTTfJ9so3XZG3no1/social-images/social-1785506272752-IMG_1460.webp",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/MDGqPf2OQPQnaTTfJ9so3XZG3no1/social-images/social-1785506272752-IMG_1460.webp",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -164,6 +171,5 @@ function RootComponent() {
       <FloatingWhatsApp />
       <Toaster />
     </QueryClientProvider>
-
   );
 }

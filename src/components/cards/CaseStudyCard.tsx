@@ -11,7 +11,9 @@ export function CaseStudyCard({ item }: { item: CaseStudy }) {
           {item.segment}
         </Badge>
         <h3 className="mt-3 text-lg font-semibold text-road">{item.title}</h3>
-        {item.city && <p className="text-technical mt-1 text-sm text-muted-foreground">{item.city}</p>}
+        {item.city && (
+          <p className="text-technical mt-1 text-sm text-muted-foreground">{item.city}</p>
+        )}
         <dl className="mt-4 space-y-3 text-sm">
           <div>
             <dt className="font-medium text-foreground">Situação inicial</dt>

@@ -21,21 +21,10 @@ export interface Auditable {
 /* ------------------------------------------------------------------ */
 
 export type LeadStatus =
-  | "novo"
-  | "em_contato"
-  | "qualificado"
-  | "proposta"
-  | "negociacao"
-  | "ganho"
-  | "perdido";
+  "novo" | "em_contato" | "qualificado" | "proposta" | "negociacao" | "ganho" | "perdido";
 
 export type LeadSource =
-  | "diagnostico"
-  | "contato"
-  | "financiamento"
-  | "oportunidade"
-  | "whatsapp"
-  | "conteudo";
+  "diagnostico" | "contato" | "financiamento" | "oportunidade" | "whatsapp" | "conteudo";
 
 export type PurchaseGoal = "primeiro_caminhao" | "ampliacao" | "renovacao" | "avaliando";
 export type RouteProfile = "urbana" | "regional" | "rodoviaria" | "mista";
@@ -174,11 +163,7 @@ export interface Vehicle extends Auditable {
 }
 
 export type InventoryStatus =
-  | "disponivel"
-  | "sob_consulta"
-  | "reservado"
-  | "vendido"
-  | "campanha_encerrada";
+  "disponivel" | "sob_consulta" | "reservado" | "vendido" | "campanha_encerrada";
 
 export type InventoryCondition = "novo" | "seminovo";
 

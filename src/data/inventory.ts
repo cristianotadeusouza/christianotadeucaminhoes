@@ -14,8 +14,7 @@ import type { InventoryItem } from "@/types";
 export const inventoryItems: InventoryItem[] = [];
 
 /** `null` enquanto não houver item real publicado — nunca inventar uma data. */
-export const inventoryUpdatedAt: string | null =
-  inventoryItems.reduce<string | null>(
-    (latest, item) => (latest === null || item.updatedAt > latest ? item.updatedAt : latest),
-    null,
-  );
+export const inventoryUpdatedAt: string | null = inventoryItems.reduce<string | null>(
+  (latest, item) => (latest === null || item.updatedAt > latest ? item.updatedAt : latest),
+  null,
+);

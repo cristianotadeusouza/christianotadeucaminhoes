@@ -172,7 +172,8 @@ function maskWhatsApp(input: string) {
   const digits = input.replace(/\D/g, "").slice(0, 11);
   if (digits.length <= 2) return digits;
   if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  if (digits.length <= 10)
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
   return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
 }
 
@@ -560,7 +561,9 @@ function DiagnosticPage() {
                     autoComplete="address-level1"
                     maxLength={2}
                     value={form.state}
-                    onChange={(value) => update("state", value.toUpperCase().replace(/[^A-Z]/g, ""))}
+                    onChange={(value) =>
+                      update("state", value.toUpperCase().replace(/[^A-Z]/g, ""))
+                    }
                   />
                   <Field
                     id="whatsapp"
