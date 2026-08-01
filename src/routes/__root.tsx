@@ -86,8 +86,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: siteConfig.title },
       { property: "og:description", content: siteConfig.description },
       { name: "twitter:description", content: siteConfig.description },
-      { property: "og:image", content: "/og-image.webp" },
-      { name: "twitter:image", content: "/og-image.webp" },
+      { property: "og:image", content: "/og-image.webp?v=20260801" },
+      { name: "twitter:image", content: "/og-image.webp?v=20260801" },
       ...(siteConfig.googleSiteVerification
         ? [
             {
@@ -99,6 +99,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico?v=20260801", sizes: "any" },
       {
         rel: "icon",
         type: "image/png",
@@ -113,8 +114,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "/icons/favicon-dark-64.png",
         media: "(prefers-color-scheme: dark)",
       },
-      { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "apple-touch-icon", href: "/icons/app-192.png" },
+      { rel: "manifest", href: "/manifest.webmanifest?v=20260801" },
+      { rel: "apple-touch-icon", href: "/icons/app-192.png?v=20260801" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

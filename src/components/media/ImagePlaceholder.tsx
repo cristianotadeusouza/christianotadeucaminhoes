@@ -56,7 +56,7 @@ export function ImagePlaceholder({
     >
       <div className="absolute inset-0 grid place-items-center p-8">
         <img
-          src="/brand/christiano-tadeu-logo-negativa.webp"
+          src="/brand/christiano-tadeu-logo-negativa.webp?v=20260801"
           alt=""
           width={1915}
           height={1020}
