@@ -1,4 +1,4 @@
-const CACHE_VERSION = "ct-belcar-v4";
+const CACHE_VERSION = "ct-belcar-v5";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const PAGE_CACHE = `${CACHE_VERSION}-pages`;
 const APP_SHELL = [
@@ -6,12 +6,18 @@ const APP_SHELL = [
   "/links",
   "/fichas-tecnicas",
   "/manifest.webmanifest",
+  "/brand/christiano-tadeu-logo-clara.webp",
+  "/brand/christiano-tadeu-logo-negativa.webp",
+  "/brand/christiano-tadeu-monograma-claro.webp",
   "/brand/christiano-tadeu-monograma-negativo.webp",
   "/media/christiano-tadeu-perfil.webp",
   "/media/christiano-tadeu-encontro-vw.webp",
   "/media/christiano-tadeu-visita-tecnica.webp",
   "/icons/app-192.png",
   "/icons/app-512.png",
+  "/icons/app-maskable-512.png",
+  "/icons/favicon-light-64.png",
+  "/icons/favicon-dark-64.png",
 ];
 
 self.addEventListener("install", (event) => {

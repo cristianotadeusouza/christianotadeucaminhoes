@@ -28,12 +28,12 @@ export interface BrandLogoProps {
 
 const assets = {
   light: {
-    full: { src: "/brand/christiano-tadeu-logo-clara.webp", width: 1860, height: 640 },
-    mark: { src: "/brand/christiano-tadeu-monograma-claro.webp", width: 650, height: 620 },
+    full: { src: "/brand/christiano-tadeu-logo-clara.webp", width: 1515, height: 494 },
+    mark: { src: "/brand/christiano-tadeu-monograma-claro.webp", width: 513, height: 446 },
   },
   dark: {
-    full: { src: "/brand/christiano-tadeu-logo-negativa.webp", width: 1915, height: 1020 },
-    mark: { src: "/brand/christiano-tadeu-monograma-negativo.webp", width: 590, height: 650 },
+    full: { src: "/brand/christiano-tadeu-logo-negativa.webp", width: 1516, height: 497 },
+    mark: { src: "/brand/christiano-tadeu-monograma-negativo.webp", width: 513, height: 446 },
   },
 } as const;
 
