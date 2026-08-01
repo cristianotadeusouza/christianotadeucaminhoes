@@ -17,7 +17,6 @@ import { BelcarAffiliation } from "@/components/common/BelcarAffiliation";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { CTASection } from "@/components/common/CTASection";
 import { SectionHeader } from "@/components/common/SectionHeader";
-import { BrandLogo } from "@/components/brand/BrandLogo";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
@@ -116,6 +115,12 @@ export const Route = createFileRoute("/sobre")({
       { name: "description", content: description },
       { property: "og:title", content: title },
       { property: "og:description", content: description },
+      { property: "og:image", content: "/media/christiano-tadeu-encontro-vw.webp" },
+      {
+        property: "og:image:alt",
+        content:
+          "Christiano Tadeu no encontro Gigantes por Natureza da Volkswagen Caminhões e Ônibus",
+      },
     ],
   }),
   component: AboutPage,
@@ -152,24 +157,39 @@ function AboutPage() {
             </div>
           </div>
 
-          <aside className="rounded-2xl border border-white/10 bg-white/7 p-6 text-white shadow-raised backdrop-blur-xl sm:p-8">
-            <BrandLogo
-              variant="dark"
-              lockup="full"
-              size="lg"
-              asLink={false}
-              className="max-w-[19rem]"
-            />
-            <p className="mt-10 text-xs font-semibold uppercase tracking-[0.12em] text-action">
-              A primeira pergunta
-            </p>
-            <blockquote className="mt-3 text-2xl font-semibold leading-snug sm:text-3xl">
-              “Qual carga você transporta e qual caminhão utiliza hoje?”
-            </blockquote>
-            <p className="mt-5 border-t border-white/12 pt-5 text-sm leading-relaxed text-white/55">
-              A partir dessa resposta, a conversa ganha direção. Entram rota, peso, implemento,
-              prazo, condição e o que precisa melhorar na operação atual.
-            </p>
+          <aside className="group overflow-hidden rounded-2xl border border-white/10 bg-white/7 text-white shadow-raised backdrop-blur-xl">
+            <figure>
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src="/media/christiano-tadeu-encontro-vw.webp"
+                  alt="Christiano Tadeu no encontro Gigantes por Natureza da Volkswagen Caminhões e Ônibus"
+                  width="1280"
+                  height="960"
+                  decoding="async"
+                  fetchPriority="high"
+                  className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-road/65 via-transparent to-road/10"
+                  aria-hidden="true"
+                />
+                <figcaption className="absolute bottom-4 left-4 rounded-full border border-white/15 bg-road/70 px-3 py-1.5 text-[0.68rem] font-semibold text-white/85 backdrop-blur-md sm:bottom-5 sm:left-5">
+                  Encontro profissional Volkswagen Caminhões e Ônibus
+                </figcaption>
+              </div>
+            </figure>
+            <div className="p-6 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-action">
+                A primeira pergunta
+              </p>
+              <blockquote className="mt-3 text-2xl font-semibold leading-snug sm:text-3xl">
+                “Qual carga você transporta e qual caminhão utiliza hoje?”
+              </blockquote>
+              <p className="mt-5 border-t border-white/12 pt-5 text-sm leading-relaxed text-white/55">
+                A partir dessa resposta, a conversa ganha direção. Entram rota, peso, implemento,
+                prazo, condição e o que precisa melhorar na operação atual.
+              </p>
+            </div>
           </aside>
         </div>
       </section>
@@ -203,6 +223,23 @@ function AboutPage() {
                 ser validado.
               </p>
             </div>
+            <figure className="group relative mt-8 overflow-hidden rounded-2xl border border-border bg-road shadow-raised">
+              <div className="aspect-[4/3] overflow-hidden">
+                <img
+                  src="/media/christiano-tadeu-visita-tecnica.webp"
+                  alt="Christiano Tadeu durante uma visita técnica em uma instalação automotiva"
+                  width="1400"
+                  height="1050"
+                  loading="lazy"
+                  decoding="async"
+                  className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
+                />
+              </div>
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-road via-road/80 to-transparent px-5 pb-5 pt-16 text-xs leading-relaxed text-white/75">
+                Aprendizado técnico e contato próximo com o universo da Volkswagen Caminhões e
+                Ônibus fazem parte da rotina profissional.
+              </figcaption>
+            </figure>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">

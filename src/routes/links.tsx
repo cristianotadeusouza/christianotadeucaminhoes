@@ -26,6 +26,11 @@ export const Route = createFileRoute("/links")({
       { name: "robots", content: "noindex, nofollow, noarchive, nosnippet" },
       { property: "og:title", content: title },
       { property: "og:description", content: description },
+      { property: "og:image", content: "/media/christiano-tadeu-perfil.webp" },
+      {
+        property: "og:image:alt",
+        content: "Christiano Tadeu, vendedor de caminhões Volkswagen na Belcar Caminhões",
+      },
     ],
   }),
   component: LinkHubPage,
@@ -50,14 +55,27 @@ function LinkHubPage() {
             asLink={false}
             className="mx-auto max-w-[18rem]"
           />
-          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/7 px-3.5 py-2 text-xs font-semibold text-white/75 backdrop-blur-xl">
+          <div className="link-hub__portrait mx-auto mt-7">
+            <img
+              src="/media/christiano-tadeu-perfil.webp"
+              alt="Christiano Tadeu sorrindo com uniforme da Volkswagen Caminhões e Ônibus"
+              width="720"
+              height="720"
+              decoding="async"
+              fetchPriority="high"
+            />
+            <span className="link-hub__portrait-status" aria-label="Atendimento pessoal">
+              <span aria-hidden="true" />
+            </span>
+          </div>
+          <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/7 px-3.5 py-2 text-xs font-semibold text-white/75 backdrop-blur-xl">
             <span className="relative flex size-2">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-result opacity-55" />
               <span className="relative inline-flex size-2 rounded-full bg-result" />
             </span>
             Consultor de vendas na Belcar Caminhões
           </div>
-          <h1 className="mt-7 text-[clamp(2.35rem,9vw,4.5rem)] font-bold leading-[0.96] tracking-[-0.055em]">
+          <h1 className="mt-6 text-[clamp(2.35rem,9vw,4.5rem)] font-bold leading-[0.96] tracking-[-0.055em]">
             Vamos falar do caminhão certo para a sua operação?
           </h1>
           <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-white/62 sm:text-base">

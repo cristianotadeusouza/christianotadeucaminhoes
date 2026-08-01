@@ -1,4 +1,4 @@
-const CACHE_VERSION = "ct-belcar-v3";
+const CACHE_VERSION = "ct-belcar-v4";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const PAGE_CACHE = `${CACHE_VERSION}-pages`;
 const APP_SHELL = [
@@ -7,6 +7,9 @@ const APP_SHELL = [
   "/fichas-tecnicas",
   "/manifest.webmanifest",
   "/brand/christiano-tadeu-monograma-negativo.webp",
+  "/media/christiano-tadeu-perfil.webp",
+  "/media/christiano-tadeu-encontro-vw.webp",
+  "/media/christiano-tadeu-visita-tecnica.webp",
   "/icons/app-192.png",
   "/icons/app-512.png",
 ];
