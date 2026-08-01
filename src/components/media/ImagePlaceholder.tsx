@@ -58,8 +58,8 @@ export function ImagePlaceholder({
         <img
           src="/brand/christiano-tadeu-logo-negativa.webp?v=20260801"
           alt=""
-          width={1915}
-          height={1020}
+          width={1516}
+          height={497}
           loading="lazy"
           decoding="async"
           className="w-full max-w-64 object-contain opacity-90"
