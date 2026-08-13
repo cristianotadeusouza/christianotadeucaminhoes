@@ -56,6 +56,31 @@ function asNumber(value: unknown, fallback = 0) {
   return typeof value === "number" && Number.isFinite(value) ? value : fallback;
 }
 
+function asTextArray(value: unknown) {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : [];
+}
+
+function validPortfolioCategory(value: unknown): SalesContact["portfolioCategory"] {
+  const categories: SalesContact["portfolioCategory"][] = [
+    "manual",
+    "atendimento_em_andamento",
+    "retomar_com_prioridade",
+    "reativar_carteira",
+    "higienizar_dados",
+    "pos_venda",
+    "arquivado_historico",
+  ];
+  return categories.includes(value as SalesContact["portfolioCategory"])
+    ? (value as SalesContact["portfolioCategory"])
+    : "manual";
+}
+
+function validContactPriority(value: unknown): SalesContact["priority"] {
+  return value === "alta" || value === "media" || value === "baixa" ? value : "media";
+}
+
 function validStage(value: unknown): PipelineStage {
   return pipelineStages.some((stage) => stage.value === value) ? (value as PipelineStage) : "novo";
 }
@@ -130,6 +155,14 @@ function validChannel(value: unknown): SalesInteraction["channel"] {
     : "other";
 }
 
+function legacyChannel(notes: string): SalesInteraction["channel"] {
+  if (/whats|mensagem|msg|wpp/i.test(notes)) return "whatsapp";
+  if (/e-?mail/i.test(notes)) return "email";
+  if (/visita|estive com|reuni[aã]o/i.test(notes)) return "visit";
+  if (/liguei|liga[cç][aã]o|telefone|contato telef/i.test(notes)) return "phone";
+  return "other";
+}
+
 function validDocumentCategory(value: unknown): SalesDocument["category"] {
   const categories: SalesDocument["category"][] = ["proposta", "foto_visita", "documento", "outro"];
   return categories.includes(value as SalesDocument["category"])
@@ -159,6 +192,7 @@ export async function loadCloudWorkspace(): Promise<SalesWorkspace> {
     inventoryResult,
     tasksResult,
     interactionsResult,
+    legacyEventsResult,
     proposalsResult,
     documentsResult,
   ] = await Promise.all([
@@ -170,6 +204,7 @@ export async function loadCloudWorkspace(): Promise<SalesWorkspace> {
       .select("*")
       .order("interaction_at", { ascending: false })
       .limit(500),
+    client.from("legacy_crm_events").select("*").order("last_contact_at", { ascending: false }),
     client.from("sales_proposals").select("*").order("updated_at", { ascending: false }),
     client.from("sales_documents").select("*").order("created_at", { ascending: false }),
   ]);
@@ -179,12 +214,14 @@ export async function loadCloudWorkspace(): Promise<SalesWorkspace> {
     inventoryResult.error ||
     tasksResult.error ||
     interactionsResult.error ||
+    legacyEventsResult.error ||
     proposalsResult.error ||
     documentsResult.error;
   if (error) throw error;
 
   const contacts: SalesContact[] = (leadsResult.data ?? []).map((row) => {
     const metadata = parseMetadata(row.notes);
+    const portfolioMetadata = (row.metadata ?? {}) as JsonRecord;
     return {
       id: row.id,
       name: row.name,
@@ -197,8 +234,8 @@ export async function loadCloudWorkspace(): Promise<SalesWorkspace> {
       nextAction: asText(metadata.nextAction),
       nextActionDate: asText(metadata.nextActionDate),
       source: validSource(asText(metadata.source) || row.source),
-      temperature: validTemperature(asText(metadata.temperature)),
-      lastContactAt: asText(metadata.lastContactAt),
+      temperature: validTemperature(row.temperature || metadata.temperature),
+      lastContactAt: row.last_contact_at ?? asText(metadata.lastContactAt),
       operation: asText(metadata.operation),
       budget: asText(metadata.budget),
       purchaseWindow: validPurchaseWindow(metadata.purchaseWindow),
@@ -206,6 +243,29 @@ export async function loadCloudWorkspace(): Promise<SalesWorkspace> {
       lossReason: asText(metadata.lossReason),
       winReason: asText(metadata.winReason),
       notes: asText(metadata.notes) || (Object.keys(metadata).length ? "" : (row.notes ?? "")),
+      sourceSystem:
+        row.external_source ||
+        asText(portfolioMetadata.sourceSystem) ||
+        asText(metadata.sourceSystem),
+      externalKey: row.external_key ?? asText(metadata.externalKey),
+      segment: row.segment || asText(metadata.segment) || "nao_identificado",
+      portfolioCategory: validPortfolioCategory(
+        row.portfolio_category || portfolioMetadata.portfolioCategory || metadata.portfolioCategory,
+      ),
+      priority: validContactPriority(row.priority || metadata.priority),
+      personType:
+        row.person_type === "pessoa_fisica" || row.person_type === "pessoa_juridica"
+          ? row.person_type
+          : "nao_informado",
+      documentMasked: row.document_masked ?? asText(metadata.documentMasked),
+      eventCount: asNumber(portfolioMetadata.eventCount) || asNumber(metadata.eventCount),
+      eventIds: asTextArray(portfolioMetadata.eventIds).length
+        ? asTextArray(portfolioMetadata.eventIds)
+        : asTextArray(metadata.eventIds),
+      phones: asTextArray(portfolioMetadata.phones).length
+        ? asTextArray(portfolioMetadata.phones)
+        : asTextArray(metadata.phones),
+      needsRequalification: row.needs_requalification,
       createdAt: row.created_at,
       updatedAt: row.updated_at,
     };
@@ -249,7 +309,7 @@ export async function loadCloudWorkspace(): Promise<SalesWorkspace> {
     };
   });
 
-  const interactions: SalesInteraction[] = (interactionsResult.data ?? []).map((row) => {
+  const currentInteractions: SalesInteraction[] = (interactionsResult.data ?? []).map((row) => {
     const metadata = (row.metadata ?? {}) as JsonRecord;
     return {
       id: row.id,
@@ -263,6 +323,39 @@ export async function loadCloudWorkspace(): Promise<SalesWorkspace> {
       interactionAt: row.interaction_at,
     };
   });
+
+  const legacyInteractions: SalesInteraction[] = (legacyEventsResult.data ?? []).flatMap((row) => {
+    const history = Array.isArray(row.history) ? row.history : [];
+    const entries = history.length
+      ? history
+      : row.summary
+        ? [{ at: row.last_contact_at ?? row.included_at, actor: "", notes: row.summary }]
+        : [];
+    return entries.flatMap((entry, index) => {
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) return [];
+      const actor = asText(entry.actor);
+      const notes = asText(entry.notes);
+      const interactionAt = asText(entry.at) || row.last_contact_at || row.included_at;
+      if (!interactionAt || !notes) return [];
+      return [
+        {
+          id: `legacy-${row.id}-${index}`,
+          contactId: row.lead_id,
+          channel: legacyChannel(notes),
+          notes: `${actor && actor !== "Sistema" ? `${actor}: ` : ""}${notes}`,
+          outcome: "outro",
+          nextAction: row.next_action ?? "",
+          nextActionDate: "",
+          location: "",
+          interactionAt,
+        } satisfies SalesInteraction,
+      ];
+    });
+  });
+
+  const interactions = [...currentInteractions, ...legacyInteractions].sort((left, right) =>
+    right.interactionAt.localeCompare(left.interactionAt),
+  );
 
   const proposals: SalesProposal[] = (proposalsResult.data ?? []).map((row) => ({
     id: row.id,
@@ -320,6 +413,16 @@ export async function saveCloudWorkspace(workspace: SalesWorkspace) {
           source: contact.source,
           status: contact.stage,
           truck_interest: contact.interest || null,
+          external_source: contact.sourceSystem || null,
+          external_key: contact.externalKey || null,
+          segment: contact.segment,
+          portfolio_category: contact.portfolioCategory,
+          priority: contact.priority,
+          temperature: contact.temperature,
+          person_type: contact.personType === "nao_informado" ? null : contact.personType,
+          document_masked: contact.documentMasked || null,
+          last_contact_at: contact.lastContactAt || null,
+          needs_requalification: contact.needsRequalification,
           updated_at: contact.updatedAt,
           notes: JSON.stringify({
             ctPanel: 1,
@@ -336,6 +439,16 @@ export async function saveCloudWorkspace(workspace: SalesWorkspace) {
             lossReason: contact.lossReason,
             winReason: contact.winReason,
             notes: contact.notes,
+            sourceSystem: contact.sourceSystem,
+            externalKey: contact.externalKey,
+            segment: contact.segment,
+            portfolioCategory: contact.portfolioCategory,
+            priority: contact.priority,
+            documentMasked: contact.documentMasked,
+            eventCount: contact.eventCount,
+            eventIds: contact.eventIds,
+            phones: contact.phones,
+            needsRequalification: contact.needsRequalification,
           }),
         })),
       ),

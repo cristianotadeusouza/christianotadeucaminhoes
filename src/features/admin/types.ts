@@ -3,6 +3,17 @@ export type PipelineStage =
 
 export type InventoryStatus = "disponivel" | "reservado" | "vendido" | "encomenda";
 
+export type PortfolioCategory =
+  | "manual"
+  | "atendimento_em_andamento"
+  | "retomar_com_prioridade"
+  | "reativar_carteira"
+  | "higienizar_dados"
+  | "pos_venda"
+  | "arquivado_historico";
+
+export type ContactPriority = "baixa" | "media" | "alta";
+
 export type InteractionOutcome =
   | "atendeu"
   | "nao_atendeu"
@@ -37,6 +48,17 @@ export interface SalesContact {
   lossReason: string;
   winReason: string;
   notes: string;
+  sourceSystem: string;
+  externalKey: string;
+  segment: string;
+  portfolioCategory: PortfolioCategory;
+  priority: ContactPriority;
+  personType: "pessoa_fisica" | "pessoa_juridica" | "nao_informado";
+  documentMasked: string;
+  eventCount: number;
+  eventIds: string[];
+  phones: string[];
+  needsRequalification: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -205,6 +227,17 @@ export function normalizeWorkspace(workspace: Partial<SalesWorkspace>): SalesWor
           lossReason: contact.lossReason ?? "",
           winReason: contact.winReason ?? "",
           notes: contact.notes ?? "",
+          sourceSystem: contact.sourceSystem ?? "",
+          externalKey: contact.externalKey ?? "",
+          segment: contact.segment ?? "nao_identificado",
+          portfolioCategory: contact.portfolioCategory ?? "manual",
+          priority: contact.priority ?? "media",
+          personType: contact.personType ?? "nao_informado",
+          documentMasked: contact.documentMasked ?? "",
+          eventCount: Number(contact.eventCount) || 0,
+          eventIds: Array.isArray(contact.eventIds) ? contact.eventIds : [],
+          phones: Array.isArray(contact.phones) ? contact.phones : [],
+          needsRequalification: Boolean(contact.needsRequalification),
           createdAt: contact.createdAt ?? new Date().toISOString(),
           updatedAt: contact.updatedAt ?? new Date().toISOString(),
         }))

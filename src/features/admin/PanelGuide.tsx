@@ -1,6 +1,7 @@
 import {
   ArrowRight,
   CalendarDays,
+  BarChart3,
   CheckCircle2,
   CircleHelp,
   Cloud,
@@ -29,6 +30,7 @@ import { cn } from "@/lib/utils";
 export type PanelView =
   | "dashboard"
   | "pipeline"
+  | "carteira"
   | "clientes"
   | "historico"
   | "encaixes"
@@ -92,6 +94,21 @@ const panelGuides: GuideSection[] = [
       "Registre motivo de ganho ou perda para aprender com a carteira.",
     ],
     tip: "Etapa do funil descreve o que já aconteceu. Próxima ação descreve o que precisa acontecer.",
+  },
+  {
+    id: "carteira",
+    label: "Carteira",
+    group: "vendas",
+    icon: BarChart3,
+    purpose:
+      "Transforma o histórico importado em filas de ação, categorias comerciais, segmentos e alertas de qualidade cadastral.",
+    steps: [
+      "Comece pelos contatos em Ação prioritária e Em atendimento.",
+      "Confira a ficha e o histórico consolidado antes de ligar ou mandar mensagem.",
+      "Valide identidade, telefone, cidade, operação e interesse atual quando houver alerta de conferência.",
+      "Depois da conversa, registre o resultado, defina o próximo passo e atualize o funil.",
+    ],
+    tip: "A classificação é uma triagem do histórico. Confirme o momento atual do cliente antes de qualquer oferta.",
   },
   {
     id: "clientes",

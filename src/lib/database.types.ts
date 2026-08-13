@@ -19,6 +19,18 @@ export type Database = {
           status: string;
           truck_interest: string | null;
           notes: string | null;
+          external_source: string | null;
+          external_key: string | null;
+          segment: string;
+          portfolio_category: string;
+          priority: string;
+          temperature: string;
+          person_type: string | null;
+          document_masked: string | null;
+          document_hash: string | null;
+          last_contact_at: string | null;
+          needs_requalification: boolean;
+          metadata: Json;
           updated_at: string;
         };
         Insert: {
@@ -32,6 +44,18 @@ export type Database = {
           status?: string;
           truck_interest?: string | null;
           notes?: string | null;
+          external_source?: string | null;
+          external_key?: string | null;
+          segment?: string;
+          portfolio_category?: string;
+          priority?: string;
+          temperature?: string;
+          person_type?: string | null;
+          document_masked?: string | null;
+          document_hash?: string | null;
+          last_contact_at?: string | null;
+          needs_requalification?: boolean;
+          metadata?: Json;
           created_at?: string;
           updated_at?: string;
         };
@@ -200,6 +224,47 @@ export type Database = {
           updated_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["customers"]["Insert"]>;
+        Relationships: [];
+      };
+      legacy_crm_events: {
+        Row: BaseRow & {
+          lead_id: string;
+          external_source: string;
+          external_id: string;
+          event_type: string | null;
+          status_original: string | null;
+          origin_original: string | null;
+          portfolio_category: string;
+          loss_reason: string;
+          included_at: string | null;
+          concluded_at: string | null;
+          last_contact_at: string | null;
+          summary: string | null;
+          next_action: string | null;
+          history: Json;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string;
+          lead_id: string;
+          external_source: string;
+          external_id: string;
+          event_type?: string | null;
+          status_original?: string | null;
+          origin_original?: string | null;
+          portfolio_category?: string;
+          loss_reason?: string;
+          included_at?: string | null;
+          concluded_at?: string | null;
+          last_contact_at?: string | null;
+          summary?: string | null;
+          next_action?: string | null;
+          history?: Json;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["legacy_crm_events"]["Insert"]>;
         Relationships: [];
       };
       profiles: {
