@@ -98,10 +98,12 @@ import {
 } from "./cloud";
 import { PanelGuide, type GuideTarget, type PanelView } from "./PanelGuide";
 import { PortfolioAnalysis } from "./PortfolioAnalysis";
+import { PinAccessError, signInWithCrmPin } from "./pin-auth";
 import { portfolioCategoryLabels, segmentLabels } from "./portfolio-labels";
 
 const labelClass = "text-technical text-xs font-bold uppercase tracking-[0.11em] text-road";
 const fieldClass = "mt-2 h-11 bg-white";
+const CRM_PIN_SESSION_KEY = "ct-crm-pin-unlocked";
 const nativeSelectClass =
   "mt-2 h-11 w-full rounded-md border border-input bg-white px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring";
 
@@ -384,8 +386,7 @@ function VaultGate({
 }
 
 function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => void }) {
-  const [email, setEmail] = useState(siteConfig.email);
-  const [password, setPassword] = useState("");
+  const [pin, setPin] = useState("");
   const [checking, setChecking] = useState(true);
   const [busy, setBusy] = useState(false);
   const [connectionError, setConnectionError] = useState(false);
@@ -416,12 +417,25 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
     async function restoreSession() {
       const { data, error } = await client.auth.getSession();
       if (error) throw error;
-      if (data.session) await hydrateWorkspace();
-      else if (active) setChecking(false);
+      const pinUnlocked = sessionStorage.getItem(CRM_PIN_SESSION_KEY) === "true";
+      if (data.session && pinUnlocked) {
+        await hydrateWorkspace();
+        return;
+      }
+
+      sessionStorage.removeItem(CRM_PIN_SESSION_KEY);
+      if (data.session) await client.auth.signOut({ scope: "local" });
+      if (active) setChecking(false);
     }
 
     const { data: authListener } = client.auth.onAuthStateChange((event, session) => {
-      if (!session || event === "SIGNED_OUT") return;
+      if (
+        !session ||
+        event === "SIGNED_OUT" ||
+        sessionStorage.getItem(CRM_PIN_SESSION_KEY) !== "true"
+      ) {
+        return;
+      }
       window.setTimeout(() => void hydrateWorkspace(), 0);
     });
 
@@ -440,35 +454,28 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!/^[0-9]{6}$/.test(pin)) {
+      toast.error("Digite os 6 números do PIN.");
+      return;
+    }
+
     setBusy(true);
     try {
-      const client = requireSupabase();
-      const { error } = await client.auth.signInWithPassword({ email, password });
-      if (error) throw error;
+      await signInWithCrmPin(pin);
+      sessionStorage.setItem(CRM_PIN_SESSION_KEY, "true");
       onReady(await loadCloudWorkspace());
       setConnectionError(false);
-      toast.success("Painel sincronizado com segurança.");
-    } catch {
-      toast.error("E-mail ou senha incorretos.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function sendMagicLink() {
-    setBusy(true);
-    try {
-      const { error } = await requireSupabase().auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/painel`,
-          shouldCreateUser: false,
-        },
-      });
-      if (error) throw error;
-      toast.success("Link de acesso enviado para o Gmail.");
-    } catch {
-      toast.error("Não foi possível enviar o link de acesso.");
+      toast.success("Carteira de clientes carregada.");
+    } catch (error) {
+      sessionStorage.removeItem(CRM_PIN_SESSION_KEY);
+      setPin("");
+      if (error instanceof PinAccessError && error.reason === "locked") {
+        toast.error("Muitas tentativas. Aguarde 15 minutos e tente novamente.");
+      } else if (error instanceof PinAccessError && error.reason === "invalid") {
+        toast.error("PIN incorreto.");
+      } else {
+        toast.error("Não foi possível validar o PIN agora.");
+      }
     } finally {
       setBusy(false);
     }
@@ -530,8 +537,8 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
         </p>
         <div className="mt-10 grid gap-3 sm:grid-cols-3">
           {[
-            [ShieldCheck, "Acesso autenticado"],
-            [Cloud, "Sincronização online"],
+            [ShieldCheck, "PIN verificado"],
+            [Cloud, "Carteira sincronizada"],
             [Phone, "Feito para o celular"],
           ].map(([Icon, text]) => {
             const ItemIcon = Icon as typeof ShieldCheck;
@@ -552,57 +559,39 @@ function SupabaseGate({ onReady }: { onReady: (workspace: SalesWorkspace) => voi
         <div className="flex items-start justify-between gap-5">
           <div>
             <p className="eyebrow text-action">Painel do Christiano</p>
-            <h2 className="mt-3 text-2xl font-bold text-road">Entrar na central</h2>
+            <h2 className="mt-3 text-2xl font-bold text-road">Acesso por PIN</h2>
           </div>
           <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-road text-white">
             <Lock className="size-5" />
           </span>
         </div>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Use a senha cadastrada ou receba um link seguro diretamente no Gmail.
+          Digite o PIN de 6 números para abrir a carteira de clientes. O acesso é validado com
+          proteção contra tentativas repetidas.
         </p>
 
         <form onSubmit={signIn} className="mt-7 space-y-5">
           <label className="block">
-            <span className={labelClass}>E-mail</span>
+            <span className={labelClass}>PIN de acesso</span>
             <Input
-              className={fieldClass}
-              type="email"
-              value={email}
-              autoComplete="email"
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
-          </label>
-          <label className="block">
-            <span className={labelClass}>Senha</span>
-            <Input
-              className={fieldClass}
+              className="mt-2 h-14 bg-white text-center text-xl font-bold tracking-[0.55em]"
               type="password"
-              value={password}
-              autoComplete="current-password"
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Sua senha do painel"
+              inputMode="numeric"
+              pattern="[0-9]{6}"
+              maxLength={6}
+              value={pin}
+              autoComplete="one-time-code"
+              autoFocus
+              onChange={(event) => setPin(event.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="••••••"
               required
             />
           </label>
-          <Button className="h-12 w-full" variant="action" disabled={busy}>
-            {busy ? "Entrando..." : "Entrar e sincronizar"}
+          <Button className="h-12 w-full" variant="action" disabled={busy || pin.length !== 6}>
+            {busy ? "Validando..." : "Abrir carteira"}
             <ArrowUpRight aria-hidden="true" />
           </Button>
         </form>
-
-        <div className="mt-5 border-t border-border pt-5">
-          <Button
-            type="button"
-            variant="quiet"
-            className="h-11 w-full"
-            disabled={busy || !email}
-            onClick={() => void sendMagicLink()}
-          >
-            <Mail /> Receber link no Gmail
-          </Button>
-        </div>
       </div>
     </div>
   );
@@ -2733,7 +2722,8 @@ export function PainelApp() {
   );
 
   const signOutCloud = useCallback(async () => {
-    await requireSupabase().auth.signOut();
+    sessionStorage.removeItem(CRM_PIN_SESSION_KEY);
+    await requireSupabase().auth.signOut({ scope: "local" });
     setCloudWorkspace(null);
   }, []);
 

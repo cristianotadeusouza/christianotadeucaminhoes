@@ -1,0 +1,2 @@
+[functions.crm-pin-login]
+verify_jwt = false
